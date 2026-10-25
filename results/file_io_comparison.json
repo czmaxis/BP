@@ -1,0 +1,927 @@
+{
+  "category": "02-file-io",
+  "generatedAt": "2026-10-25T15:40:13.351Z",
+  "environments": {
+    "node": {
+      "runtime": "node",
+      "version": "v22.9.0",
+      "platform": "win32",
+      "release": "10.0.26200",
+      "arch": "x64",
+      "cpuModel": "Intel(R) Core(TM) i7-10700KF CPU @ 3.80GHz",
+      "cpuCores": 16,
+      "totalMemoryMB": 32657,
+      "timestamp": "2026-10-25T15:07:37.653Z"
+    },
+    "deno": {
+      "runtime": "deno",
+      "version": "v2.9.8 (V8 15.0.245.2-rusty, TS 6.0.3)",
+      "platform": "windows",
+      "release": "10.0.26200",
+      "arch": "x86_64",
+      "cpuModel": "unknown",
+      "cpuCores": 16,
+      "totalMemoryMB": 32657,
+      "timestamp": "2026-10-25T15:26:51.359Z"
+    },
+    "bun": {
+      "runtime": "bun",
+      "version": "v1.4.4 (38afee6c)",
+      "platform": "win32",
+      "release": "10.0.26200",
+      "arch": "x64",
+      "cpuModel": "Intel(R) Core(TM) i7-10700KF CPU @ 3.80GHz",
+      "cpuCores": 16,
+      "totalMemoryMB": 32657,
+      "timestamp": "2026-10-25T15:39:16.238Z"
+    }
+  },
+  "scenarios": {
+    "large-file-100mb": {
+      "title": "Varianta A: Sekvenční streamování – Velký soubor (1× 100 MB)",
+      "runtimes": {
+        "node": {
+          "p50WriteMs": 59.989,
+          "p99WriteMs": 73.217,
+          "p50ReadMs": 81.778,
+          "p99ReadMs": 95.429,
+          "p50TotalMs": 142.306,
+          "p99TotalMs": 160.182,
+          "p50WriteThroughputMBps": 1667.078,
+          "p50ReadThroughputMBps": 1222.872,
+          "p50TotalThroughputMBps": 1405.441,
+          "p50TotalOpsPerSec": 14.055,
+          "p50RssAfterMB": 52.5,
+          "maxRssAfterMB": 73.75,
+          "fullMetrics": {
+            "writeMs": {
+              "count": 30,
+              "mean": 59.749,
+              "stdDev": 5.317,
+              "min": 52.356,
+              "p50": 59.989,
+              "p95": 68.846,
+              "p99": 73.217,
+              "max": 74.998
+            },
+            "readMs": {
+              "count": 30,
+              "mean": 82.558,
+              "stdDev": 6.483,
+              "min": 66.549,
+              "p50": 81.778,
+              "p95": 92.973,
+              "p99": 95.429,
+              "max": 96.19
+            },
+            "totalMs": {
+              "count": 30,
+              "mean": 142.306,
+              "stdDev": 9.806,
+              "min": 120.299,
+              "p50": 142.306,
+              "p95": 157.141,
+              "p99": 160.182,
+              "max": 161.104
+            },
+            "writeThroughputMBps": {
+              "count": 30,
+              "mean": 1685.988,
+              "stdDev": 144.15,
+              "min": 1333.376,
+              "p50": 1667.078,
+              "p95": 1898.512,
+              "p99": 1907.302,
+              "max": 1909.986
+            },
+            "readThroughputMBps": {
+              "count": 30,
+              "mean": 1218.655,
+              "stdDev": 97.867,
+              "min": 1039.615,
+              "p50": 1222.872,
+              "p95": 1356.724,
+              "p99": 1468.063,
+              "max": 1502.657
+            },
+            "totalThroughputMBps": {
+              "count": 30,
+              "mean": 1411.989,
+              "stdDev": 98.984,
+              "min": 1241.435,
+              "p50": 1405.441,
+              "p95": 1570.92,
+              "p99": 1640.492,
+              "max": 1662.524
+            },
+            "writeOpsPerSec": {
+              "count": 30,
+              "mean": 16.86,
+              "stdDev": 1.441,
+              "min": 13.334,
+              "p50": 16.671,
+              "p95": 18.985,
+              "p99": 19.073,
+              "max": 19.1
+            },
+            "readOpsPerSec": {
+              "count": 30,
+              "mean": 12.187,
+              "stdDev": 0.979,
+              "min": 10.396,
+              "p50": 12.229,
+              "p95": 13.568,
+              "p99": 14.681,
+              "max": 15.027
+            },
+            "totalOpsPerSec": {
+              "count": 30,
+              "mean": 14.12,
+              "stdDev": 0.99,
+              "min": 12.414,
+              "p50": 14.055,
+              "p95": 15.709,
+              "p99": 16.405,
+              "max": 16.625
+            },
+            "rssBeforeMB": {
+              "count": 30,
+              "mean": 53.794,
+              "stdDev": 12.254,
+              "min": 42.66,
+              "p50": 46.23,
+              "p95": 73.649,
+              "p99": 73.733,
+              "max": 73.75
+            },
+            "rssAfterWriteMB": {
+              "count": 30,
+              "mean": 42.139,
+              "stdDev": 2.123,
+              "min": 41.55,
+              "p50": 41.74,
+              "p95": 41.915,
+              "p99": 50.05,
+              "max": 53.37
+            },
+            "rssAfterMB": {
+              "count": 30,
+              "mean": 55.167,
+              "stdDev": 11.309,
+              "min": 43.64,
+              "p50": 52.5,
+              "p95": 73.649,
+              "p99": 73.733,
+              "max": 73.75
+            },
+            "rssDeltaMB": {
+              "count": 30,
+              "mean": 1.372,
+              "stdDev": 19.048,
+              "min": -27.33,
+              "p50": -1.175,
+              "p95": 30.76,
+              "p99": 30.874,
+              "max": 30.9
+            }
+          }
+        },
+        "deno": {
+          "p50WriteMs": 59.056,
+          "p99WriteMs": 65.666,
+          "p50ReadMs": 87.867,
+          "p99ReadMs": 258.676,
+          "p50TotalMs": 147.882,
+          "p99TotalMs": 317.564,
+          "p50WriteThroughputMBps": 1693.314,
+          "p50ReadThroughputMBps": 1138.087,
+          "p50TotalThroughputMBps": 1352.437,
+          "p50TotalOpsPerSec": 13.525,
+          "p50RssAfterMB": 68.56,
+          "maxRssAfterMB": 86.72,
+          "fullMetrics": {
+            "writeMs": {
+              "count": 30,
+              "mean": 59.639,
+              "stdDev": 1.889,
+              "min": 57.732,
+              "p50": 59.056,
+              "p95": 62.299,
+              "p99": 65.666,
+              "max": 66.802
+            },
+            "readMs": {
+              "count": 30,
+              "mean": 96.419,
+              "stdDev": 43.306,
+              "min": 78.48,
+              "p50": 87.867,
+              "p95": 100.078,
+              "p99": 258.676,
+              "max": 323.429
+            },
+            "totalMs": {
+              "count": 30,
+              "mean": 156.059,
+              "stdDev": 43.13,
+              "min": 137.086,
+              "p50": 147.882,
+              "p95": 160.48,
+              "p99": 317.564,
+              "max": 381.709
+            },
+            "writeThroughputMBps": {
+              "count": 30,
+              "mean": 1678.286,
+              "stdDev": 50.206,
+              "min": 1496.963,
+              "p50": 1693.314,
+              "p95": 1726.265,
+              "p99": 1731.395,
+              "max": 1732.148
+            },
+            "readThroughputMBps": {
+              "count": 30,
+              "mean": 1106.505,
+              "stdDev": 168.717,
+              "min": 309.187,
+              "p50": 1138.087,
+              "p95": 1249.738,
+              "p99": 1271.676,
+              "max": 1274.213
+            },
+            "totalThroughputMBps": {
+              "count": 30,
+              "mean": 1323.903,
+              "stdDev": 162.447,
+              "min": 523.96,
+              "p50": 1352.437,
+              "p95": 1437.294,
+              "p99": 1453.116,
+              "max": 1458.938
+            },
+            "writeOpsPerSec": {
+              "count": 30,
+              "mean": 16.783,
+              "stdDev": 0.502,
+              "min": 14.97,
+              "p50": 16.933,
+              "p95": 17.263,
+              "p99": 17.314,
+              "max": 17.321
+            },
+            "readOpsPerSec": {
+              "count": 30,
+              "mean": 11.065,
+              "stdDev": 1.687,
+              "min": 3.092,
+              "p50": 11.381,
+              "p95": 12.497,
+              "p99": 12.717,
+              "max": 12.742
+            },
+            "totalOpsPerSec": {
+              "count": 30,
+              "mean": 13.239,
+              "stdDev": 1.624,
+              "min": 5.24,
+              "p50": 13.525,
+              "p95": 14.373,
+              "p99": 14.531,
+              "max": 14.589
+            },
+            "rssBeforeMB": {
+              "count": 30,
+              "mean": 70.761,
+              "stdDev": 10.064,
+              "min": 48.23,
+              "p50": 68.56,
+              "p95": 84.93,
+              "p99": 86.253,
+              "max": 86.72
+            },
+            "rssAfterWriteMB": {
+              "count": 30,
+              "mean": 48.973,
+              "stdDev": 5.191,
+              "min": 46.69,
+              "p50": 47.235,
+              "p95": 63.903,
+              "p99": 64.951,
+              "max": 65
+            },
+            "rssAfterMB": {
+              "count": 30,
+              "mean": 70.903,
+              "stdDev": 10.224,
+              "min": 48.23,
+              "p50": 68.56,
+              "p95": 84.93,
+              "p99": 86.253,
+              "max": 86.72
+            },
+            "rssDeltaMB": {
+              "count": 30,
+              "mean": 0.141,
+              "stdDev": 8.995,
+              "min": -31.18,
+              "p50": 0.155,
+              "p95": 11.858,
+              "p99": 13.597,
+              "max": 13.8
+            }
+          }
+        },
+        "bun": {
+          "p50WriteMs": 44.676,
+          "p99WriteMs": 66.235,
+          "p50ReadMs": 61.488,
+          "p99ReadMs": 82.98,
+          "p50TotalMs": 104.801,
+          "p99TotalMs": 146.803,
+          "p50WriteThroughputMBps": 2238.446,
+          "p50ReadThroughputMBps": 1626.522,
+          "p50TotalThroughputMBps": 1908.427,
+          "p50TotalOpsPerSec": 19.084,
+          "p50RssAfterMB": 42.14,
+          "maxRssAfterMB": 50.67,
+          "fullMetrics": {
+            "writeMs": {
+              "count": 30,
+              "mean": 47.326,
+              "stdDev": 7.268,
+              "min": 38.216,
+              "p50": 44.676,
+              "p95": 60.81,
+              "p99": 66.235,
+              "max": 67.659
+            },
+            "readMs": {
+              "count": 30,
+              "mean": 62.781,
+              "stdDev": 6.626,
+              "min": 52.981,
+              "p50": 61.488,
+              "p95": 70.933,
+              "p99": 82.98,
+              "max": 87.479
+            },
+            "totalMs": {
+              "count": 30,
+              "mean": 110.107,
+              "stdDev": 12.905,
+              "min": 92.141,
+              "p50": 104.801,
+              "p95": 126.092,
+              "p99": 146.803,
+              "max": 155.139
+            },
+            "writeThroughputMBps": {
+              "count": 30,
+              "mean": 2155.998,
+              "stdDev": 293.02,
+              "min": 1477.991,
+              "p50": 2238.446,
+              "p95": 2529.992,
+              "p99": 2598.405,
+              "max": 2616.705
+            },
+            "readThroughputMBps": {
+              "count": 30,
+              "mean": 1608.01,
+              "stdDev": 150.9,
+              "min": 1143.13,
+              "p50": 1626.522,
+              "p95": 1817.645,
+              "p99": 1879.886,
+              "max": 1887.476
+            },
+            "totalThroughputMBps": {
+              "count": 30,
+              "mean": 1837.692,
+              "stdDev": 190.13,
+              "min": 1289.171,
+              "p50": 1908.427,
+              "p95": 2072.723,
+              "p99": 2143.071,
+              "max": 2170.582
+            },
+            "writeOpsPerSec": {
+              "count": 30,
+              "mean": 21.56,
+              "stdDev": 2.93,
+              "min": 14.78,
+              "p50": 22.385,
+              "p95": 25.3,
+              "p99": 25.984,
+              "max": 26.167
+            },
+            "readOpsPerSec": {
+              "count": 30,
+              "mean": 16.08,
+              "stdDev": 1.509,
+              "min": 11.431,
+              "p50": 16.265,
+              "p95": 18.176,
+              "p99": 18.799,
+              "max": 18.875
+            },
+            "totalOpsPerSec": {
+              "count": 30,
+              "mean": 18.377,
+              "stdDev": 1.901,
+              "min": 12.892,
+              "p50": 19.084,
+              "p95": 20.727,
+              "p99": 21.431,
+              "max": 21.706
+            },
+            "rssBeforeMB": {
+              "count": 30,
+              "mean": 43.008,
+              "stdDev": 3.777,
+              "min": 34.57,
+              "p50": 42.225,
+              "p95": 49.22,
+              "p99": 50.403,
+              "max": 50.76
+            },
+            "rssAfterWriteMB": {
+              "count": 30,
+              "mean": 41.028,
+              "stdDev": 4.829,
+              "min": 31.77,
+              "p50": 41.68,
+              "p95": 48.687,
+              "p99": 50.251,
+              "max": 50.77
+            },
+            "rssAfterMB": {
+              "count": 30,
+              "mean": 43.247,
+              "stdDev": 3.582,
+              "min": 38.63,
+              "p50": 42.14,
+              "p95": 50.085,
+              "p99": 50.632,
+              "max": 50.67
+            },
+            "rssDeltaMB": {
+              "count": 30,
+              "mean": 0.239,
+              "stdDev": 3.204,
+              "min": -12.13,
+              "p50": 1,
+              "p95": 2.16,
+              "p99": 6.072,
+              "max": 7.56
+            }
+          }
+        }
+      }
+    },
+    "small-files-1000x4kb": {
+      "title": "Varianta B: Systémová režie – Malé soubory (1 000× 4 KB)",
+      "runtimes": {
+        "node": {
+          "p50WriteMs": 188.51,
+          "p99WriteMs": 2381.124,
+          "p50ReadMs": 127.704,
+          "p99ReadMs": 153.2,
+          "p50TotalMs": 323.756,
+          "p99TotalMs": 2509.672,
+          "p50WriteThroughputMBps": 20.723,
+          "p50ReadThroughputMBps": 30.589,
+          "p50TotalThroughputMBps": 24.132,
+          "p50TotalOpsPerSec": 6177.605,
+          "p50RssAfterMB": 92.695,
+          "maxRssAfterMB": 92.87,
+          "fullMetrics": {
+            "writeMs": {
+              "count": 30,
+              "mean": 501.989,
+              "stdDev": 717.135,
+              "min": 170.825,
+              "p50": 188.51,
+              "p95": 2131.967,
+              "p99": 2381.124,
+              "max": 2432.995
+            },
+            "readMs": {
+              "count": 30,
+              "mean": 129.189,
+              "stdDev": 7.913,
+              "min": 114.594,
+              "p50": 127.704,
+              "p95": 144.248,
+              "p99": 153.2,
+              "max": 154.035
+            },
+            "totalMs": {
+              "count": 30,
+              "mean": 631.179,
+              "stdDev": 716.478,
+              "min": 297.047,
+              "p50": 323.756,
+              "p95": 2264.883,
+              "p99": 2509.672,
+              "max": 2559.177
+            },
+            "writeThroughputMBps": {
+              "count": 30,
+              "mean": 17.637,
+              "stdDev": 7.414,
+              "min": 1.606,
+              "p50": 20.723,
+              "p95": 22.821,
+              "p99": 22.857,
+              "max": 22.867
+            },
+            "readThroughputMBps": {
+              "count": 30,
+              "mean": 30.339,
+              "stdDev": 1.738,
+              "min": 25.36,
+              "p50": 30.589,
+              "p95": 32.81,
+              "p99": 33.967,
+              "max": 34.088
+            },
+            "totalThroughputMBps": {
+              "count": 30,
+              "mean": 21.072,
+              "stdDev": 8.1,
+              "min": 3.053,
+              "p50": 24.132,
+              "p95": 26.205,
+              "p99": 26.276,
+              "max": 26.301
+            },
+            "writeOpsPerSec": {
+              "count": 30,
+              "mean": 4515.085,
+              "stdDev": 1897.936,
+              "min": 411.02,
+              "p50": 5305.015,
+              "p95": 5842.2,
+              "p99": 5851.411,
+              "max": 5853.96
+            },
+            "readOpsPerSec": {
+              "count": 30,
+              "mean": 7766.763,
+              "stdDev": 444.976,
+              "min": 6492.04,
+              "p50": 7830.655,
+              "p95": 8399.468,
+              "p99": 8695.62,
+              "max": 8726.47
+            },
+            "totalOpsPerSec": {
+              "count": 30,
+              "mean": 5394.497,
+              "stdDev": 2073.722,
+              "min": 781.5,
+              "p50": 6177.605,
+              "p95": 6708.525,
+              "p99": 6726.634,
+              "max": 6732.93
+            },
+            "rssBeforeMB": {
+              "count": 30,
+              "mean": 91.581,
+              "stdDev": 2.063,
+              "min": 82.35,
+              "p50": 92.505,
+              "p95": 92.86,
+              "p99": 92.867,
+              "max": 92.87
+            },
+            "rssAfterWriteMB": {
+              "count": 30,
+              "mean": 91.671,
+              "stdDev": 1.736,
+              "min": 84.57,
+              "p50": 92.6,
+              "p95": 92.86,
+              "p99": 92.86,
+              "max": 92.86
+            },
+            "rssAfterMB": {
+              "count": 30,
+              "mean": 91.93,
+              "stdDev": 1.117,
+              "min": 90.06,
+              "p50": 92.695,
+              "p95": 92.86,
+              "p99": 92.867,
+              "max": 92.87
+            },
+            "rssDeltaMB": {
+              "count": 30,
+              "mean": 0.35,
+              "stdDev": 1.428,
+              "min": -0.01,
+              "p50": 0,
+              "p95": 1.182,
+              "p99": 5.979,
+              "max": 7.71
+            }
+          }
+        },
+        "deno": {
+          "p50WriteMs": 251.186,
+          "p99WriteMs": 2890.073,
+          "p50ReadMs": 109.56,
+          "p99ReadMs": 131.896,
+          "p50TotalMs": 364.062,
+          "p99TotalMs": 3003.571,
+          "p50WriteThroughputMBps": 15.551,
+          "p50ReadThroughputMBps": 35.654,
+          "p50TotalThroughputMBps": 21.46,
+          "p50TotalOpsPerSec": 5493.72,
+          "p50RssAfterMB": 86.63,
+          "maxRssAfterMB": 99.39,
+          "fullMetrics": {
+            "writeMs": {
+              "count": 30,
+              "mean": 558.871,
+              "stdDev": 747.783,
+              "min": 228.669,
+              "p50": 251.186,
+              "p95": 1906.85,
+              "p99": 2890.073,
+              "max": 3284.416
+            },
+            "readMs": {
+              "count": 30,
+              "mean": 112.027,
+              "stdDev": 6.741,
+              "min": 105.964,
+              "p50": 109.56,
+              "p95": 124.787,
+              "p99": 131.896,
+              "max": 133.026
+            },
+            "totalMs": {
+              "count": 30,
+              "mean": 670.899,
+              "stdDev": 748.343,
+              "min": 334.711,
+              "p50": 364.062,
+              "p95": 2014.475,
+              "p99": 3003.571,
+              "max": 3400.992
+            },
+            "writeThroughputMBps": {
+              "count": 30,
+              "mean": 13.476,
+              "stdDev": 5.307,
+              "min": 1.189,
+              "p50": 15.551,
+              "p95": 16.881,
+              "p99": 17.05,
+              "max": 17.083
+            },
+            "readThroughputMBps": {
+              "count": 30,
+              "mean": 34.981,
+              "stdDev": 1.937,
+              "min": 29.364,
+              "p50": 35.654,
+              "p95": 36.831,
+              "p99": 36.856,
+              "max": 36.864
+            },
+            "totalThroughputMBps": {
+              "count": 30,
+              "mean": 18.74,
+              "stdDev": 6.931,
+              "min": 2.297,
+              "p50": 21.46,
+              "p95": 23.147,
+              "p99": 23.31,
+              "max": 23.341
+            },
+            "writeOpsPerSec": {
+              "count": 30,
+              "mean": 3449.767,
+              "stdDev": 1358.635,
+              "min": 304.47,
+              "p50": 3981.13,
+              "p95": 4321.692,
+              "p99": 4364.729,
+              "max": 4373.13
+            },
+            "readOpsPerSec": {
+              "count": 30,
+              "mean": 8955.168,
+              "stdDev": 495.867,
+              "min": 7517.31,
+              "p50": 9127.405,
+              "p95": 9428.796,
+              "p99": 9435.189,
+              "max": 9437.19
+            },
+            "totalOpsPerSec": {
+              "count": 30,
+              "mean": 4797.544,
+              "stdDev": 1774.257,
+              "min": 588.06,
+              "p50": 5493.72,
+              "p95": 5925.496,
+              "p99": 5967.26,
+              "max": 5975.31
+            },
+            "rssBeforeMB": {
+              "count": 30,
+              "mean": 84.917,
+              "stdDev": 10.377,
+              "min": 68.79,
+              "p50": 85.65,
+              "p95": 98.28,
+              "p99": 99.082,
+              "max": 99.41
+            },
+            "rssAfterWriteMB": {
+              "count": 30,
+              "mean": 85.192,
+              "stdDev": 10.564,
+              "min": 66.45,
+              "p50": 86.4,
+              "p95": 98.319,
+              "p99": 100.139,
+              "max": 100.87
+            },
+            "rssAfterMB": {
+              "count": 30,
+              "mean": 85.52,
+              "stdDev": 10.272,
+              "min": 68.79,
+              "p50": 86.63,
+              "p95": 98.28,
+              "p99": 99.068,
+              "max": 99.39
+            },
+            "rssDeltaMB": {
+              "count": 30,
+              "mean": 0.604,
+              "stdDev": 4.273,
+              "min": -17.6,
+              "p50": 0.095,
+              "p95": 6.003,
+              "p99": 6.658,
+              "max": 6.73
+            }
+          }
+        },
+        "bun": {
+          "p50WriteMs": 157.131,
+          "p99WriteMs": 1586.913,
+          "p50ReadMs": 97.99,
+          "p99ReadMs": 112.403,
+          "p50TotalMs": 259.316,
+          "p99TotalMs": 1683.546,
+          "p50WriteThroughputMBps": 24.86,
+          "p50ReadThroughputMBps": 39.864,
+          "p50TotalThroughputMBps": 30.128,
+          "p50TotalOpsPerSec": 7712.72,
+          "p50RssAfterMB": 43.375,
+          "maxRssAfterMB": 53.87,
+          "fullMetrics": {
+            "writeMs": {
+              "count": 30,
+              "mean": 280.286,
+              "stdDev": 373.462,
+              "min": 151.134,
+              "p50": 157.131,
+              "p95": 1224.625,
+              "p99": 1586.913,
+              "max": 1629.203
+            },
+            "readMs": {
+              "count": 30,
+              "mean": 99.597,
+              "stdDev": 6.069,
+              "min": 89.908,
+              "p50": 97.99,
+              "p95": 108.929,
+              "p99": 112.403,
+              "max": 113.679
+            },
+            "totalMs": {
+              "count": 30,
+              "mean": 379.884,
+              "stdDev": 374.185,
+              "min": 242.642,
+              "p50": 259.316,
+              "p95": 1332.517,
+              "p99": 1683.546,
+              "max": 1723.171
+            },
+            "writeThroughputMBps": {
+              "count": 30,
+              "mean": 22.14,
+              "stdDev": 6.735,
+              "min": 2.398,
+              "p50": 24.86,
+              "p95": 25.601,
+              "p99": 25.781,
+              "max": 25.846
+            },
+            "readThroughputMBps": {
+              "count": 30,
+              "mean": 39.359,
+              "stdDev": 2.358,
+              "min": 34.362,
+              "p50": 39.864,
+              "p95": 43.056,
+              "p99": 43.421,
+              "max": 43.447
+            },
+            "totalThroughputMBps": {
+              "count": 30,
+              "mean": 27.569,
+              "stdDev": 7.651,
+              "min": 4.534,
+              "p50": 30.128,
+              "p95": 31.93,
+              "p99": 32.16,
+              "max": 32.198
+            },
+            "writeOpsPerSec": {
+              "count": 30,
+              "mean": 5667.773,
+              "stdDev": 1724.083,
+              "min": 613.8,
+              "p50": 6364.215,
+              "p95": 6553.839,
+              "p99": 6599.97,
+              "max": 6616.63
+            },
+            "readOpsPerSec": {
+              "count": 30,
+              "mean": 10075.901,
+              "stdDev": 603.753,
+              "min": 8796.7,
+              "p50": 10205.13,
+              "p95": 11022.327,
+              "p99": 11115.793,
+              "max": 11122.46
+            },
+            "totalOpsPerSec": {
+              "count": 30,
+              "mean": 7057.534,
+              "stdDev": 1958.584,
+              "min": 1160.65,
+              "p50": 7712.72,
+              "p95": 8174.074,
+              "p99": 8232.902,
+              "max": 8242.6
+            },
+            "rssBeforeMB": {
+              "count": 30,
+              "mean": 40.727,
+              "stdDev": 4.393,
+              "min": 35.84,
+              "p50": 41.455,
+              "p95": 46.861,
+              "p99": 50.782,
+              "max": 52.38
+            },
+            "rssAfterWriteMB": {
+              "count": 30,
+              "mean": 43.875,
+              "stdDev": 4.215,
+              "min": 36.73,
+              "p50": 41.88,
+              "p95": 52.064,
+              "p99": 52.278,
+              "max": 52.35
+            },
+            "rssAfterMB": {
+              "count": 30,
+              "mean": 45.358,
+              "stdDev": 4.163,
+              "min": 37.57,
+              "p50": 43.375,
+              "p95": 53.714,
+              "p99": 53.835,
+              "max": 53.87
+            },
+            "rssDeltaMB": {
+              "count": 30,
+              "mean": 4.631,
+              "stdDev": 5.032,
+              "min": -14.65,
+              "p50": 6.88,
+              "p95": 7.108,
+              "p99": 7.144,
+              "max": 7.15
+            }
+          }
+        }
+      }
+    }
+  }
+}
