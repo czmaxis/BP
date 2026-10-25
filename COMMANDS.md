@@ -4,9 +4,59 @@ Tento přehled obsahuje všechny dostupné příkazy pro spuštění benchmarkov
 
 ---
 
-## 🐳 1. Spuštění v Dockeru (Izolované kontejnery s limity CPU/RAM)
+## 🚀 1. Hlavní spuštění pro všechna prostředí najednou (Lokálně)
 
-Orchestrátor [runner-docker.js](file:///f:/unicorn/zdrojaky/BP/runner-docker.js) automaticky sestaví obrazy (`benchmark-node`, `benchmark-deno`, `benchmark-bun`), postupně (sekvenčně) spustí kontejnery s omezením `--cpus=2 --memory=2g --memory-swap=2g`, uloží výsledky přes svazek `./results:/app/results` (zatímco testovací I/O v `/app/temp` probíhá čistě uvnitř kontejneru) a nakonec zobrazí srovnávací tabulku.
+Příkaz `npm start` (nebo `npm run bench:all`) automaticky:
+1. Zjistí cesty k binárkám Node.js, Deno i Bun.
+2. Sekvenčně (postupně za sebou) spustí plný benchmark pro **Node.js**, **Deno** i **Bun** (10× warmup + 30 měřených iterací).
+3. Na konci automaticky spustí `compare.js`, který vygeneruje srovnávací tabulku do konzole a uloží `results/file_io_comparison.json`.
+
+| Příkaz | Popis |
+| :--- | :--- |
+| `npm start` | **Plný běh všech 3 prostředí:** Postupně spustí Node.js, Deno a Bun (10× warmup + 30 iterací) a vykreslí srovnávací tabulku. |
+| `npm run bench:all:quick` | **Rychlý běh všech 3 prostředí:** Spustí Node.js, Deno a Bun v rychlém režimu (2× warmup + 5 iterací) a porovná je. |
+| `npm run compare` | Samostatné vyhodnocení – načte existující data z `results/` a vykreslí srovnávací tabulku. |
+
+### Vlastní parametry pro `npm start` (přes `--`):
+```bash
+# Všechna 3 prostředí s vlastním počtem iterací:
+npm start -- --warmup=5 --iterations=20
+
+# Všechna 3 prostředí pouze pro velký 100MB soubor:
+npm start -- --scenario=large
+
+# Všechna 3 prostředí pouze pro malé soubory v rychlém režimu:
+npm start -- --quick --scenario=small
+```
+
+---
+
+## 💻 2. Spuštění jednotlivých prostředí samostatně (Lokálně)
+
+Pokud chcete spustit test pouze pro jedno konkrétní prostředí:
+
+| Příkaz | Prostředí | Popis |
+| :--- | :---: | :--- |
+| `npm run bench:node` | **Node.js** | Plné měření pouze pro Node.js (10× warmup + 30 iterací). |
+| `npm run bench:file-io:quick` | **Node.js** | Rychlý test pouze pro Node.js (2× warmup + 5 iterací). |
+| `npm run bench:file-io:large` | **Node.js** | Pouze Varianta A (100 MB streamování) pro Node.js. |
+| `npm run bench:file-io:small` | **Node.js** | Pouze Varianta B (1 000× 4 KB soubory) pro Node.js. |
+| `npm run bench:deno` | **Deno** | Plné měření pouze pro Deno (10× warmup + 30 iterací). |
+| `npm run bench:file-io:deno:quick` | **Deno** | Rychlý test pouze pro Deno (2× warmup + 5 iterací). |
+| `npm run bench:file-io:deno:large` | **Deno** | Pouze Varianta A (100 MB streamování) pro Deno. |
+| `npm run bench:file-io:deno:small` | **Deno** | Pouze Varianta B (1 000× 4 KB soubory) pro Deno. |
+| `npm run bench:bun` | **Bun** | Plné měření pouze pro Bun (10× warmup + 30 iterací). |
+| `npm run bench:file-io:bun:quick` | **Bun** | Rychlý test pouze pro Bun (2× warmup + 5 iterací). |
+| `npm run bench:file-io:bun:large` | **Bun** | Pouze Varianta A (100 MB streamování) pro Bun. |
+| `npm run bench:file-io:bun:small` | **Bun** | Pouze Varianta B (1 000× 4 KB soubory) pro Bun. |
+| `npm run clean:results` | *Úklid* | Smaže složku `results/` s naměřenými daty. |
+| `npm run clean:temp` | *Úklid* | Bezpečně promaže dočasnou složku `temp/`. |
+
+---
+
+## 🐳 3. Spuštění v Dockeru (Izolované kontejnery s limity CPU/RAM)
+
+Orchestrátor [runner-docker.js](file:///f:/unicorn/zdrojaky/BP/runner-docker.js) automaticky sestaví obrazy (`benchmark-node`, `benchmark-deno`, `benchmark-bun`), postupně spustí kontejnery s omezením `--cpus=2 --memory=2g --memory-swap=2g`, uloží výsledky přes svazek `./results:/app/results` a nakonec zobrazí srovnávací tabulku.
 
 | Příkaz | Popis |
 | :--- | :--- |
@@ -16,56 +66,13 @@ Orchestrátor [runner-docker.js](file:///f:/unicorn/zdrojaky/BP/runner-docker.js
 | `npm run benchmark:docker:deno` | Sestaví a spustí v Dockeru **pouze Deno** kontejner. |
 | `npm run benchmark:docker:bun` | Sestaví a spustí v Dockeru **pouze Bun** kontejner. |
 
-### Pokročilé parametry pro Docker orchestrátor:
-```bash
-# Změna limitu CPU na 1 jádro a RAM na 2 GB
-node runner-docker.js --cpus=1 --memory=2g
-
-# Přeskočení buildu obrazů (pokud již jsou sestavené) a rychlý běh
-node runner-docker.js --skip-build --warmup=2 --iterations=5
-
-# Spuštění pouze jednoho prostředí s vlastními parametry
-node runner-docker.js --runtime=node --warmup=3 --iterations=10
-```
-
-### Ruční Docker CLI příkazy (např. na Linux VPS Hetzner):
-```bash
-# 1. Sestavení obrazů
-docker build -t benchmark-node -f docker/Dockerfile.node .
-docker build -t benchmark-deno -f docker/Dockerfile.deno .
-docker build -t benchmark-bun  -f docker/Dockerfile.bun .
-
-# 2. Sekvenční spuštění s limity zdrojů (--cpus=2, --memory=2g, vypnutý swap)
-docker run --rm --cpus=2 --memory=2g --memory-swap=2g -v "$(pwd)/results:/app/results" benchmark-node
-docker run --rm --cpus=2 --memory=2g --memory-swap=2g -v "$(pwd)/results:/app/results" benchmark-deno
-docker run --rm --cpus=2 --memory=2g --memory-swap=2g -v "$(pwd)/results:/app/results" benchmark-bun
-```
-
----
-
-## 💻 2. Lokální spuštění (přímo na hostitelském OS)
-
-| Příkaz | Prostředí | Popis |
-| :--- | :---: | :--- |
-| `npm start` / `npm run bench:file-io` | **Node.js** | Spustí plný benchmark obou scénářů (10× warmup + 30 měřených iterací). |
-| `npm run bench:file-io:quick` | **Node.js** | Rychlý ověřovací běh (2× warmup + 5 iterací) pro oba scénáře. |
-| `npm run bench:file-io:large` | **Node.js** | Plný běh **pouze Varianty A** (1× 100 MB sekvenční streamování). |
-| `npm run bench:file-io:small` | **Node.js** | Plný běh **pouze Varianty B** (1 000× 4 KB souborů, systémová režie). |
-| `npm run bench:file-io:deno` | **Deno** | Spustí plný benchmark v Deno (10× warmup + 30 měřených iterací). |
-| `npm run bench:file-io:deno:quick` | **Deno** | Rychlý ověřovací běh v Deno (2× warmup + 5 iterací). |
-| `npm run bench:file-io:bun` | **Bun** | Spustí plný benchmark v Bun (10× warmup + 30 měřených iterací). |
-| `npm run bench:file-io:bun:quick` | **Bun** | Rychlý ověřovací běh v Bun (2× warmup + 5 iterací). |
-| `npm run compare` | **Porovnání** | Načte summary soubory všech 3 prostředí, vykreslí srovnávací tabulku a uloží `results/file_io_comparison.json`. |
-| `npm run clean:results` | *Obecné* | Smaže složku `results/` s naměřenými daty. |
-| `npm run clean:temp` | *Obecné* | Bezpečně promaže dočasnou složku `temp/`. |
-
 ---
 
 ## 📂 Kam se ukládají výsledky měření?
 
-Po dokončení benchmarku (lokálně i v Dockeru) se výsledky automaticky exportují do složky `results/`:
+Po dokončení benchmarku se výsledky automaticky exportují do složky `results/`:
 
 - **Node.js:** `results/file_io_raw_node.json`, `results/file_io_summary_node.json`
 - **Deno:** `results/file_io_raw_deno.json`, `results/file_io_summary_deno.json`
 - **Bun:** `results/file_io_raw_bun.json`, `results/file_io_summary_bun.json`
-- **Společné porovnání:** `results/file_io_comparison.json`
+- **Sjednocené porovnání:** `results/file_io_comparison.json`
