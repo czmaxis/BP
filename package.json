@@ -13,6 +13,10 @@
     "bench:file-io:small": "node runner.js --scenario=small",
     "bench:file-io:large:quick": "node runner.js --scenario=large --warmup=2 --iterations=5",
     "bench:file-io:small:quick": "node runner.js --scenario=small --warmup=2 --iterations=5",
+    "bench:file-io:deno": "deno run --allow-read --allow-write --allow-sys scenarios/02-file-io/deno.ts",
+    "bench:file-io:deno:quick": "deno run --allow-read --allow-write --allow-sys scenarios/02-file-io/deno.ts --warmup=2 --iterations=5",
+    "bench:file-io:deno:large": "deno run --allow-read --allow-write --allow-sys scenarios/02-file-io/deno.ts --scenario=large",
+    "bench:file-io:deno:small": "deno run --allow-read --allow-write --allow-sys scenarios/02-file-io/deno.ts --scenario=small",
     "clean:results": "node -e \"import('node:fs/promises').then(fs => fs.rm('./results', { recursive: true, force: true }))\"",
     "clean:temp": "node -e \"import('node:fs/promises').then(fs => fs.rm('./temp', { recursive: true, force: true }))\""
   },
