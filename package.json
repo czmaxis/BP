@@ -1,0 +1,24 @@
+{
+  "name": "js-runtime-benchmarks",
+  "version": "1.0.0",
+  "description": "Benchmarková sada pro analýzu běhových prostředí JavaScriptových aplikací (Node.js, Deno, Bun) - Bakalářská práce",
+  "type": "module",
+  "main": "runner.js",
+  "scripts": {
+    "start": "node runner.js",
+    "bench": "node runner.js",
+    "bench:file-io": "node runner.js",
+    "bench:file-io:quick": "node runner.js --warmup=2 --iterations=5",
+    "bench:file-io:large": "node runner.js --scenario=large",
+    "bench:file-io:small": "node runner.js --scenario=small",
+    "bench:file-io:large:quick": "node runner.js --scenario=large --warmup=2 --iterations=5",
+    "bench:file-io:small:quick": "node runner.js --scenario=small --warmup=2 --iterations=5",
+    "clean:results": "node -e \"import('node:fs/promises').then(fs => fs.rm('./results', { recursive: true, force: true }))\"",
+    "clean:temp": "node -e \"import('node:fs/promises').then(fs => fs.rm('./temp', { recursive: true, force: true }))\""
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "author": "",
+  "license": "MIT"
+}

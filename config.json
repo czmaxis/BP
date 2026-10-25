@@ -1,0 +1,24 @@
+{
+  "category": "02-file-io",
+  "tempDir": "./temp",
+  "resultsDir": "./results",
+  "benchmark": {
+    "warmupIterations": 10,
+    "measuredIterations": 30
+  },
+  "scenarios": {
+    "largeFile": {
+      "enabled": true,
+      "totalSizeBytes": 104857600,
+      "chunkSizeBytes": 65536,
+      "fileName": "large_test_100mb.bin"
+    },
+    "smallFiles": {
+      "enabled": true,
+      "fileCount": 1000,
+      "fileSizeBytes": 4096,
+      "subDir": "small_files"
+    }
+  }
+}
+
