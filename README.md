@@ -2,7 +2,7 @@
 
 Praktická část bakalářské práce: *„Sestavení benchmarkové sady pro analýzu běhových prostředí JavaScriptových aplikací (Node.js, Deno, Bun)“*.
 
-Tento modul implementuje kompletní **Kategorii 2: Souborové I/O operace** pro všechna tři srovnávaná běhová prostředí: **Node.js**, **Deno** a **Bun**.
+Tento modul implementuje kompletní **Kategorii 2: Souborové I/O operace** pro všechna tři srovnávaná běhová prostředí: **Node.js**, **Deno** a **Bun**, včetně plné kontejnerizace pomocí **Dockeru**.
 
 ---
 
@@ -21,30 +21,21 @@ Tento modul implementuje kompletní **Kategorii 2: Souborové I/O operace** pro 
 
 ---
 
-## ⌨️ Příkazy pro spuštění z terminálu
+## 🐳 Izolované měření v Dockeru (lokálně i na VPS Hetzner)
 
-Detailní přehled všech příkazů naleznete v souboru [COMMANDS.md](file:///f:/unicorn/zdrojaky/BP/COMMANDS.md).
+Pro zajištění férových a reprodukovatelných podmínek jsou připraveny tři samostatné Dockerfiles ([docker/Dockerfile.node](file:///f:/unicorn/zdrojaky/BP/docker/Dockerfile.node), [docker/Dockerfile.deno](file:///f:/unicorn/zdrojaky/BP/docker/Dockerfile.deno), [docker/Dockerfile.bun](file:///f:/unicorn/zdrojaky/BP/docker/Dockerfile.bun)) postavené na shodném debianovém základu:
+- **Limity zdrojů:** `--cpus=2 --memory=2g --memory-swap=2g` (vypnutý swap).
+- **Objektivita souborového I/O:** Adresář `/app/temp` **není** připojen přes bind-mount z hostitelského OS, takže měření nezkresluje režie překladu souborového systému mezi Windows a Linuxem. Připojen je výhradně výstupní svazek `-v ./results:/app/results`.
 
 ```bash
-# 1. Node.js (10 warmup + 30 iterací)
-npm run bench:file-io
+# Sestavení a sekvenční spuštění všech 3 kontejnerů + křížové porovnání
+npm run benchmark:docker
 
-# 2. Deno (10 warmup + 30 iterací)
-npm run bench:file-io:deno
+# Rychlý ověřovací běh v Dockeru (2 warmup + 5 iterací)
+npm run benchmark:docker:quick
 
-# 3. Bun (10 warmup + 30 iterací)
-npm run bench:file-io:bun
-
-# 4. Křížové porovnání všech 3 platforem v konzoli + export srovnávacího JSONu
-npm run compare
+# Spuštění pouze jednoho kontejneru (např. Node.js)
+npm run benchmark:docker:node
 ```
 
----
-
-## 📊 Výstupní data
-
-Výsledky se ukládají ve formátu JSON do adresáře `results/`:
-- **Node.js:** `results/file_io_raw_node.json`, `results/file_io_summary_node.json`
-- **Deno:** `results/file_io_raw_deno.json`, `results/file_io_summary_deno.json`
-- **Bun:** `results/file_io_raw_bun.json`, `results/file_io_summary_bun.json`
-- **Sjednocené porovnání:** `results/file_io_comparison.json`
+Detailní přehled všech příkazů naleznete v souboru [COMMANDS.md](file:///f:/unicorn/zdrojaky/BP/COMMANDS.md).

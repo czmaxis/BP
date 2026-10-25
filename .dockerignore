@@ -1,0 +1,7 @@
+node_modules
+temp
+results
+.git
+.vscode
+*.log
+

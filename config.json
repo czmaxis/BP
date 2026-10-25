@@ -6,6 +6,11 @@
     "warmupIterations": 10,
     "measuredIterations": 30
   },
+  "docker": {
+    "cpus": "2",
+    "memory": "2g",
+    "memorySwap": "2g"
+  },
   "scenarios": {
     "largeFile": {
       "enabled": true,
@@ -21,4 +26,3 @@
     }
   }
 }
-

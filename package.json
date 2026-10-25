@@ -21,6 +21,11 @@
     "bench:file-io:bun:quick": "bun run scenarios/02-file-io/bun.ts --warmup=2 --iterations=5",
     "bench:file-io:bun:large": "bun run scenarios/02-file-io/bun.ts --scenario=large",
     "bench:file-io:bun:small": "bun run scenarios/02-file-io/bun.ts --scenario=small",
+    "benchmark:docker": "node runner-docker.js",
+    "benchmark:docker:quick": "node runner-docker.js --warmup=2 --iterations=5",
+    "benchmark:docker:node": "node runner-docker.js --runtime=node",
+    "benchmark:docker:deno": "node runner-docker.js --runtime=deno",
+    "benchmark:docker:bun": "node runner-docker.js --runtime=bun",
     "compare": "node compare.js",
     "clean:results": "node -e \"import('node:fs/promises').then(fs => fs.rm('./results', { recursive: true, force: true }))\"",
     "clean:temp": "node -e \"import('node:fs/promises').then(fs => fs.rm('./temp', { recursive: true, force: true }))\""

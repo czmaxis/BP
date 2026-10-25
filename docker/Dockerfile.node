@@ -1,0 +1,19 @@
+# Oficiální odlehčený obraz Node.js 22 (Debian Bookworm Slim)
+FROM node:22.9.0-bookworm-slim
+
+WORKDIR /app
+
+# Kopírování konfigurace a zdrojových kódů benchmarku
+COPY package.json config.json runner.js compare.js ./
+COPY core ./core
+COPY scenarios ./scenarios
+
+# Vytvoření interního adresáře temp/ (běží uvnitř overlayfs kontejneru, mimo bind-mount)
+# a adresáře results/ (pro připojení výsledkového svazku z hostitele)
+RUN mkdir -p /app/temp /app/results && chmod -R 777 /app/temp /app/results
+
+ENV NODE_ENV=production
+
+# Výchozí příkaz pro spuštění File I/O benchmarku v Node.js
+CMD ["node", "runner.js"]
+

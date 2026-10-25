@@ -1,0 +1,16 @@
+# Oficiální obraz Bun postavený na Debianu (stejný základ libc jako u Node.js a Deno)
+FROM oven/bun:debian
+
+WORKDIR /app
+
+# Kopírování konfigurace a zdrojových kódů benchmarku
+COPY package.json config.json runner.js compare.js ./
+COPY core ./core
+COPY scenarios ./scenarios
+
+# Vytvoření interního adresáře temp/ (uvnitř kontejneru) a results/ (pro svazek)
+RUN mkdir -p /app/temp /app/results && chmod -R 777 /app/temp /app/results
+
+# Výchozí příkaz pro spuštění File I/O benchmarku v Bun
+CMD ["bun", "run", "scenarios/02-file-io/bun.ts"]
+
