@@ -1,8 +1,13 @@
+import path from "node:path";
+import { getEnvironmentMetadata } from "./runtime.js";
+import { buildScenarioSummary } from "./stats.js";
 import {
-  buildScenarioSummary,
+  ensureCleanDir,
   exportBenchmarkResults,
+  loadConfig,
+  removeSafe,
   saveJsonResult,
-} from "./utils.js";
+} from "./fs-helper.js";
 
 /**
  * Vypíše formátovanou hlavičku do konzole.
@@ -142,6 +147,87 @@ export async function executeScenario(scenario, warmupCount, iterationCount) {
   } finally {
     await scenario.cleanup();
   }
+}
+
+/**
+ * Sdílený hlavní běhový orchestrátor pro kategorii 02-file-io (Node.js, Deno, Bun).
+ * Načte konfiguraci, připraví adresář temp/, spustí povolené scénáře, uklidí temp/
+ * a vyexportuje raw + summary JSON soubory.
+ */
+export async function runFileIoBenchmarkSuite({
+  projectRoot = process.cwd(),
+  createLargeFileScenario,
+  createSmallFilesScenario,
+}) {
+  const config = await loadConfig(projectRoot);
+  const environment = getEnvironmentMetadata();
+  const tempDir = path.resolve(projectRoot, config.tempDir);
+  const resultsDir = path.resolve(projectRoot, config.resultsDir);
+
+  logSection(
+    `BENCHMARK KATEGORIE 2: SOUBOROVÉ I/O OPERACE (${environment.runtime.toUpperCase()} ${environment.version})`,
+  );
+  logInfo(
+    `Platforma: ${environment.platform} (${environment.arch}) | CPU: ${environment.cpuModel} (${environment.cpuCores} jader) | RAM: ${environment.totalMemoryMB} MB`,
+  );
+  logInfo(
+    `Konfigurace: Warmup = ${config.benchmark.warmupIterations}, Iterace N = ${config.benchmark.measuredIterations}`,
+  );
+
+  await ensureCleanDir(tempDir);
+
+  const scenarios = [];
+  if (config.scenarios.largeFile?.enabled) {
+    scenarios.push(
+      createLargeFileScenario({
+        tempDir,
+        ...config.scenarios.largeFile,
+      }),
+    );
+  }
+  if (config.scenarios.smallFiles?.enabled) {
+    scenarios.push(
+      createSmallFilesScenario({
+        tempDir,
+        ...config.scenarios.smallFiles,
+      }),
+    );
+  }
+
+  const allRawScenarios = {};
+  const allSummaryScenarios = {};
+
+  try {
+    for (const scenario of scenarios) {
+      const { raw, summary } = await executeScenario(
+        scenario,
+        config.benchmark.warmupIterations,
+        config.benchmark.measuredIterations,
+      );
+      allRawScenarios[scenario.id] = raw;
+      allSummaryScenarios[scenario.id] = summary;
+    }
+  } finally {
+    await removeSafe(tempDir);
+    await ensureCleanDir(tempDir);
+  }
+
+  const { savedRawPath, savedSummaryPath } = await exportBenchmarkResults({
+    resultsDir,
+    category: config.category,
+    environment,
+    benchmarkConfig: config.benchmark,
+    allRawScenarios,
+    allSummaryScenarios,
+  });
+
+  logSection(`BENCHMARK ${environment.runtime.toUpperCase()} DOKONČEN`);
+  logInfo(
+    `Surová data (N = ${config.benchmark.measuredIterations}) uložena do: ${savedRawPath}`,
+  );
+  logInfo(
+    `Agregované statistiky (p50, p95, p99, Ø, σ) uloženy do: ${savedSummaryPath}`,
+  );
 }
 
 export { saveJsonResult, exportBenchmarkResults };

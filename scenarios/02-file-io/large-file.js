@@ -1,19 +1,9 @@
 import { createReadStream, createWriteStream } from "node:fs";
 import { once } from "node:events";
-import path from "node:path";
-import { performance } from "node:perf_hooks";
-import {
-  bytesToMB,
-  computeIterationMetrics,
-  ensureCleanDir,
-  generateRandomBuffer,
-  getRssBytes,
-  removeSafe,
-  round,
-} from "../../core/utils.js";
+import { createLargeFileScenarioTemplate } from "../../core/scenario-templates.js";
 
 /**
- * Sekvenčně zapíše soubor o zadané velikosti pomocí WriteStream se správou zpětného tlaku (backpressure).
+ * Sekvenčně zapíše soubor o zadané velikosti pomocí Node.js WriteStream se správou zpětného tlaku (backpressure).
  *
  * @param {string} filePath Cesta k výstupnímu souboru
  * @param {Buffer} chunkBuffer Předgenerovaný binární blok (např. 64 KB)
@@ -53,7 +43,7 @@ async function streamWriteFile(filePath, chunkBuffer, totalSizeBytes) {
 }
 
 /**
- * Sekvenčně přečte celý soubor pomocí ReadStream.
+ * Sekvenčně přečte celý soubor pomocí Node.js ReadStream.
  *
  * @param {string} filePath Cesta ke čtenému souboru
  * @param {number} chunkSizeBytes Velikost čtecího bufferu (highWaterMark)
@@ -75,89 +65,15 @@ function streamReadFile(filePath, chunkSizeBytes) {
 }
 
 /**
- * Varianta A: Sekvenční streamování – Velký soubor (100 MB).
- * Měří hrubou propustnost I/O a chování paměti při proudovém zápisu a čtení.
- *
- * @param {object} options
- * @param {string} options.tempDir Cesta k dočasnému adresáři
- * @param {number} options.totalSizeBytes Celková velikost souboru v bajtech (100 MB)
- * @param {number} options.chunkSizeBytes Velikost jednoho bloku proudu v bajtech (64 KB)
- * @param {string} options.fileName Název testovacího souboru
+ * Varianta A: Sekvenční streamování – Velký soubor (100 MB) pro Node.js.
  */
-export function createLargeFileScenario({
-  tempDir,
-  totalSizeBytes = 100 * 1024 * 1024,
-  chunkSizeBytes = 64 * 1024,
-  fileName = "large_test_100mb.bin",
-}) {
-  const scenarioDir = path.resolve(tempDir, "large_file");
-  const filePath = path.join(scenarioDir, fileName);
-  const totalSizeMB = bytesToMB(totalSizeBytes);
-
-  // Předgenerování náhodného 64KB chunku mimo měřenou část
-  const chunkBuffer = generateRandomBuffer(chunkSizeBytes);
-
-  return {
-    id: "large-file-100mb",
-    name: "Varianta A: Sekvenční streamování (1x 100 MB)",
+export function createLargeFileScenario(options) {
+  return createLargeFileScenarioTemplate({
+    ...options,
+    subDir: "large_file_node",
     description:
       "Sekvenční zápis a čtení jednoho 100MB binárního souboru pomocí Node.js Streams (64KB bloky).",
-    config: {
-      totalSizeBytes,
-      totalSizeMB: round(totalSizeMB, 2),
-      chunkSizeBytes,
-      fileCount: 1,
-    },
-
-    async setup() {
-      await ensureCleanDir(scenarioDir);
-    },
-
-    async runIteration(iterationIndex) {
-      await removeSafe(filePath);
-
-      const rssBeforeBytes = getRssBytes();
-
-      // 1. Měření streamovaného zápisu
-      const writeStart = performance.now();
-      const bytesWritten = await streamWriteFile(
-        filePath,
-        chunkBuffer,
-        totalSizeBytes,
-      );
-      const writeEnd = performance.now();
-      const rssAfterWriteBytes = getRssBytes();
-
-      // 2. Měření streamovaného čtení
-      const readStart = performance.now();
-      const bytesRead = await streamReadFile(filePath, chunkSizeBytes);
-      const readEnd = performance.now();
-      const rssAfterBytes = getRssBytes();
-
-      if (bytesWritten !== totalSizeBytes || bytesRead !== totalSizeBytes) {
-        throw new Error(
-          `Nekonzistentní velikost přenesených dat: zapsáno=${bytesWritten}, přečteno=${bytesRead}, očekáváno=${totalSizeBytes}`,
-        );
-      }
-
-      // Úklid po iteraci mimo měřený čas operace
-      await removeSafe(filePath);
-
-      return computeIterationMetrics({
-        iterationIndex,
-        bytesProcessed: totalSizeBytes,
-        fileCount: 1,
-        writeMs: writeEnd - writeStart,
-        readMs: readEnd - readStart,
-        rssBeforeBytes,
-        rssAfterWriteBytes,
-        rssAfterBytes,
-        opsDecimals: 3,
-      });
-    },
-
-    async cleanup() {
-      await removeSafe(scenarioDir);
-    },
-  };
+    streamWriteFile,
+    streamReadFile,
+  });
 }
