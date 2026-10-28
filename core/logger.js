@@ -1,5 +1,8 @@
-import { mkdir, writeFile } from "node:fs/promises";
-import path from "node:path";
+import {
+  buildScenarioSummary,
+  exportBenchmarkResults,
+  saveJsonResult,
+} from "./utils.js";
 
 /**
  * Vypíše formátovanou hlavičku do konzole.
@@ -87,17 +90,58 @@ export function logScenarioSummary(scenarioTitle, summary) {
 }
 
 /**
- * Uloží objekt dat jako formátovaný JSON soubor do výsledkového adresáře.
+ * Spustí kompletní životní cyklus jednoho scénáře (Setup -> Warmup -> Měřené iterace -> Cleanup)
+ * a vrátí surová i agregovaná data. Sdíleno mezi Node.js, Deno a Bun.
  *
- * @param {string} resultsDir
- * @param {string} fileName
- * @param {object} data
- * @returns {Promise<string>} Absolutní cesta k uloženému souboru
+ * @param {object} scenario Objekt scénáře se metodami setup(), runIteration(i), cleanup()
+ * @param {number} warmupCount Počet zahřívacích cyklů
+ * @param {number} iterationCount Počet měřených iterací N
  */
-export async function saveJsonResult(resultsDir, fileName, data) {
-  await mkdir(resultsDir, { recursive: true });
-  const fullPath = path.resolve(resultsDir, fileName);
-  const jsonContent = JSON.stringify(data, null, 2);
-  await writeFile(fullPath, jsonContent, "utf-8");
-  return fullPath;
+export async function executeScenario(scenario, warmupCount, iterationCount) {
+  logSection(scenario.name);
+  logInfo(`Popis: ${scenario.description}`);
+  logInfo(
+    `Zahřívací fáze (Warmup): ${warmupCount} cyklů | Měřené iterace: N = ${iterationCount}`,
+  );
+
+  await scenario.setup();
+
+  try {
+    // 1. Zahřívací fáze (Warmup) – stabilizace JIT a bufferů
+    for (let w = 1; w <= warmupCount; w++) {
+      const warmupMetrics = await scenario.runIteration(w);
+      logIteration("WARMUP", w, warmupCount, warmupMetrics);
+    }
+
+    console.log(
+      "  ----------------------------------------------------------------------",
+    );
+
+    // 2. Měřená fáze (N nezávislých iterací)
+    const rawResults = [];
+    for (let i = 1; i <= iterationCount; i++) {
+      const metrics = await scenario.runIteration(i);
+      rawResults.push(metrics);
+      logIteration("RUN", i, iterationCount, metrics);
+    }
+
+    const summary = buildScenarioSummary(scenario, rawResults, warmupCount);
+    logScenarioSummary(scenario.name, summary);
+
+    return {
+      raw: {
+        scenarioId: scenario.id,
+        name: scenario.name,
+        config: scenario.config,
+        warmupIterations: warmupCount,
+        measuredIterations: iterationCount,
+        iterations: rawResults,
+      },
+      summary,
+    };
+  } finally {
+    await scenario.cleanup();
+  }
 }
+
+export { saveJsonResult, exportBenchmarkResults };

@@ -1,15 +1,16 @@
-import { createReadStream, createWriteStream } from 'node:fs';
-import { once } from 'node:events';
-import path from 'node:path';
-import { performance } from 'node:perf_hooks';
+import { createReadStream, createWriteStream } from "node:fs";
+import { once } from "node:events";
+import path from "node:path";
+import { performance } from "node:perf_hooks";
 import {
   bytesToMB,
+  computeIterationMetrics,
   ensureCleanDir,
   generateRandomBuffer,
   getRssBytes,
   removeSafe,
-  round
-} from '../../core/utils.js';
+  round,
+} from "../../core/utils.js";
 
 /**
  * Sekvenčně zapíše soubor o zadané velikosti pomocí WriteStream se správou zpětného tlaku (backpressure).
@@ -21,7 +22,7 @@ import {
  */
 async function streamWriteFile(filePath, chunkBuffer, totalSizeBytes) {
   const writeStream = createWriteStream(filePath, {
-    highWaterMark: chunkBuffer.length
+    highWaterMark: chunkBuffer.length,
   });
 
   let bytesWritten = 0;
@@ -38,12 +39,12 @@ async function streamWriteFile(filePath, chunkBuffer, totalSizeBytes) {
       bytesWritten += chunk.length;
 
       if (!canContinue) {
-        await once(writeStream, 'drain');
+        await once(writeStream, "drain");
       }
     }
 
     writeStream.end();
-    await once(writeStream, 'close');
+    await once(writeStream, "close");
     return bytesWritten;
   } catch (err) {
     writeStream.destroy();
@@ -61,15 +62,15 @@ async function streamWriteFile(filePath, chunkBuffer, totalSizeBytes) {
 function streamReadFile(filePath, chunkSizeBytes) {
   return new Promise((resolve, reject) => {
     const readStream = createReadStream(filePath, {
-      highWaterMark: chunkSizeBytes
+      highWaterMark: chunkSizeBytes,
     });
 
     let bytesRead = 0;
-    readStream.on('data', (chunk) => {
+    readStream.on("data", (chunk) => {
       bytesRead += chunk.length;
     });
-    readStream.on('end', () => resolve(bytesRead));
-    readStream.on('error', (err) => reject(err));
+    readStream.on("end", () => resolve(bytesRead));
+    readStream.on("error", (err) => reject(err));
   });
 }
 
@@ -87,9 +88,9 @@ export function createLargeFileScenario({
   tempDir,
   totalSizeBytes = 100 * 1024 * 1024,
   chunkSizeBytes = 64 * 1024,
-  fileName = 'large_test_100mb.bin'
+  fileName = "large_test_100mb.bin",
 }) {
-  const scenarioDir = path.resolve(tempDir, 'large_file');
+  const scenarioDir = path.resolve(tempDir, "large_file");
   const filePath = path.join(scenarioDir, fileName);
   const totalSizeMB = bytesToMB(totalSizeBytes);
 
@@ -97,15 +98,15 @@ export function createLargeFileScenario({
   const chunkBuffer = generateRandomBuffer(chunkSizeBytes);
 
   return {
-    id: 'large-file-100mb',
-    name: 'Varianta A: Sekvenční streamování (1x 100 MB)',
+    id: "large-file-100mb",
+    name: "Varianta A: Sekvenční streamování (1x 100 MB)",
     description:
-      'Sekvenční zápis a čtení jednoho 100MB binárního souboru pomocí Node.js Streams (64KB bloky).',
+      "Sekvenční zápis a čtení jednoho 100MB binárního souboru pomocí Node.js Streams (64KB bloky).",
     config: {
       totalSizeBytes,
       totalSizeMB: round(totalSizeMB, 2),
       chunkSizeBytes,
-      fileCount: 1
+      fileCount: 1,
     },
 
     async setup() {
@@ -113,14 +114,17 @@ export function createLargeFileScenario({
     },
 
     async runIteration(iterationIndex) {
-      // Garantujeme, že před měřením soubor neexistuje
       await removeSafe(filePath);
 
       const rssBeforeBytes = getRssBytes();
 
       // 1. Měření streamovaného zápisu
       const writeStart = performance.now();
-      const bytesWritten = await streamWriteFile(filePath, chunkBuffer, totalSizeBytes);
+      const bytesWritten = await streamWriteFile(
+        filePath,
+        chunkBuffer,
+        totalSizeBytes,
+      );
       const writeEnd = performance.now();
       const rssAfterWriteBytes = getRssBytes();
 
@@ -132,51 +136,28 @@ export function createLargeFileScenario({
 
       if (bytesWritten !== totalSizeBytes || bytesRead !== totalSizeBytes) {
         throw new Error(
-          `Nekonzistentní velikost přenesených dat: zapsáno=${bytesWritten}, přečteno=${bytesRead}, očekáváno=${totalSizeBytes}`
+          `Nekonzistentní velikost přenesených dat: zapsáno=${bytesWritten}, přečteno=${bytesRead}, očekáváno=${totalSizeBytes}`,
         );
       }
 
       // Úklid po iteraci mimo měřený čas operace
       await removeSafe(filePath);
 
-      const writeMs = writeEnd - writeStart;
-      const readMs = readEnd - readStart;
-      const totalMs = writeMs + readMs;
-
-      const writeSec = writeMs / 1000;
-      const readSec = readMs / 1000;
-      const totalSec = totalMs / 1000;
-
-      // 1 soubor zapsán + 1 soubor přečten = 2 souborové operace
-      const writeOpsPerSec = 1 / writeSec;
-      const readOpsPerSec = 1 / readSec;
-      const totalOpsPerSec = 2 / totalSec;
-
-      return {
-        iteration: iterationIndex,
+      return computeIterationMetrics({
+        iterationIndex,
         bytesProcessed: totalSizeBytes,
-        writeMs: round(writeMs, 3),
-        readMs: round(readMs, 3),
-        totalMs: round(totalMs, 3),
-        writeThroughputMBps: round(totalSizeMB / writeSec, 3),
-        readThroughputMBps: round(totalSizeMB / readSec, 3),
-        totalThroughputMBps: round((totalSizeMB * 2) / totalSec, 3),
-        writeOpsPerSec: round(writeOpsPerSec, 3),
-        readOpsPerSec: round(readOpsPerSec, 3),
-        totalOpsPerSec: round(totalOpsPerSec, 3),
+        fileCount: 1,
+        writeMs: writeEnd - writeStart,
+        readMs: readEnd - readStart,
         rssBeforeBytes,
         rssAfterWriteBytes,
         rssAfterBytes,
-        rssBeforeMB: round(bytesToMB(rssBeforeBytes), 2),
-        rssAfterWriteMB: round(bytesToMB(rssAfterWriteBytes), 2),
-        rssAfterMB: round(bytesToMB(rssAfterBytes), 2),
-        rssDeltaMB: round(bytesToMB(rssAfterBytes - rssBeforeBytes), 2)
-      };
+        opsDecimals: 3,
+      });
     },
 
     async cleanup() {
       await removeSafe(scenarioDir);
-    }
+    },
   };
 }
-

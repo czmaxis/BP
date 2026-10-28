@@ -1,14 +1,15 @@
-import { readFile, writeFile } from 'node:fs/promises';
-import path from 'node:path';
-import { performance } from 'node:perf_hooks';
+import { readFile, writeFile } from "node:fs/promises";
+import path from "node:path";
+import { performance } from "node:perf_hooks";
 import {
   bytesToMB,
+  computeIterationMetrics,
   ensureCleanDir,
   generateRandomBuffer,
   getRssBytes,
   removeSafe,
-  round
-} from '../../core/utils.js';
+  round,
+} from "../../core/utils.js";
 
 /**
  * Varianta B: Systémová režie – Malé soubory (1 000 x 4 KB).
@@ -25,7 +26,7 @@ export function createSmallFilesScenario({
   tempDir,
   fileCount = 1000,
   fileSizeBytes = 4096,
-  subDir = 'small_files'
+  subDir = "small_files",
 }) {
   const scenarioDir = path.resolve(tempDir, subDir);
   const totalSizeBytes = fileCount * fileSizeBytes;
@@ -34,19 +35,19 @@ export function createSmallFilesScenario({
   // Předgenerování 4KB náhodného bufferu a cest k souborům mimo měřený interval
   const fileBuffer = generateRandomBuffer(fileSizeBytes);
   const filePaths = Array.from({ length: fileCount }, (_, i) =>
-    path.join(scenarioDir, `small_${String(i).padStart(4, '0')}.bin`)
+    path.join(scenarioDir, `small_${String(i).padStart(4, "0")}.bin`),
   );
 
   return {
-    id: 'small-files-1000x4kb',
-    name: 'Varianta B: Systémová režie – Malé soubory (1 000x 4 KB)',
+    id: "small-files-1000x4kb",
+    name: "Varianta B: Systémová režie – Malé soubory (1 000x 4 KB)",
     description:
-      'Paralelní zápis a následné čtení 1 000 souborů o velikosti 4 KB pomocí node:fs/promises.',
+      "Paralelní zápis a následné čtení 1 000 souborů o velikosti 4 KB pomocí node:fs/promises.",
     config: {
       fileCount,
       fileSizeBytes,
       totalSizeBytes,
-      totalSizeMB: round(totalSizeMB, 2)
+      totalSizeMB: round(totalSizeMB, 2),
     },
 
     async setup() {
@@ -54,20 +55,23 @@ export function createSmallFilesScenario({
     },
 
     async runIteration(iterationIndex) {
-      // Čistý adresář před každou iterací
       await ensureCleanDir(scenarioDir);
 
       const rssBeforeBytes = getRssBytes();
 
       // 1. Měření paralelního zápisu 1 000 souborů
       const writeStart = performance.now();
-      await Promise.all(filePaths.map((filePath) => writeFile(filePath, fileBuffer)));
+      await Promise.all(
+        filePaths.map((filePath) => writeFile(filePath, fileBuffer)),
+      );
       const writeEnd = performance.now();
       const rssAfterWriteBytes = getRssBytes();
 
       // 2. Měření paralelního čtení 1 000 souborů
       const readStart = performance.now();
-      const buffers = await Promise.all(filePaths.map((filePath) => readFile(filePath)));
+      const buffers = await Promise.all(
+        filePaths.map((filePath) => readFile(filePath)),
+      );
       const readEnd = performance.now();
       const rssAfterBytes = getRssBytes();
 
@@ -78,52 +82,28 @@ export function createSmallFilesScenario({
 
       if (bytesRead !== totalSizeBytes) {
         throw new Error(
-          `Nekonzistentní velikost přečtených dat: přečteno=${bytesRead}, očekáváno=${totalSizeBytes}`
+          `Nekonzistentní velikost přečtených dat: přečteno=${bytesRead}, očekáváno=${totalSizeBytes}`,
         );
       }
 
       // Úklid všech 1 000 souborů mimo měřený čas operace
       await removeSafe(scenarioDir);
 
-      const writeMs = writeEnd - writeStart;
-      const readMs = readEnd - readStart;
-      const totalMs = writeMs + readMs;
-
-      const writeSec = writeMs / 1000;
-      const readSec = readMs / 1000;
-      const totalSec = totalMs / 1000;
-
-      // Počet souborových operací za sekundu (1 000 zápisů, 1 000 čtení, 2 000 celkem)
-      const writeOpsPerSec = fileCount / writeSec;
-      const readOpsPerSec = fileCount / readSec;
-      const totalOpsPerSec = (fileCount * 2) / totalSec;
-
-      return {
-        iteration: iterationIndex,
-        fileCount,
+      return computeIterationMetrics({
+        iterationIndex,
         bytesProcessed: totalSizeBytes,
-        writeMs: round(writeMs, 3),
-        readMs: round(readMs, 3),
-        totalMs: round(totalMs, 3),
-        writeThroughputMBps: round(totalSizeMB / writeSec, 3),
-        readThroughputMBps: round(totalSizeMB / readSec, 3),
-        totalThroughputMBps: round((totalSizeMB * 2) / totalSec, 3),
-        writeOpsPerSec: round(writeOpsPerSec, 2),
-        readOpsPerSec: round(readOpsPerSec, 2),
-        totalOpsPerSec: round(totalOpsPerSec, 2),
+        fileCount,
+        writeMs: writeEnd - writeStart,
+        readMs: readEnd - readStart,
         rssBeforeBytes,
         rssAfterWriteBytes,
         rssAfterBytes,
-        rssBeforeMB: round(bytesToMB(rssBeforeBytes), 2),
-        rssAfterWriteMB: round(bytesToMB(rssAfterWriteBytes), 2),
-        rssAfterMB: round(bytesToMB(rssAfterBytes), 2),
-        rssDeltaMB: round(bytesToMB(rssAfterBytes - rssBeforeBytes), 2)
-      };
+        opsDecimals: 2,
+      });
     },
 
     async cleanup() {
       await removeSafe(scenarioDir);
-    }
+    },
   };
 }
-
