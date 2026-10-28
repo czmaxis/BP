@@ -11,9 +11,9 @@
  *   bun run scenarios/02-file-io/bun.ts
  */
 
-import { mkdir, rm } from 'node:fs/promises';
-import os from 'node:os';
-import path from 'node:path';
+import { mkdir, rm } from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
 
 interface BenchmarkConfig {
   category: string;
@@ -98,7 +98,10 @@ function round(value: number, decimals = 3): number {
   return Math.round((value + Number.EPSILON) * factor) / factor;
 }
 
-function calculatePercentile(sortedValues: number[], percentile: number): number {
+function calculatePercentile(
+  sortedValues: number[],
+  percentile: number,
+): number {
   if (sortedValues.length === 0) return 0;
   if (sortedValues.length === 1) return sortedValues[0];
 
@@ -107,14 +110,24 @@ function calculatePercentile(sortedValues: number[], percentile: number): number
   const upper = Math.ceil(index);
   const weight = index - lower;
 
-  if (upper >= sortedValues.length) return sortedValues[sortedValues.length - 1];
+  if (upper >= sortedValues.length)
+    return sortedValues[sortedValues.length - 1];
   return sortedValues[lower] * (1 - weight) + sortedValues[upper] * weight;
 }
 
 function calculateStats(values: number[], decimals = 3): StatSummary {
   const count = values.length;
   if (count === 0) {
-    return { count: 0, mean: 0, stdDev: 0, min: 0, p50: 0, p95: 0, p99: 0, max: 0 };
+    return {
+      count: 0,
+      mean: 0,
+      stdDev: 0,
+      min: 0,
+      p50: 0,
+      p95: 0,
+      p99: 0,
+      max: 0,
+    };
   }
 
   const sorted = [...values].sort((a, b) => a - b);
@@ -135,7 +148,7 @@ function calculateStats(values: number[], decimals = 3): StatSummary {
     p50: round(calculatePercentile(sorted, 50), decimals),
     p95: round(calculatePercentile(sorted, 95), decimals),
     p99: round(calculatePercentile(sorted, 99), decimals),
-    max: round(sorted[count - 1], decimals)
+    max: round(sorted[count - 1], decimals),
   };
 }
 
@@ -151,20 +164,20 @@ async function ensureCleanDir(dirPath: string): Promise<void> {
 function getEnvironmentMetadata() {
   const cpus = os.cpus();
   return {
-    runtime: 'bun',
+    runtime: "bun",
     version: `v${Bun.version} (${Bun.revision.slice(0, 8)})`,
     platform: os.platform(),
     release: os.release(),
     arch: os.arch(),
-    cpuModel: cpus[0]?.model?.trim() ?? 'unknown',
+    cpuModel: cpus[0]?.model?.trim() ?? "unknown",
     cpuCores: cpus.length,
     totalMemoryMB: round(bytesToMB(os.totalmem()), 0),
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   };
 }
 
 function logSection(title: string): void {
-  const line = '═'.repeat(72);
+  const line = "═".repeat(72);
   console.log(`\n${line}`);
   console.log(`  ${title}`);
   console.log(`${line}`);
@@ -176,44 +189,60 @@ function logInfo(message: string): void {
 }
 
 function logIteration(
-  phase: 'WARMUP' | 'RUN',
+  phase: "WARMUP" | "RUN",
   current: number,
   total: number,
-  metrics: IterationMetrics
+  metrics: IterationMetrics,
 ): void {
-  const indexStr = `${String(current).padStart(2, ' ')}/${String(total).padStart(2, ' ')}`;
-  const tag = phase === 'WARMUP' ? 'WARMUP' : 'MĚŘENÍ';
+  const indexStr = `${String(current).padStart(2, " ")}/${String(total).padStart(2, " ")}`;
+  const tag = phase === "WARMUP" ? "WARMUP" : "MĚŘENÍ";
   console.log(
     `  [${tag} ${indexStr}] ` +
-      `Zápis: ${metrics.writeMs.toFixed(2).padStart(8, ' ')} ms (${metrics.writeThroughputMBps.toFixed(1).padStart(7, ' ')} MB/s) | ` +
-      `Čtení: ${metrics.readMs.toFixed(2).padStart(8, ' ')} ms (${metrics.readThroughputMBps.toFixed(1).padStart(7, ' ')} MB/s) | ` +
-      `Celkem: ${metrics.totalMs.toFixed(2).padStart(8, ' ')} ms | ` +
-      `RSS po: ${metrics.rssAfterMB.toFixed(1)} MB`
+      `Zápis: ${metrics.writeMs.toFixed(2).padStart(8, " ")} ms (${metrics.writeThroughputMBps.toFixed(1).padStart(7, " ")} MB/s) | ` +
+      `Čtení: ${metrics.readMs.toFixed(2).padStart(8, " ")} ms (${metrics.readThroughputMBps.toFixed(1).padStart(7, " ")} MB/s) | ` +
+      `Celkem: ${metrics.totalMs.toFixed(2).padStart(8, " ")} ms | ` +
+      `RSS po: ${metrics.rssAfterMB.toFixed(1)} MB`,
   );
 }
 
 function logScenarioSummary(
   scenarioTitle: string,
-  summary: { iterations: number; metrics: Record<string, StatSummary> }
+  summary: { iterations: number; metrics: Record<string, StatSummary> },
 ): void {
-  console.log(`\n  Souhrnné výsledky – ${scenarioTitle} (N = ${summary.iterations}):`);
-  console.log('  ──────────────────────────────────────────────────────────────────────');
+  console.log(
+    `\n  Souhrnné výsledky – ${scenarioTitle} (N = ${summary.iterations}):`,
+  );
+  console.log(
+    "  ──────────────────────────────────────────────────────────────────────",
+  );
 
   const formatRow = (label: string, stats: StatSummary, unit: string) =>
-    `  ${label.padEnd(20, ' ')} | ` +
-    `p50: ${String(stats.p50.toFixed(2)).padStart(9, ' ')} ${unit} | ` +
-    `p95: ${String(stats.p95.toFixed(2)).padStart(9, ' ')} ${unit} | ` +
-    `p99: ${String(stats.p99.toFixed(2)).padStart(9, ' ')} ${unit} | ` +
-    `Ø: ${String(stats.mean.toFixed(2)).padStart(9, ' ')} ± ${String(stats.stdDev.toFixed(2)).padStart(7, ' ')} ${unit}`;
+    `  ${label.padEnd(20, " ")} | ` +
+    `p50: ${String(stats.p50.toFixed(2)).padStart(9, " ")} ${unit} | ` +
+    `p95: ${String(stats.p95.toFixed(2)).padStart(9, " ")} ${unit} | ` +
+    `p99: ${String(stats.p99.toFixed(2)).padStart(9, " ")} ${unit} | ` +
+    `Ø: ${String(stats.mean.toFixed(2)).padStart(9, " ")} ± ${String(stats.stdDev.toFixed(2)).padStart(7, " ")} ${unit}`;
 
-  console.log(formatRow('Doba zápisu', summary.metrics.writeMs, 'ms  '));
-  console.log(formatRow('Doba čtení', summary.metrics.readMs, 'ms  '));
-  console.log(formatRow('Doba celkem', summary.metrics.totalMs, 'ms  '));
-  console.log(formatRow('Propustnost zápisu', summary.metrics.writeThroughputMBps, 'MB/s'));
-  console.log(formatRow('Propustnost čtení', summary.metrics.readThroughputMBps, 'MB/s'));
-  console.log(formatRow('Operace za sekundu', summary.metrics.totalOpsPerSec, 'op/s'));
-  console.log(formatRow('Paměť RSS (po)', summary.metrics.rssAfterMB, 'MB  '));
-  console.log('  ──────────────────────────────────────────────────────────────────────');
+  console.log(formatRow("Doba zápisu", summary.metrics.writeMs, "ms  "));
+  console.log(formatRow("Doba čtení", summary.metrics.readMs, "ms  "));
+  console.log(formatRow("Doba celkem", summary.metrics.totalMs, "ms  "));
+  console.log(
+    formatRow(
+      "Propustnost zápisu",
+      summary.metrics.writeThroughputMBps,
+      "MB/s",
+    ),
+  );
+  console.log(
+    formatRow("Propustnost čtení", summary.metrics.readThroughputMBps, "MB/s"),
+  );
+  console.log(
+    formatRow("Operace za sekundu", summary.metrics.totalOpsPerSec, "op/s"),
+  );
+  console.log(formatRow("Paměť RSS (po)", summary.metrics.rssAfterMB, "MB  "));
+  console.log(
+    "  ──────────────────────────────────────────────────────────────────────",
+  );
 }
 
 /**
@@ -222,7 +251,7 @@ function logScenarioSummary(
 async function bunStreamWriteFile(
   filePath: string,
   chunkBuffer: Uint8Array,
-  totalSizeBytes: number
+  totalSizeBytes: number,
 ): Promise<number> {
   let bytesSent = 0;
 
@@ -241,7 +270,7 @@ async function bunStreamWriteFile(
 
       bytesSent += chunk.byteLength;
       controller.enqueue(chunk);
-    }
+    },
   });
 
   const bytesWritten = await Bun.write(filePath, readableStream);
@@ -283,7 +312,7 @@ function createLargeFileScenarioBun(options: {
   fileName: string;
 }) {
   const { tempDir, totalSizeBytes, chunkSizeBytes, fileName } = options;
-  const scenarioDir = path.resolve(tempDir, 'large_file_bun');
+  const scenarioDir = path.resolve(tempDir, "large_file_bun");
   const filePath = path.join(scenarioDir, fileName);
   const totalSizeMB = bytesToMB(totalSizeBytes);
 
@@ -291,15 +320,15 @@ function createLargeFileScenarioBun(options: {
   const chunkBuffer = generateRandomBytes(chunkSizeBytes);
 
   return {
-    id: 'large-file-100mb',
-    name: 'Varianta A: Sekvenční streamování (1x 100 MB)',
+    id: "large-file-100mb",
+    name: "Varianta A: Sekvenční streamování (1x 100 MB)",
     description:
-      'Sekvenční zápis a čtení jednoho 100MB binárního souboru pomocí Bun.write(stream) a Bun.file().stream() (64KB bloky).',
+      "Sekvenční zápis a čtení jednoho 100MB binárního souboru pomocí Bun.write(stream) a Bun.file().stream() (64KB bloky).",
     config: {
       totalSizeBytes,
       totalSizeMB: round(totalSizeMB, 2),
       chunkSizeBytes,
-      fileCount: 1
+      fileCount: 1,
     },
 
     async setup() {
@@ -313,7 +342,11 @@ function createLargeFileScenarioBun(options: {
 
       // 1. Měření streamovaného zápisu
       const writeStart = performance.now();
-      const bytesWritten = await bunStreamWriteFile(filePath, chunkBuffer, totalSizeBytes);
+      const bytesWritten = await bunStreamWriteFile(
+        filePath,
+        chunkBuffer,
+        totalSizeBytes,
+      );
       const writeEnd = performance.now();
       const rssAfterWriteBytes = getRssBytes();
 
@@ -325,7 +358,7 @@ function createLargeFileScenarioBun(options: {
 
       if (bytesWritten !== totalSizeBytes || bytesRead !== totalSizeBytes) {
         throw new Error(
-          `Nekonzistentní velikost přenesených dat: zapsáno=${bytesWritten}, přečteno=${bytesRead}, očekáváno=${totalSizeBytes}`
+          `Nekonzistentní velikost přenesených dat: zapsáno=${bytesWritten}, přečteno=${bytesRead}, očekáváno=${totalSizeBytes}`,
         );
       }
 
@@ -358,13 +391,13 @@ function createLargeFileScenarioBun(options: {
         rssBeforeMB: round(bytesToMB(rssBeforeBytes), 2),
         rssAfterWriteMB: round(bytesToMB(rssAfterWriteBytes), 2),
         rssAfterMB: round(bytesToMB(rssAfterBytes), 2),
-        rssDeltaMB: round(bytesToMB(rssAfterBytes - rssBeforeBytes), 2)
+        rssDeltaMB: round(bytesToMB(rssAfterBytes - rssBeforeBytes), 2),
       };
     },
 
     async cleanup() {
       await removeSafe(scenarioDir);
-    }
+    },
   };
 }
 
@@ -385,19 +418,19 @@ function createSmallFilesScenarioBun(options: {
   // Předgenerování 4KB náhodného bufferu a cest mimo měřený čas
   const fileBuffer = generateRandomBytes(fileSizeBytes);
   const filePaths = Array.from({ length: fileCount }, (_, i) =>
-    path.join(scenarioDir, `small_${String(i).padStart(4, '0')}.bin`)
+    path.join(scenarioDir, `small_${String(i).padStart(4, "0")}.bin`),
   );
 
   return {
-    id: 'small-files-1000x4kb',
-    name: 'Varianta B: Systémová režie – Malé soubory (1 000x 4 KB)',
+    id: "small-files-1000x4kb",
+    name: "Varianta B: Systémová režie – Malé soubory (1 000x 4 KB)",
     description:
-      'Paralelní zápis a následné čtení 1 000 souborů o velikosti 4 KB pomocí Bun.write() a Bun.file().arrayBuffer().',
+      "Paralelní zápis a následné čtení 1 000 souborů o velikosti 4 KB pomocí Bun.write() a Bun.file().arrayBuffer().",
     config: {
       fileCount,
       fileSizeBytes,
       totalSizeBytes,
-      totalSizeMB: round(totalSizeMB, 2)
+      totalSizeMB: round(totalSizeMB, 2),
     },
 
     async setup() {
@@ -411,14 +444,16 @@ function createSmallFilesScenarioBun(options: {
 
       // 1. Měření paralelního zápisu 1 000 souborů
       const writeStart = performance.now();
-      await Promise.all(filePaths.map((filePath) => Bun.write(filePath, fileBuffer)));
+      await Promise.all(
+        filePaths.map((filePath) => Bun.write(filePath, fileBuffer)),
+      );
       const writeEnd = performance.now();
       const rssAfterWriteBytes = getRssBytes();
 
       // 2. Měření paralelního čtení 1 000 souborů
       const readStart = performance.now();
       const buffers = await Promise.all(
-        filePaths.map((filePath) => Bun.file(filePath).arrayBuffer())
+        filePaths.map((filePath) => Bun.file(filePath).arrayBuffer()),
       );
       const readEnd = performance.now();
       const rssAfterBytes = getRssBytes();
@@ -430,7 +465,7 @@ function createSmallFilesScenarioBun(options: {
 
       if (bytesRead !== totalSizeBytes) {
         throw new Error(
-          `Nekonzistentní velikost přečtených dat: přečteno=${bytesRead}, očekáváno=${totalSizeBytes}`
+          `Nekonzistentní velikost přečtených dat: přečteno=${bytesRead}, očekáváno=${totalSizeBytes}`,
         );
       }
 
@@ -464,35 +499,40 @@ function createSmallFilesScenarioBun(options: {
         rssBeforeMB: round(bytesToMB(rssBeforeBytes), 2),
         rssAfterWriteMB: round(bytesToMB(rssAfterWriteBytes), 2),
         rssAfterMB: round(bytesToMB(rssAfterBytes), 2),
-        rssDeltaMB: round(bytesToMB(rssAfterBytes - rssBeforeBytes), 2)
+        rssDeltaMB: round(bytesToMB(rssAfterBytes - rssBeforeBytes), 2),
       };
     },
 
     async cleanup() {
       await removeSafe(scenarioDir);
-    }
+    },
   };
 }
 
 function buildScenarioSummary(
-  scenario: { id: string; name: string; description: string; config: Record<string, unknown> },
+  scenario: {
+    id: string;
+    name: string;
+    description: string;
+    config: Record<string, unknown>;
+  },
   rawIterations: IterationMetrics[],
-  warmupIterations: number
+  warmupIterations: number,
 ) {
   const metricKeys: (keyof IterationMetrics)[] = [
-    'writeMs',
-    'readMs',
-    'totalMs',
-    'writeThroughputMBps',
-    'readThroughputMBps',
-    'totalThroughputMBps',
-    'writeOpsPerSec',
-    'readOpsPerSec',
-    'totalOpsPerSec',
-    'rssBeforeMB',
-    'rssAfterWriteMB',
-    'rssAfterMB',
-    'rssDeltaMB'
+    "writeMs",
+    "readMs",
+    "totalMs",
+    "writeThroughputMBps",
+    "readThroughputMBps",
+    "totalThroughputMBps",
+    "writeOpsPerSec",
+    "readOpsPerSec",
+    "totalOpsPerSec",
+    "rssBeforeMB",
+    "rssAfterWriteMB",
+    "rssAfterMB",
+    "rssDeltaMB",
   ];
 
   const metricsSummary: Record<string, StatSummary> = {};
@@ -508,25 +548,31 @@ function buildScenarioSummary(
     config: scenario.config,
     warmupIterations,
     iterations: rawIterations.length,
-    metrics: metricsSummary
+    metrics: metricsSummary,
   };
 }
 
 async function loadConfig(projectRoot: string): Promise<BenchmarkConfig> {
-  const configPath = path.join(projectRoot, 'config.json');
+  const configPath = path.join(projectRoot, "config.json");
   const config: BenchmarkConfig = await Bun.file(configPath).json();
 
   for (const arg of Bun.argv.slice(2)) {
-    if (arg.startsWith('--warmup=')) {
-      config.benchmark.warmupIterations = Number.parseInt(arg.split('=')[1], 10);
-    } else if (arg.startsWith('--iterations=')) {
-      config.benchmark.measuredIterations = Number.parseInt(arg.split('=')[1], 10);
-    } else if (arg.startsWith('--scenario=')) {
-      const scenario = arg.split('=')[1].toLowerCase();
-      if (scenario === 'large' || scenario === 'large-file') {
+    if (arg.startsWith("--warmup=")) {
+      config.benchmark.warmupIterations = Number.parseInt(
+        arg.split("=")[1],
+        10,
+      );
+    } else if (arg.startsWith("--iterations=")) {
+      config.benchmark.measuredIterations = Number.parseInt(
+        arg.split("=")[1],
+        10,
+      );
+    } else if (arg.startsWith("--scenario=")) {
+      const scenario = arg.split("=")[1].toLowerCase();
+      if (scenario === "large" || scenario === "large-file") {
         config.scenarios.largeFile.enabled = true;
         config.scenarios.smallFiles.enabled = false;
-      } else if (scenario === 'small' || scenario === 'small-files') {
+      } else if (scenario === "small" || scenario === "small-files") {
         config.scenarios.largeFile.enabled = false;
         config.scenarios.smallFiles.enabled = true;
       }
@@ -544,13 +590,13 @@ async function main() {
   const resultsDir = path.resolve(projectRoot, config.resultsDir);
 
   logSection(
-    `BENCHMARK KATEGORIE 2: SOUBOROVÉ I/O OPERACE (${environment.runtime.toUpperCase()} ${environment.version})`
+    `BENCHMARK KATEGORIE 2: SOUBOROVÉ I/O OPERACE (${environment.runtime.toUpperCase()} ${environment.version})`,
   );
   logInfo(
-    `Platforma: ${environment.platform} (${environment.arch}) | CPU: ${environment.cpuModel} (${environment.cpuCores} jader)`
+    `Platforma: ${environment.platform} (${environment.arch}) | CPU: ${environment.cpuModel} (${environment.cpuCores} jader)`,
   );
   logInfo(
-    `Konfigurace: Warmup = ${config.benchmark.warmupIterations}, Iterace N = ${config.benchmark.measuredIterations}`
+    `Konfigurace: Warmup = ${config.benchmark.warmupIterations}, Iterace N = ${config.benchmark.measuredIterations}`,
   );
 
   await ensureCleanDir(tempDir);
@@ -560,16 +606,16 @@ async function main() {
     scenarios.push(
       createLargeFileScenarioBun({
         tempDir,
-        ...config.scenarios.largeFile
-      })
+        ...config.scenarios.largeFile,
+      }),
     );
   }
   if (config.scenarios.smallFiles?.enabled) {
     scenarios.push(
       createSmallFilesScenarioBun({
         tempDir,
-        ...config.scenarios.smallFiles
-      })
+        ...config.scenarios.smallFiles,
+      }),
     );
   }
 
@@ -581,29 +627,36 @@ async function main() {
       logSection(scenario.name);
       logInfo(`Popis: ${scenario.description}`);
       logInfo(
-        `Zahřívací fáze (Warmup): ${config.benchmark.warmupIterations} cyklů | Měřené iterace: N = ${config.benchmark.measuredIterations}`
+        `Zahřívací fáze (Warmup): ${config.benchmark.warmupIterations} cyklů | Měřené iterace: N = ${config.benchmark.measuredIterations}`,
       );
 
       await scenario.setup();
       try {
         for (let w = 1; w <= config.benchmark.warmupIterations; w++) {
           const warmupMetrics = await scenario.runIteration(w);
-          logIteration('WARMUP', w, config.benchmark.warmupIterations, warmupMetrics);
+          logIteration(
+            "WARMUP",
+            w,
+            config.benchmark.warmupIterations,
+            warmupMetrics,
+          );
         }
 
-        console.log('  ----------------------------------------------------------------------');
+        console.log(
+          "  ----------------------------------------------------------------------",
+        );
 
         const rawResults: IterationMetrics[] = [];
         for (let i = 1; i <= config.benchmark.measuredIterations; i++) {
           const metrics = await scenario.runIteration(i);
           rawResults.push(metrics);
-          logIteration('RUN', i, config.benchmark.measuredIterations, metrics);
+          logIteration("RUN", i, config.benchmark.measuredIterations, metrics);
         }
 
         const summary = buildScenarioSummary(
           scenario,
           rawResults,
-          config.benchmark.warmupIterations
+          config.benchmark.warmupIterations,
         );
         logScenarioSummary(scenario.name, summary);
 
@@ -613,7 +666,7 @@ async function main() {
           config: scenario.config,
           warmupIterations: config.benchmark.warmupIterations,
           measuredIterations: config.benchmark.measuredIterations,
-          iterations: rawResults
+          iterations: rawResults,
         };
         allSummaryScenarios[scenario.id] = summary;
       } finally {
@@ -625,8 +678,8 @@ async function main() {
   }
 
   await mkdir(resultsDir, { recursive: true });
-  const rawFilePath = path.join(resultsDir, 'file_io_raw_bun.json');
-  const summaryFilePath = path.join(resultsDir, 'file_io_summary_bun.json');
+  const rawFilePath = path.join(resultsDir, "file_io_raw_bun.json");
+  const summaryFilePath = path.join(resultsDir, "file_io_summary_bun.json");
 
   await Bun.write(
     rawFilePath,
@@ -635,11 +688,11 @@ async function main() {
         category: config.category,
         environment,
         benchmarkConfig: config.benchmark,
-        scenarios: allRawScenarios
+        scenarios: allRawScenarios,
       },
       null,
-      2
-    )
+      2,
+    ),
   );
 
   await Bun.write(
@@ -649,20 +702,23 @@ async function main() {
         category: config.category,
         environment,
         benchmarkConfig: config.benchmark,
-        scenarios: allSummaryScenarios
+        scenarios: allSummaryScenarios,
       },
       null,
-      2
-    )
+      2,
+    ),
   );
 
-  logSection('BENCHMARK BUN DOKONČEN');
-  logInfo(`Surová data (N = ${config.benchmark.measuredIterations}) uložena do: ${rawFilePath}`);
-  logInfo(`Agregované statistiky (p50, p95, p99, Ø, σ) uloženy do: ${summaryFilePath}`);
+  logSection("BENCHMARK BUN DOKONČEN");
+  logInfo(
+    `Surová data (N = ${config.benchmark.measuredIterations}) uložena do: ${rawFilePath}`,
+  );
+  logInfo(
+    `Agregované statistiky (p50, p95, p99, Ø, σ) uloženy do: ${summaryFilePath}`,
+  );
 }
 
 main().catch((err) => {
-  console.error('\n[CHYBA BENCHMARKU BUN]:', err);
+  console.error("\n[CHYBA BENCHMARKU BUN]:", err);
   process.exit(1);
 });
-
