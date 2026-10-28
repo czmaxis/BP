@@ -9,15 +9,15 @@ Tento modul implementuje kompletní **Kategorii 2: Souborové I/O operace** pro 
 ## Přehled modulů Kategorie 2 (File I/O)
 
 1. **Varianta A: Sekvenční streamování – Velký soubor (1× 100 MB)**
-   - Testuje hrubou propustnost I/O a chování paměti při streamování.
-   - **Node.js:** Nativní proudy (`node:fs` – `createWriteStream`, `createReadStream`) s 64KB bloky a řízením zpětného tlaku (`drain`).
-   - **Deno:** Nativní `Deno.open()` a Web Streams API (`file.writable.getWriter()`, `file.readable.getReader()`) s 64KB bloky.
-   - **Bun:** Nativní `Bun.write(path, ReadableStream)` a `Bun.file(path).stream()` s 64KB bloky.
+   - Testuje hrubou propustnost I/O a chování paměti při sekvenčním zpracování po 64KB blocích.
+   - **Node.js:** Nativní blokový zápis (`fs.promises.open` + `fileHandle.write`) a sekvenční čtení po 64KB blocích přes file descriptor (`fs.promises.open` + `fileHandle.read`).
+   - **Deno:** Nativní blokový zápis (`Deno.open` + `file.write`) a sekvenční čtení po 64KB blocích (`Deno.open` + `file.read`).
+   - **Bun:** Nativní proudový zápis (`Bun.file(path).writer({ highWaterMark })` – `FileSink`) a sekvenční čtení po 64KB blocích přes file descriptor (`fs.promises.open` + `fileHandle.read`).
 2. **Varianta B: Systémová režie – Malé soubory (1 000× 4 KB)**
    - Testuje režii systémových volání OS, metadata souborového systému a zatížení interního I/O thread poolu (`libuv` v Node.js, Tokio/Rust v Deno, Zig I/O v Bun).
    - **Node.js:** Paralelní `Promise.all` s `writeFile` a `readFile` z `node:fs/promises`.
    - **Deno:** Paralelní `Promise.all` s `Deno.writeFile` a `Deno.readFile`.
-   - **Bun:** Paralelní `Promise.all` s `Bun.write()` a `Bun.file().arrayBuffer()`.
+   - **Bun:** Paralelní `Promise.all` s `Bun.write()` a `Bun.file().bytes()`.
 
 ---
 

@@ -48,6 +48,63 @@ function formatNum(val, decimals = 2) {
 }
 
 /**
+ * Zkontroluje, zda všechna načtená prostředí běžela se stejnou konfigurací
+ * (počet měřených iterací N, warmup iterace a parametry scénářů).
+ */
+function validateMethodologyConsistency(loadedRuntimes) {
+  if (loadedRuntimes.length < 2) return;
+
+  const warnings = [];
+  const base = loadedRuntimes[0];
+  const baseN = base.data?.benchmarkConfig?.measuredIterations;
+  const baseWarmup = base.data?.benchmarkConfig?.warmupIterations;
+  const basePlatform = base.data?.environment?.platform;
+  const baseArch = base.data?.environment?.arch;
+
+  for (const rt of loadedRuntimes.slice(1)) {
+    const rtN = rt.data?.benchmarkConfig?.measuredIterations;
+    const rtWarmup = rt.data?.benchmarkConfig?.warmupIterations;
+    const rtPlatform = rt.data?.environment?.platform;
+    const rtArch = rt.data?.environment?.arch;
+
+    if (
+      (basePlatform && rtPlatform && basePlatform !== rtPlatform) ||
+      (baseArch && rtArch && baseArch !== rtArch)
+    ) {
+      warnings.push(
+        `Nekonzistentní platforma/architektura: ${base.label} (${basePlatform}/${baseArch}) vs. ${rt.label} (${rtPlatform}/${rtArch}).`,
+      );
+    }
+
+    if (rtN !== baseN || rtWarmup !== baseWarmup) {
+      warnings.push(
+        `Nekonzistentní počet iterací: ${base.label} (N=${baseN}, Warmup=${baseWarmup}) vs. ${rt.label} (N=${rtN}, Warmup=${rtWarmup}).`,
+      );
+    }
+
+    const scenarioIds = Object.keys(base.data?.scenarios ?? {});
+    for (const scId of scenarioIds) {
+      const baseCfg = JSON.stringify(base.data?.scenarios?.[scId]?.config);
+      const rtCfg = JSON.stringify(rt.data?.scenarios?.[scId]?.config);
+      if (baseCfg && rtCfg && baseCfg !== rtCfg) {
+        warnings.push(
+          `Odlišná konfigurace scénáře "${scId}" mezi ${base.label} (${baseCfg}) a ${rt.label} (${rtCfg}).`,
+        );
+      }
+    }
+  }
+
+  if (warnings.length > 0) {
+    console.warn(
+      "\n  [VAROVÁNÍ METODIKY] Zjištěna nekonzistence mezi porovnávanými výsledky:",
+    );
+    for (const w of warnings) {
+      console.warn(`    ! ${w}`);
+    }
+  }
+}
+
+/**
  * Vykreslí porovnávací tabulku jednoho scénáře napříč dostupnými běhovými prostředími.
  */
 function printScenarioComparison(scenarioId, scenarioTitle, loadedRuntimes) {
@@ -107,6 +164,18 @@ function printScenarioComparison(scenarioId, scenarioTitle, loadedRuntimes) {
       lowerIsBetter: false,
     },
     {
+      key: "writeOpsPerSec",
+      label: "IOPS zápisu (op/s)",
+      unit: "op/s",
+      lowerIsBetter: false,
+    },
+    {
+      key: "readOpsPerSec",
+      label: "IOPS čtení (op/s)",
+      unit: "op/s",
+      lowerIsBetter: false,
+    },
+    {
       key: "totalOpsPerSec",
       label: "Operace za sekundu (op/s)",
       unit: "op/s",
@@ -115,6 +184,13 @@ function printScenarioComparison(scenarioId, scenarioTitle, loadedRuntimes) {
     {
       key: "rssAfterMB",
       label: "Paměť RSS po běhu (MB)",
+      unit: "MB",
+      lowerIsBetter: true,
+      showMaxInP99: true,
+    },
+    {
+      key: "rssPeakMB",
+      label: "Paměť RSS špička (MB)",
       unit: "MB",
       lowerIsBetter: true,
       showMaxInP99: true,
@@ -207,6 +283,8 @@ async function main() {
   }
   console.log("  (★ označuje nejlepší medián p50 v dané disciplíně)");
 
+  validateMethodologyConsistency(loadedRuntimes);
+
   const scenarioDefs = [
     {
       id: "large-file-100mb",
@@ -250,9 +328,12 @@ async function main() {
           p50WriteThroughputMBps: scData.metrics.writeThroughputMBps.p50,
           p50ReadThroughputMBps: scData.metrics.readThroughputMBps.p50,
           p50TotalThroughputMBps: scData.metrics.totalThroughputMBps.p50,
+          p50WriteOpsPerSec: scData.metrics.writeOpsPerSec.p50,
+          p50ReadOpsPerSec: scData.metrics.readOpsPerSec.p50,
           p50TotalOpsPerSec: scData.metrics.totalOpsPerSec.p50,
           p50RssAfterMB: scData.metrics.rssAfterMB.p50,
           maxRssAfterMB: scData.metrics.rssAfterMB.max,
+          maxRssPeakMB: scData.metrics.rssPeakMB?.max ?? scData.metrics.rssAfterMB.max,
           fullMetrics: scData.metrics,
         };
       }

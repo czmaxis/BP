@@ -1,9 +1,10 @@
-import { createReadStream, createWriteStream } from "node:fs";
-import { once } from "node:events";
+import { open } from "node:fs/promises";
 import { createLargeFileScenarioTemplate } from "../../core/scenario-templates.js";
+import { consumeBlackhole } from "../../core/stats.js";
 
 /**
- * Sekvenčně zapíše soubor o zadané velikosti pomocí Node.js WriteStream se správou zpětného tlaku (backpressure).
+ * Sekvenčně zapíše soubor o zadané velikosti po blocích (64 KB) pomocí nízkoúrovňového
+ * file descriptoru (fs.promises.open + fileHandle.write) bez režie EventEmitteru.
  *
  * @param {string} filePath Cesta k výstupnímu souboru
  * @param {Buffer} chunkBuffer Předgenerovaný binární blok (např. 64 KB)
@@ -11,57 +12,65 @@ import { createLargeFileScenarioTemplate } from "../../core/scenario-templates.j
  * @returns {Promise<number>} Počet zapsaných bajtů
  */
 async function streamWriteFile(filePath, chunkBuffer, totalSizeBytes) {
-  const writeStream = createWriteStream(filePath, {
-    highWaterMark: chunkBuffer.length,
-  });
-
+  const fileHandle = await open(filePath, "w");
   let bytesWritten = 0;
 
   try {
     while (bytesWritten < totalSizeBytes) {
       const remaining = totalSizeBytes - bytesWritten;
-      const chunk =
-        remaining >= chunkBuffer.length
-          ? chunkBuffer
-          : chunkBuffer.subarray(0, remaining);
+      const chunkLength = Math.min(chunkBuffer.length, remaining);
 
-      const canContinue = writeStream.write(chunk);
-      bytesWritten += chunk.length;
-
-      if (!canContinue) {
-        await once(writeStream, "drain");
+      let offset = 0;
+      while (offset < chunkLength) {
+        const { bytesWritten: written } = await fileHandle.write(
+          chunkBuffer,
+          offset,
+          chunkLength - offset,
+        );
+        offset += written;
       }
+      bytesWritten += chunkLength;
     }
 
-    writeStream.end();
-    await once(writeStream, "close");
     return bytesWritten;
-  } catch (err) {
-    writeStream.destroy();
-    throw err;
+  } finally {
+    await fileHandle.close();
   }
 }
 
 /**
- * Sekvenčně přečte celý soubor pomocí Node.js ReadStream.
+ * Sekvenčně přečte celý soubor po blocích o velikosti chunkSizeBytes pomocí file descriptoru (fs.promises.open)
+ * do předalokovaného bufferu (architektonicky shodné s Deno a Bun).
  *
  * @param {string} filePath Cesta ke čtenému souboru
- * @param {number} chunkSizeBytes Velikost čtecího bufferu (highWaterMark)
+ * @param {number} chunkSizeBytes Velikost čtecího bufferu v bajtech
+ * @param {Buffer} [preallocatedBuf] Předalokovaný čtecí buffer mimo měřený čas
  * @returns {Promise<number>} Počet přečtených bajtů
  */
-function streamReadFile(filePath, chunkSizeBytes) {
-  return new Promise((resolve, reject) => {
-    const readStream = createReadStream(filePath, {
-      highWaterMark: chunkSizeBytes,
-    });
+async function streamReadFile(filePath, chunkSizeBytes, preallocatedBuf) {
+  const buf =
+    preallocatedBuf && preallocatedBuf.byteLength === chunkSizeBytes
+      ? preallocatedBuf
+      : Buffer.allocUnsafe(chunkSizeBytes);
+  const fileHandle = await open(filePath, "r");
+  let totalBytesRead = 0;
+  let checksum = 0;
 
-    let bytesRead = 0;
-    readStream.on("data", (chunk) => {
-      bytesRead += chunk.length;
-    });
-    readStream.on("end", () => resolve(bytesRead));
-    readStream.on("error", (err) => reject(err));
-  });
+  try {
+    while (true) {
+      const { bytesRead } = await fileHandle.read(buf, 0, chunkSizeBytes, null);
+      if (bytesRead === 0) break;
+      totalBytesRead += bytesRead;
+      checksum =
+        (Math.imul(checksum, 31) + buf[0] + buf[bytesRead - 1] + bytesRead) | 0;
+      buf[0] = 0;
+      buf[bytesRead - 1] = 0;
+    }
+    consumeBlackhole(checksum);
+    return totalBytesRead;
+  } finally {
+    await fileHandle.close();
+  }
 }
 
 /**
@@ -72,7 +81,7 @@ export function createLargeFileScenario(options) {
     ...options,
     subDir: "large_file_node",
     description:
-      "Sekvenční zápis a čtení jednoho 100MB binárního souboru pomocí Node.js Streams (64KB bloky).",
+      "Sekvenční zápis (fs.promises.open + fileHandle.write) a čtení (fs.promises.open + fileHandle.read) jednoho 100MB binárního souboru (64KB bloky).",
     streamWriteFile,
     streamReadFile,
   });

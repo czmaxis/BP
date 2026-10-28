@@ -5,7 +5,6 @@ import {
   ensureCleanDir,
   exportBenchmarkResults,
   loadConfig,
-  removeSafe,
   saveJsonResult,
 } from "./fs-helper.js";
 
@@ -86,9 +85,19 @@ export function logScenarioSummary(scenarioTitle, summary) {
     formatRow("Propustnost čtení", summary.metrics.readThroughputMBps, "MB/s"),
   );
   console.log(
+    formatRow(
+      "Propustnost celkem",
+      summary.metrics.totalThroughputMBps,
+      "MB/s",
+    ),
+  );
+  console.log(
     formatRow("Operace za sekundu", summary.metrics.totalOpsPerSec, "op/s"),
   );
   console.log(formatRow("Paměť RSS (po)", summary.metrics.rssAfterMB, "MB  "));
+  console.log(
+    formatRow("Paměť RSS (špička)", summary.metrics.rssPeakMB, "MB  "),
+  );
   console.log(
     "  ──────────────────────────────────────────────────────────────────────",
   );
@@ -116,6 +125,11 @@ export async function executeScenario(scenario, warmupCount, iterationCount) {
     for (let w = 1; w <= warmupCount; w++) {
       const warmupMetrics = await scenario.runIteration(w);
       logIteration("WARMUP", w, warmupCount, warmupMetrics);
+    }
+
+    // Stabilizační pauza (200 ms) mezi Warmupem a 1. měřenou iterací pro doznění I/O operací OS
+    if (warmupCount > 0) {
+      await new Promise((resolve) => setTimeout(resolve, 200));
     }
 
     console.log(
@@ -198,7 +212,8 @@ export async function runFileIoBenchmarkSuite({
   const allSummaryScenarios = {};
 
   try {
-    for (const scenario of scenarios) {
+    for (let sIdx = 0; sIdx < scenarios.length; sIdx++) {
+      const scenario = scenarios[sIdx];
       const { raw, summary } = await executeScenario(
         scenario,
         config.benchmark.warmupIterations,
@@ -206,9 +221,13 @@ export async function runFileIoBenchmarkSuite({
       );
       allRawScenarios[scenario.id] = raw;
       allSummaryScenarios[scenario.id] = summary;
+
+      // Stabilizační pauza mezi scénáři (Varianta A -> Varianta B) pro vyprázdnění dirty pages v OS
+      if (sIdx < scenarios.length - 1) {
+        await new Promise((resolve) => setTimeout(resolve, 200));
+      }
     }
   } finally {
-    await removeSafe(tempDir);
     await ensureCleanDir(tempDir);
   }
 

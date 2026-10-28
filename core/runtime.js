@@ -77,9 +77,10 @@ export function getEnvironmentMetadata() {
     platform: os.platform(),
     release: os.release(),
     arch: os.arch(),
-    cpuModel: cpus[0]?.model?.trim() ?? "unknown",
+    cpuModel: cpus[0]?.model?.replace(/\0/g, "").trim() ?? "unknown",
     cpuCores: cpus.length || navigator.hardwareConcurrency || 1,
     totalMemoryMB: round(bytesToMB(os.totalmem()), 0),
+    freeMemoryMB: round(bytesToMB(os.freemem()), 0),
     timestamp: new Date().toISOString(),
   };
 }

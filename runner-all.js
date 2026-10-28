@@ -74,6 +74,9 @@ async function main() {
     { cwd: __dirname },
   );
 
+  // Stabilizační pauza (1 000 ms) mezi prostředími pro doznění I/O operací a TRIM
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
   // 2. Spuštění Deno
   logSection("2/3 SPUŠTĚNÍ PROSTŘEDÍ: DENO");
   await runExternalCommand(
@@ -88,6 +91,9 @@ async function main() {
     ],
     { cwd: __dirname },
   );
+
+  // Stabilizační pauza (1 000 ms) mezi prostředími pro doznění I/O operací a TRIM
+  await new Promise((resolve) => setTimeout(resolve, 1000));
 
   // 3. Spuštění Bun
   logSection("3/3 SPUŠTĚNÍ PROSTŘEDÍ: BUN");

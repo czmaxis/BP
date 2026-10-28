@@ -1,5 +1,5 @@
-# Oficiální obraz Bun postavený na Debianu (stejný základ libc jako u Node.js a Deno)
-FROM oven/bun:debian
+# Oficiální obraz Bun se zafixovanou verzí (stejný základ Debian libc jako u Node.js a Deno)
+FROM oven/bun:1.4.4-debian
 
 WORKDIR /app
 

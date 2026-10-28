@@ -8,11 +8,17 @@
 import path from "node:path";
 import {
   ensureCleanDir,
+  ensureDir,
   generateRandomBuffer,
   removeSafe,
 } from "./fs-helper.js";
 import { detectRuntime, getRssBytes } from "./runtime.js";
-import { bytesToMB, computeIterationMetrics, round } from "./stats.js";
+import {
+  bytesToMB,
+  computeIterationMetrics,
+  consumeBlackhole,
+  round,
+} from "./stats.js";
 
 /**
  * Univerzální šablona pro Variantu A (Sekvenční streamování – Velký soubor 100 MB).
@@ -32,8 +38,10 @@ export function createLargeFileScenarioTemplate({
   const filePath = path.join(scenarioDir, fileName);
   const totalSizeMB = bytesToMB(totalSizeBytes);
 
-  // Předgenerování náhodného 64KB chunku mimo měřenou část
+  // Předgenerování náhodného 64KB chunku pro zápis a předalokování 64KB bufferu pro čtení mimo měřenou část
   const chunkBuffer = generateRandomBuffer(chunkSizeBytes);
+  const readBuffer = generateRandomBuffer(chunkSizeBytes);
+  let runCounter = 0;
 
   return {
     id: "large-file-100mb",
@@ -47,11 +55,14 @@ export function createLargeFileScenarioTemplate({
     },
 
     async setup() {
+      runCounter = 0;
       await ensureCleanDir(scenarioDir);
     },
 
     async runIteration(iterationIndex) {
-      await removeSafe(filePath);
+      runCounter++;
+      // Lehká mutace prvního bajtu bufferu mimo měřený čas (prevence deduplikace / konstantní optimalizace mezi iteracemi)
+      chunkBuffer[0] = (chunkBuffer[0] + runCounter) & 0xff;
 
       const rssBeforeBytes = getRssBytes();
 
@@ -65,9 +76,13 @@ export function createLargeFileScenarioTemplate({
       const writeEnd = performance.now();
       const rssAfterWriteBytes = getRssBytes();
 
-      // 2. Měření streamovaného čtení
+      // 2. Měření sekvenčního čtení po blocích chunkSizeBytes do předalokovaného readBufferu
       const readStart = performance.now();
-      const bytesRead = await streamReadFile(filePath, chunkSizeBytes);
+      const bytesRead = await streamReadFile(
+        filePath,
+        chunkSizeBytes,
+        readBuffer,
+      );
       const readEnd = performance.now();
       const rssAfterBytes = getRssBytes();
 
@@ -77,8 +92,9 @@ export function createLargeFileScenarioTemplate({
         );
       }
 
-      // Úklid po iteraci mimo měřený čas operace
+      // Úklid po iteraci a Cooldown fáze (20 ms) striktně mimo měřený čas operace
       await removeSafe(filePath);
+      await new Promise((resolve) => setTimeout(resolve, 20));
 
       return computeIterationMetrics({
         iterationIndex,
@@ -117,11 +133,12 @@ export function createSmallFilesScenarioTemplate({
   const totalSizeBytes = fileCount * fileSizeBytes;
   const totalSizeMB = bytesToMB(totalSizeBytes);
 
-  // Předgenerování 4KB náhodného bufferu a cest k souborům mimo měřený interval
+  // Předgenerování 4KB náhodného bufferu a cest k souborům mimo měřený interval (nulové alokace řetězců během iterací)
   const fileBuffer = generateRandomBuffer(fileSizeBytes);
   const filePaths = Array.from({ length: fileCount }, (_, i) =>
     path.join(scenarioDir, `small_${String(i).padStart(4, "0")}.bin`),
   );
+  let runCounter = 0;
 
   return {
     id: "small-files-1000x4kb",
@@ -135,11 +152,17 @@ export function createSmallFilesScenarioTemplate({
     },
 
     async setup() {
+      runCounter = 0;
       await ensureCleanDir(scenarioDir);
     },
 
     async runIteration(iterationIndex) {
-      await ensureCleanDir(scenarioDir);
+      runCounter++;
+      // Příprava složky před měřením (bez duplicitního mazání – složka byla smazána na konci předchozí iterace)
+      await ensureDir(scenarioDir);
+
+      // Lehká mutace prvního bajtu bufferu mimo měřený čas (prevence deduplikace mezi iteracemi)
+      fileBuffer[0] = (fileBuffer[0] + runCounter) & 0xff;
 
       const rssBeforeBytes = getRssBytes();
 
@@ -152,17 +175,24 @@ export function createSmallFilesScenarioTemplate({
       const rssAfterWriteBytes = getRssBytes();
 
       // 2. Měření paralelního čtení 1 000 souborů
+      // Z každého přečteného Uint8Array bufferu přečteme první a poslední bajt do Blackhole akumulátoru
+      // (aditivní součet se na rozdíl od XORu při sudém počtu 1 000 souborů nevyruší na nulu)
+      // a přičteme jeho délku přímo bez alokace pomocného 1000prvkového pole výsledků.
       const readStart = performance.now();
-      const buffers = await Promise.all(
-        filePaths.map((filePath) => readSingleFile(filePath)),
+      let checksum = 0;
+      let bytesRead = 0;
+      await Promise.all(
+        filePaths.map((filePath) =>
+          readSingleFile(filePath).then((buf) => {
+            const len = buf.byteLength;
+            bytesRead += len;
+            checksum = (checksum + buf[0] + buf[len - 1] + len) | 0;
+          }),
+        ),
       );
       const readEnd = performance.now();
+      consumeBlackhole(checksum);
       const rssAfterBytes = getRssBytes();
-
-      let bytesRead = 0;
-      for (let i = 0; i < buffers.length; i++) {
-        bytesRead += buffers[i].byteLength;
-      }
 
       if (bytesRead !== totalSizeBytes) {
         throw new Error(
@@ -170,8 +200,9 @@ export function createSmallFilesScenarioTemplate({
         );
       }
 
-      // Úklid všech 1 000 souborů mimo měřený čas operace
+      // Úklid všech 1 000 souborů a Cooldown fáze (50 ms) striktně mimo měřený čas operace
       await removeSafe(scenarioDir);
+      await new Promise((resolve) => setTimeout(resolve, 50));
 
       return computeIterationMetrics({
         iterationIndex,

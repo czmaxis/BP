@@ -31,7 +31,9 @@ export function generateRandomBuffer(sizeBytes) {
     return buffer;
   }
 
-  const buffer = Buffer.allocUnsafe(sizeBytes);
+  // Použití Buffer.allocUnsafeSlow zajišťuje samostatný nepoolovaný ArrayBuffer (byteOffset === 0)
+  // i pro malé velikosti (< 4 KB), identicky k new Uint8Array(sizeBytes) v Denu.
+  const buffer = Buffer.allocUnsafeSlow(sizeBytes);
   randomFillSync(buffer);
   return buffer;
 }
@@ -76,17 +78,26 @@ export async function removeSafe(targetPath) {
 }
 
 /**
+ * Zajistí existenci adresáře (vytvoří jej, pokud neexistuje, bez mazání) v Node.js, Deno i Bun.
+ *
+ * @param {string} dirPath
+ */
+export async function ensureDir(dirPath) {
+  if (detectRuntime() === "deno") {
+    await globalThis.Deno.mkdir(dirPath, { recursive: true });
+    return;
+  }
+  await mkdir(dirPath, { recursive: true });
+}
+
+/**
  * Zajistí čistý adresář (smaže existující obsah a znovu jej vytvoří) v Node.js, Deno i Bun.
  *
  * @param {string} dirPath
  */
 export async function ensureCleanDir(dirPath) {
   await removeSafe(dirPath);
-  if (detectRuntime() === "deno") {
-    await globalThis.Deno.mkdir(dirPath, { recursive: true });
-    return;
-  }
-  await mkdir(dirPath, { recursive: true });
+  await ensureDir(dirPath);
 }
 
 /**
@@ -110,17 +121,33 @@ export async function loadConfig(projectRoot = process.cwd()) {
 
   const config = JSON.parse(raw);
 
-  for (const arg of getCliArgs()) {
+  const cliArgs = getCliArgs();
+  if (cliArgs.includes("--quick")) {
+    if (!cliArgs.some((a) => a.startsWith("--warmup="))) {
+      config.benchmark.warmupIterations = 2;
+    }
+    if (!cliArgs.some((a) => a.startsWith("--iterations="))) {
+      config.benchmark.measuredIterations = 5;
+    }
+  }
+
+  for (const arg of cliArgs) {
     if (arg.startsWith("--warmup=")) {
-      config.benchmark.warmupIterations = Number.parseInt(
-        arg.split("=")[1],
-        10,
-      );
+      const parsed = Number.parseInt(arg.split("=")[1], 10);
+      if (!Number.isInteger(parsed) || parsed < 0) {
+        throw new Error(
+          `Neplatná hodnota parametru ${arg}. Počet warmup cyklů musí být nezáporné celé číslo.`,
+        );
+      }
+      config.benchmark.warmupIterations = parsed;
     } else if (arg.startsWith("--iterations=")) {
-      config.benchmark.measuredIterations = Number.parseInt(
-        arg.split("=")[1],
-        10,
-      );
+      const parsed = Number.parseInt(arg.split("=")[1], 10);
+      if (!Number.isInteger(parsed) || parsed < 1) {
+        throw new Error(
+          `Neplatná hodnota parametru ${arg}. Počet měřených iterací musí být celé číslo >= 1.`,
+        );
+      }
+      config.benchmark.measuredIterations = parsed;
     } else if (arg.startsWith("--scenario=")) {
       const scenario = arg.split("=")[1].toLowerCase();
       if (scenario === "large" || scenario === "large-file") {
@@ -129,6 +156,10 @@ export async function loadConfig(projectRoot = process.cwd()) {
       } else if (scenario === "small" || scenario === "small-files") {
         config.scenarios.largeFile.enabled = false;
         config.scenarios.smallFiles.enabled = true;
+      } else {
+        throw new Error(
+          `Neznámý scénář v parametru ${arg}. Povolené hodnoty: large, small.`,
+        );
       }
     }
   }
@@ -195,7 +226,11 @@ export async function exportBenchmarkResults({
     scenarios: allSummaryScenarios,
   };
 
-  const savedRawPath = await saveJsonResult(resultsDir, rawFileName, rawPayload);
+  const savedRawPath = await saveJsonResult(
+    resultsDir,
+    rawFileName,
+    rawPayload,
+  );
   const savedSummaryPath = await saveJsonResult(
     resultsDir,
     summaryFileName,

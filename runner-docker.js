@@ -83,8 +83,13 @@ async function parseOptions() {
     passthroughArgs: [],
   };
 
-  for (const arg of process.argv.slice(2)) {
-    if (arg.startsWith("--cpus=")) {
+  const cliArgs = process.argv.slice(2);
+  const isQuick = cliArgs.includes("--quick");
+
+  for (const arg of cliArgs) {
+    if (arg === "--quick") {
+      continue;
+    } else if (arg.startsWith("--cpus=")) {
       options.cpus = arg.split("=")[1];
     } else if (arg.startsWith("--memory=")) {
       options.memory = arg.split("=")[1];
@@ -101,6 +106,15 @@ async function parseOptions() {
       arg.startsWith("--scenario=")
     ) {
       options.passthroughArgs.push(arg);
+    }
+  }
+
+  if (isQuick) {
+    if (!options.passthroughArgs.some((a) => a.startsWith("--warmup="))) {
+      options.passthroughArgs.push("--warmup=2");
+    }
+    if (!options.passthroughArgs.some((a) => a.startsWith("--iterations="))) {
+      options.passthroughArgs.push("--iterations=5");
     }
   }
 
@@ -199,7 +213,8 @@ async function main() {
   }
 
   // 2. Sekvenční spuštění kontejnerů
-  for (const target of targets) {
+  for (let idx = 0; idx < targets.length; idx++) {
+    const target = targets[idx];
     logSection(`2. SPUŠTĚNÍ KONTEJNERU: ${target.label} (${target.image})`);
 
     const containerName = `benchmark-file-io-${target.key}`;
@@ -231,11 +246,15 @@ async function main() {
     logInfo(
       `Kontrola výstupů OK: ${target.expectedRaw} (${rawSize} B), ${target.expectedSummary} (${summarySize} B)`,
     );
+
+    if (idx < targets.length - 1) {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
   }
 
   // 4. Finální porovnání výsledků všech prostředí
   logSection("3. VYHODNOCENÍ A KŘÍŽOVÉ POROVNÁNÍ VÝSLEDKŮ");
-  await runExternalCommand("node", ["compare.js"], { cwd: __dirname });
+  await runExternalCommand(process.execPath, ["compare.js"], { cwd: __dirname });
 }
 
 main().catch((err) => {

@@ -2,7 +2,7 @@
  * Benchmark Kategorie 2: Souborové I/O operace – Nativní implementace pro Deno
  *
  * Využívá sdílené šablony z core/scenario-templates.js a core/logger.js a nativní I/O API prostředí Deno:
- * - Varianta A (100 MB): Deno.open() + Web Streams API (file.writable / file.readable)
+ * - Varianta A (100 MB): Deno.open() + file.write(chunk) pro zápis a file.read(buf) pro čtení
  * - Varianta B (1 000 x 4 KB): Deno.writeFile() a Deno.readFile() v Promise.all
  *
  * Spuštění:
@@ -13,10 +13,11 @@ import {
   createLargeFileScenarioTemplate,
   createSmallFilesScenarioTemplate,
 } from "../../core/scenario-templates.js";
+import { consumeBlackhole } from "../../core/stats.js";
 import { runFileIoBenchmarkSuite } from "../../core/logger.js";
 
 /**
- * Varianta A: Sekvenční proudový zápis pomocí Deno.open() a Web WritableStream
+ * Varianta A: Sekvenční proudový zápis po 64KB blocích pomocí Deno.open() a přímého file.write(chunk)
  */
 async function denoStreamWriteFile(
   filePath: string,
@@ -29,7 +30,6 @@ async function denoStreamWriteFile(
     truncate: true,
   });
 
-  const writer = file.writable.getWriter();
   let bytesWritten = 0;
 
   try {
@@ -40,45 +40,50 @@ async function denoStreamWriteFile(
           ? chunkBuffer
           : chunkBuffer.subarray(0, remaining);
 
-      await writer.ready;
-      await writer.write(chunk);
+      let offset = 0;
+      while (offset < chunk.byteLength) {
+        offset += await file.write(
+          offset === 0 ? chunk : chunk.subarray(offset),
+        );
+      }
       bytesWritten += chunk.byteLength;
     }
 
-    await writer.close();
     return bytesWritten;
-  } catch (err) {
-    try {
-      await writer.abort(err);
-    } catch {
-      // Ignorujeme chybu při uzavírání po selhání
-    }
-    throw err;
+  } finally {
+    file.close();
   }
 }
 
 /**
- * Varianta A: Sekvenční proudové čtení pomocí Deno.open() a Web ReadableStream
+ * Varianta A: Sekvenční čtení po blocích o velikosti chunkSizeBytes pomocí Deno.open() a file.read(buf)
  */
-async function denoStreamReadFile(filePath: string): Promise<number> {
+async function denoStreamReadFile(
+  filePath: string,
+  chunkSizeBytes: number,
+  preallocatedBuf?: Uint8Array,
+): Promise<number> {
+  const buf =
+    preallocatedBuf && preallocatedBuf.byteLength === chunkSizeBytes
+      ? preallocatedBuf
+      : new Uint8Array(chunkSizeBytes);
   const file = await Deno.open(filePath, { read: true });
-  const reader = file.readable.getReader();
   let bytesRead = 0;
+  let checksum = 0;
 
   try {
     while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      bytesRead += value.byteLength;
+      const n = await file.read(buf);
+      if (n === null || n === 0) break;
+      bytesRead += n;
+      checksum = (Math.imul(checksum, 31) + buf[0] + buf[n - 1] + n) | 0;
+      buf[0] = 0;
+      buf[n - 1] = 0;
     }
+    consumeBlackhole(checksum);
     return bytesRead;
-  } catch (err) {
-    try {
-      await reader.cancel();
-    } catch {
-      // Ignorujeme
-    }
-    throw err;
+  } finally {
+    file.close();
   }
 }
 
@@ -90,7 +95,7 @@ function createLargeFileScenarioDeno(options: Record<string, unknown>) {
     ...options,
     subDir: "large_file_deno",
     description:
-      "Sekvenční zápis a čtení jednoho 100MB binárního souboru pomocí Deno.open a Web Streams (64KB bloky).",
+      "Sekvenční zápis (Deno.open + file.write) a čtení (Deno.open + file.read) jednoho 100MB binárního souboru (64KB bloky).",
     streamWriteFile: denoStreamWriteFile,
     streamReadFile: denoStreamReadFile,
   });

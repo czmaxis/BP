@@ -49,22 +49,32 @@ export function runExternalCommand(
 }
 
 /**
- * Vyhledá spustitelnou binárku nejprve v systémové PATH a případně v záložních cestách.
+ * Vyhledá spustitelnou binárku nejprve v systémové PATH (se stejným režimem shell: false,
+ * jaký používá samotný běh) a případně v záložních cestách.
  */
 export async function resolveBinary(cmdName, fallbackPaths = []) {
-  try {
-    await runExternalCommand(cmdName, ["--version"], {
-      silent: true,
-      shell: true,
-    });
-    return cmdName;
-  } catch {
-    for (const candidate of fallbackPaths) {
-      if (await fileExists(candidate)) {
-        return candidate;
-      }
+  const candidatesInPath =
+    process.platform === "win32" && !cmdName.endsWith(".exe")
+      ? [cmdName, `${cmdName}.exe`]
+      : [cmdName];
+
+  for (const candidate of candidatesInPath) {
+    try {
+      await runExternalCommand(candidate, ["--version"], {
+        silent: true,
+        shell: false,
+      });
+      return candidate;
+    } catch {
+      // Pokračujeme na dalšího kandidáta
     }
-    return null;
   }
+
+  for (const candidate of fallbackPaths) {
+    if (await fileExists(candidate)) {
+      return candidate;
+    }
+  }
+  return null;
 }
 

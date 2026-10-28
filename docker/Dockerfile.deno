@@ -1,5 +1,5 @@
-# Oficiální obraz Deno postavený na Debianu (stejný základ libc jako u Node.js a Bun)
-FROM denoland/deno:debian
+# Oficiální obraz Deno se zafixovanou verzí (stejný základ Debian libc jako u Node.js a Bun)
+FROM denoland/deno:debian-2.9.8
 
 WORKDIR /app
 
