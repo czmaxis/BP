@@ -1,0 +1,332 @@
+{
+  "category": "05-startup",
+  "generatedAt": "2026-11-17T16:11:41.848Z",
+  "environments": {
+    "node": {
+      "runtime": "node",
+      "version": "v22.9.0",
+      "platform": "win32",
+      "release": "10.0.26200",
+      "arch": "x64",
+      "cpuModel": "Intel(R) Core(TM) i7-10700KF CPU @ 3.80GHz",
+      "cpuCores": 16,
+      "totalMemoryMB": 32657,
+      "freeMemoryMB": 16772,
+      "timestamp": "2026-11-17T16:10:12.958Z"
+    },
+    "deno": {
+      "runtime": "deno",
+      "version": "v2.9.8 (V8 15.0.245.2-rusty, TS 6.0.3)",
+      "platform": "win32",
+      "release": "10.0.26200",
+      "arch": "x64",
+      "cpuModel": "Intel(R) Core(TM) i7-10700KF CPU @ 3.80GHz",
+      "cpuCores": 16,
+      "totalMemoryMB": 32657,
+      "freeMemoryMB": 16742,
+      "timestamp": "2026-11-17T16:10:34.667Z"
+    },
+    "bun": {
+      "runtime": "bun",
+      "version": "v1.4.4 (38afee6c)",
+      "platform": "win32",
+      "release": "10.0.26200",
+      "arch": "x64",
+      "cpuModel": "Intel(R) Core(TM) i7-10700KF CPU @ 3.80GHz",
+      "cpuCores": 16,
+      "totalMemoryMB": 32657,
+      "freeMemoryMB": 16690,
+      "timestamp": "2026-11-17T16:11:30.393Z"
+    }
+  },
+  "scenarios": {
+    "startup-minimal": {
+      "title": "Varianta A: Minimální studený start (minimal – výpis 'ready')",
+      "expectedOutput": "ready",
+      "runtimes": {
+        "node": {
+          "p50StartupMs": 58.63,
+          "iqrStartupMs": 1.468,
+          "p95StartupMs": 62.404,
+          "p99StartupMs": 64.232,
+          "minStartupMs": 56.292,
+          "maxStartupMs": 74.114,
+          "meanStartupMs": 59.133,
+          "stdDevStartupMs": 2.24,
+          "p50StartsPerSec": 17.055,
+          "meanStartsPerSec": 16.911,
+          "fullMetrics": {
+            "startupMs": {
+              "count": 100,
+              "mean": 59.133,
+              "arithmeticMean": 59.133,
+              "harmonicMean": 59.057,
+              "trimmedMean": 58.832,
+              "stdDev": 2.24,
+              "cvPercent": 3.79,
+              "iqr": 1.468,
+              "outliersCount": 9,
+              "min": 56.292,
+              "p50": 58.63,
+              "p95": 62.404,
+              "p99": 64.232,
+              "max": 74.114
+            },
+            "startsPerSec": {
+              "count": 100,
+              "mean": 16.911,
+              "arithmeticMean": 16.933,
+              "harmonicMean": 16.911,
+              "trimmedMean": 16.998,
+              "stdDev": 0.641,
+              "cvPercent": 3.79,
+              "iqr": 0.427,
+              "outliersCount": 9,
+              "min": 13.49,
+              "p50": 17.055,
+              "p95": 16.024,
+              "p99": 15.569,
+              "max": 17.76
+            }
+          }
+        },
+        "deno": {
+          "p50StartupMs": 242.382,
+          "iqrStartupMs": 8.064,
+          "p95StartupMs": 255.207,
+          "p99StartupMs": 267.273,
+          "minStartupMs": 231.831,
+          "maxStartupMs": 276,
+          "meanStartupMs": 243.219,
+          "stdDevStartupMs": 7.699,
+          "p50StartsPerSec": 4.125,
+          "meanStartsPerSec": 4.111,
+          "fullMetrics": {
+            "startupMs": {
+              "count": 100,
+              "mean": 243.219,
+              "arithmeticMean": 243.219,
+              "harmonicMean": 242.988,
+              "trimmedMean": 242.339,
+              "stdDev": 7.699,
+              "cvPercent": 3.17,
+              "iqr": 8.064,
+              "outliersCount": 4,
+              "min": 231.831,
+              "p50": 242.382,
+              "p95": 255.207,
+              "p99": 267.273,
+              "max": 276
+            },
+            "startsPerSec": {
+              "count": 100,
+              "mean": 4.111,
+              "arithmeticMean": 4.115,
+              "harmonicMean": 4.111,
+              "trimmedMean": 4.126,
+              "stdDev": 0.13,
+              "cvPercent": 3.17,
+              "iqr": 0.135,
+              "outliersCount": 4,
+              "min": 3.62,
+              "p50": 4.125,
+              "p95": 3.92,
+              "p99": 3.739,
+              "max": 4.31
+            }
+          }
+        },
+        "bun": {
+          "p50StartupMs": 32.341,
+          "iqrStartupMs": 1.954,
+          "p95StartupMs": 54.149,
+          "p99StartupMs": 64.243,
+          "minStartupMs": 30.417,
+          "maxStartupMs": 247.342,
+          "meanStartupMs": 35.873,
+          "stdDevStartupMs": 22.069,
+          "p50StartsPerSec": 30.92,
+          "meanStartsPerSec": 27.875,
+          "fullMetrics": {
+            "startupMs": {
+              "count": 100,
+              "mean": 35.873,
+              "arithmeticMean": 35.873,
+              "harmonicMean": 33.449,
+              "trimmedMean": 32.52,
+              "stdDev": 22.069,
+              "cvPercent": 61.52,
+              "iqr": 1.954,
+              "outliersCount": 7,
+              "min": 30.417,
+              "p50": 32.341,
+              "p95": 54.149,
+              "p99": 64.243,
+              "max": 247.342
+            },
+            "startsPerSec": {
+              "count": 100,
+              "mean": 27.875,
+              "arithmeticMean": 29.896,
+              "harmonicMean": 27.875,
+              "trimmedMean": 30.75,
+              "stdDev": 17.161,
+              "cvPercent": 61.56,
+              "iqr": 1.843,
+              "outliersCount": 7,
+              "min": 4.04,
+              "p50": 30.92,
+              "p95": 18.468,
+              "p99": 15.91,
+              "max": 32.88
+            }
+          }
+        }
+      }
+    },
+    "startup-realistic": {
+      "title": "Varianta B: Reálný modulární start s TypeScriptem (realistic – multi-modul + validace)",
+      "expectedOutput": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15",
+      "runtimes": {
+        "node": {
+          "p50StartupMs": 107.15,
+          "iqrStartupMs": 6.721,
+          "p95StartupMs": 117.622,
+          "p99StartupMs": 121.902,
+          "minStartupMs": 96.511,
+          "maxStartupMs": 133.415,
+          "meanStartupMs": 107.453,
+          "stdDevStartupMs": 5.717,
+          "p50StartsPerSec": 9.33,
+          "meanStartsPerSec": 9.306,
+          "fullMetrics": {
+            "startupMs": {
+              "count": 100,
+              "mean": 107.453,
+              "arithmeticMean": 107.453,
+              "harmonicMean": 107.166,
+              "trimmedMean": 106.999,
+              "stdDev": 5.717,
+              "cvPercent": 5.32,
+              "iqr": 6.721,
+              "outliersCount": 3,
+              "min": 96.511,
+              "p50": 107.15,
+              "p95": 117.622,
+              "p99": 121.902,
+              "max": 133.415
+            },
+            "startsPerSec": {
+              "count": 100,
+              "mean": 9.306,
+              "arithmeticMean": 9.331,
+              "harmonicMean": 9.306,
+              "trimmedMean": 9.345,
+              "stdDev": 0.495,
+              "cvPercent": 5.32,
+              "iqr": 0.582,
+              "outliersCount": 3,
+              "min": 7.5,
+              "p50": 9.33,
+              "p95": 8.5,
+              "p99": 8.203,
+              "max": 10.36
+            }
+          }
+        },
+        "deno": {
+          "p50StartupMs": 245.554,
+          "iqrStartupMs": 8.056,
+          "p95StartupMs": 262.627,
+          "p99StartupMs": 275.403,
+          "minStartupMs": 237.862,
+          "maxStartupMs": 281.461,
+          "meanStartupMs": 247.599,
+          "stdDevStartupMs": 8.225,
+          "p50StartsPerSec": 4.07,
+          "meanStartsPerSec": 4.039,
+          "fullMetrics": {
+            "startupMs": {
+              "count": 100,
+              "mean": 247.599,
+              "arithmeticMean": 247.599,
+              "harmonicMean": 247.343,
+              "trimmedMean": 246.251,
+              "stdDev": 8.225,
+              "cvPercent": 3.32,
+              "iqr": 8.056,
+              "outliersCount": 6,
+              "min": 237.862,
+              "p50": 245.554,
+              "p95": 262.627,
+              "p99": 275.403,
+              "max": 281.461
+            },
+            "startsPerSec": {
+              "count": 100,
+              "mean": 4.039,
+              "arithmeticMean": 4.043,
+              "harmonicMean": 4.039,
+              "trimmedMean": 4.061,
+              "stdDev": 0.135,
+              "cvPercent": 3.34,
+              "iqr": 0.13,
+              "outliersCount": 6,
+              "min": 3.55,
+              "p50": 4.07,
+              "p95": 3.81,
+              "p99": 3.629,
+              "max": 4.2
+            }
+          }
+        },
+        "bun": {
+          "p50StartupMs": 35.101,
+          "iqrStartupMs": 1.707,
+          "p95StartupMs": 39.931,
+          "p99StartupMs": 58.722,
+          "minStartupMs": 33.247,
+          "maxStartupMs": 61.578,
+          "meanStartupMs": 36.238,
+          "stdDevStartupMs": 4.495,
+          "p50StartsPerSec": 28.49,
+          "meanStartsPerSec": 27.596,
+          "fullMetrics": {
+            "startupMs": {
+              "count": 100,
+              "mean": 36.238,
+              "arithmeticMean": 36.238,
+              "harmonicMean": 35.867,
+              "trimmedMean": 35.321,
+              "stdDev": 4.495,
+              "cvPercent": 12.4,
+              "iqr": 1.707,
+              "outliersCount": 8,
+              "min": 33.247,
+              "p50": 35.101,
+              "p95": 39.931,
+              "p99": 58.722,
+              "max": 61.578
+            },
+            "startsPerSec": {
+              "count": 100,
+              "mean": 27.596,
+              "arithmeticMean": 27.881,
+              "harmonicMean": 27.596,
+              "trimmedMean": 28.312,
+              "stdDev": 3.422,
+              "cvPercent": 12.4,
+              "iqr": 1.375,
+              "outliersCount": 8,
+              "min": 16.24,
+              "p50": 28.49,
+              "p95": 25.046,
+              "p99": 17.032,
+              "max": 30.08
+            }
+          }
+        }
+      }
+    }
+  }
+}

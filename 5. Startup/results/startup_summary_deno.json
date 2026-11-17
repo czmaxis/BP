@@ -1,0 +1,115 @@
+{
+  "category": "05-startup",
+  "environment": {
+    "runtime": "deno",
+    "version": "v2.9.8 (V8 15.0.245.2-rusty, TS 6.0.3)",
+    "platform": "win32",
+    "release": "10.0.26200",
+    "arch": "x64",
+    "cpuModel": "Intel(R) Core(TM) i7-10700KF CPU @ 3.80GHz",
+    "cpuCores": 16,
+    "totalMemoryMB": 32657,
+    "freeMemoryMB": 16742,
+    "timestamp": "2026-11-17T16:10:34.667Z"
+  },
+  "benchmarkConfig": {
+    "warmupIterations": 3,
+    "measuredIterations": 100,
+    "startupIterations": 100,
+    "cooldownMs": 12
+  },
+  "scenarios": {
+    "startup-minimal": {
+      "scenarioId": "startup-minimal",
+      "name": "Varianta A: Minimální studený start (minimal)",
+      "description": "Čistý studený start procesu (deno run scenarios/05-startup/deno-minimal.ts) s výpisem 'ready' a okamžitým ukončením.",
+      "config": {
+        "variant": "minimal",
+        "command": "deno run scenarios/05-startup/deno-minimal.ts"
+      },
+      "warmupIterations": 3,
+      "iterations": 100,
+      "expectedOutput": "ready",
+      "metrics": {
+        "startupMs": {
+          "count": 100,
+          "mean": 243.219,
+          "arithmeticMean": 243.219,
+          "harmonicMean": 242.988,
+          "trimmedMean": 242.339,
+          "stdDev": 7.699,
+          "cvPercent": 3.17,
+          "iqr": 8.064,
+          "outliersCount": 4,
+          "min": 231.831,
+          "p50": 242.382,
+          "p95": 255.207,
+          "p99": 267.273,
+          "max": 276
+        },
+        "startsPerSec": {
+          "count": 100,
+          "mean": 4.111,
+          "arithmeticMean": 4.115,
+          "harmonicMean": 4.111,
+          "trimmedMean": 4.126,
+          "stdDev": 0.13,
+          "cvPercent": 3.17,
+          "iqr": 0.135,
+          "outliersCount": 4,
+          "min": 3.62,
+          "p50": 4.125,
+          "p95": 3.92,
+          "p99": 3.739,
+          "max": 4.31
+        }
+      }
+    },
+    "startup-realistic": {
+      "scenarioId": "startup-realistic",
+      "name": "Varianta B: Reálný modulární start s TypeScriptem (realistic)",
+      "description": "Start s nativním TypeScriptem (deno run scenarios/05-startup/deno-realistic.ts), importem modulů z core/ a validací manifestu.",
+      "config": {
+        "variant": "realistic",
+        "command": "deno run scenarios/05-startup/deno-realistic.ts"
+      },
+      "warmupIterations": 3,
+      "iterations": 100,
+      "expectedOutput": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15",
+      "metrics": {
+        "startupMs": {
+          "count": 100,
+          "mean": 247.599,
+          "arithmeticMean": 247.599,
+          "harmonicMean": 247.343,
+          "trimmedMean": 246.251,
+          "stdDev": 8.225,
+          "cvPercent": 3.32,
+          "iqr": 8.056,
+          "outliersCount": 6,
+          "min": 237.862,
+          "p50": 245.554,
+          "p95": 262.627,
+          "p99": 275.403,
+          "max": 281.461
+        },
+        "startsPerSec": {
+          "count": 100,
+          "mean": 4.039,
+          "arithmeticMean": 4.043,
+          "harmonicMean": 4.039,
+          "trimmedMean": 4.061,
+          "stdDev": 0.135,
+          "cvPercent": 3.34,
+          "iqr": 0.13,
+          "outliersCount": 6,
+          "min": 3.55,
+          "p50": 4.07,
+          "p95": 3.81,
+          "p99": 3.629,
+          "max": 4.2
+        }
+      }
+    }
+  }
+}

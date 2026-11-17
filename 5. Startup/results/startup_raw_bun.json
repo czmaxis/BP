@@ -1,0 +1,1249 @@
+{
+  "category": "05-startup",
+  "environment": {
+    "runtime": "bun",
+    "version": "v1.4.4 (38afee6c)",
+    "platform": "win32",
+    "release": "10.0.26200",
+    "arch": "x64",
+    "cpuModel": "Intel(R) Core(TM) i7-10700KF CPU @ 3.80GHz",
+    "cpuCores": 16,
+    "totalMemoryMB": 32657,
+    "freeMemoryMB": 16690,
+    "timestamp": "2026-11-17T16:11:30.393Z"
+  },
+  "benchmarkConfig": {
+    "warmupIterations": 3,
+    "measuredIterations": 100,
+    "startupIterations": 100,
+    "cooldownMs": 12
+  },
+  "scenarios": {
+    "startup-minimal": {
+      "scenarioId": "startup-minimal",
+      "name": "Varianta A: Minimální studený start (minimal)",
+      "config": {
+        "variant": "minimal",
+        "command": "bun run scenarios/05-startup/bun-minimal.ts"
+      },
+      "warmupIterations": 3,
+      "measuredIterations": 100,
+      "expectedOutput": "ready",
+      "iterations": [
+        {
+          "iteration": 1,
+          "startupMs": 30.603,
+          "startsPerSec": 32.68,
+          "output": "ready"
+        },
+        {
+          "iteration": 2,
+          "startupMs": 31.6,
+          "startsPerSec": 31.65,
+          "output": "ready"
+        },
+        {
+          "iteration": 3,
+          "startupMs": 32.261,
+          "startsPerSec": 31,
+          "output": "ready"
+        },
+        {
+          "iteration": 4,
+          "startupMs": 32.163,
+          "startsPerSec": 31.09,
+          "output": "ready"
+        },
+        {
+          "iteration": 5,
+          "startupMs": 31.584,
+          "startsPerSec": 31.66,
+          "output": "ready"
+        },
+        {
+          "iteration": 6,
+          "startupMs": 247.342,
+          "startsPerSec": 4.04,
+          "output": "ready"
+        },
+        {
+          "iteration": 7,
+          "startupMs": 32.225,
+          "startsPerSec": 31.03,
+          "output": "ready"
+        },
+        {
+          "iteration": 8,
+          "startupMs": 32.767,
+          "startsPerSec": 30.52,
+          "output": "ready"
+        },
+        {
+          "iteration": 9,
+          "startupMs": 32.308,
+          "startsPerSec": 30.95,
+          "output": "ready"
+        },
+        {
+          "iteration": 10,
+          "startupMs": 32.473,
+          "startsPerSec": 30.79,
+          "output": "ready"
+        },
+        {
+          "iteration": 11,
+          "startupMs": 32.608,
+          "startsPerSec": 30.67,
+          "output": "ready"
+        },
+        {
+          "iteration": 12,
+          "startupMs": 34.895,
+          "startsPerSec": 28.66,
+          "output": "ready"
+        },
+        {
+          "iteration": 13,
+          "startupMs": 31.852,
+          "startsPerSec": 31.39,
+          "output": "ready"
+        },
+        {
+          "iteration": 14,
+          "startupMs": 31.722,
+          "startsPerSec": 31.52,
+          "output": "ready"
+        },
+        {
+          "iteration": 15,
+          "startupMs": 31.726,
+          "startsPerSec": 31.52,
+          "output": "ready"
+        },
+        {
+          "iteration": 16,
+          "startupMs": 32.836,
+          "startsPerSec": 30.45,
+          "output": "ready"
+        },
+        {
+          "iteration": 17,
+          "startupMs": 32.354,
+          "startsPerSec": 30.91,
+          "output": "ready"
+        },
+        {
+          "iteration": 18,
+          "startupMs": 32.393,
+          "startsPerSec": 30.87,
+          "output": "ready"
+        },
+        {
+          "iteration": 19,
+          "startupMs": 32.281,
+          "startsPerSec": 30.98,
+          "output": "ready"
+        },
+        {
+          "iteration": 20,
+          "startupMs": 32.65,
+          "startsPerSec": 30.63,
+          "output": "ready"
+        },
+        {
+          "iteration": 21,
+          "startupMs": 32.328,
+          "startsPerSec": 30.93,
+          "output": "ready"
+        },
+        {
+          "iteration": 22,
+          "startupMs": 31.666,
+          "startsPerSec": 31.58,
+          "output": "ready"
+        },
+        {
+          "iteration": 23,
+          "startupMs": 31.631,
+          "startsPerSec": 31.61,
+          "output": "ready"
+        },
+        {
+          "iteration": 24,
+          "startupMs": 33.818,
+          "startsPerSec": 29.57,
+          "output": "ready"
+        },
+        {
+          "iteration": 25,
+          "startupMs": 32.277,
+          "startsPerSec": 30.98,
+          "output": "ready"
+        },
+        {
+          "iteration": 26,
+          "startupMs": 34.669,
+          "startsPerSec": 28.84,
+          "output": "ready"
+        },
+        {
+          "iteration": 27,
+          "startupMs": 33.443,
+          "startsPerSec": 29.9,
+          "output": "ready"
+        },
+        {
+          "iteration": 28,
+          "startupMs": 33.455,
+          "startsPerSec": 29.89,
+          "output": "ready"
+        },
+        {
+          "iteration": 29,
+          "startupMs": 54.113,
+          "startsPerSec": 18.48,
+          "output": "ready"
+        },
+        {
+          "iteration": 30,
+          "startupMs": 30.767,
+          "startsPerSec": 32.5,
+          "output": "ready"
+        },
+        {
+          "iteration": 31,
+          "startupMs": 31.591,
+          "startsPerSec": 31.65,
+          "output": "ready"
+        },
+        {
+          "iteration": 32,
+          "startupMs": 30.819,
+          "startsPerSec": 32.45,
+          "output": "ready"
+        },
+        {
+          "iteration": 33,
+          "startupMs": 34.69,
+          "startsPerSec": 28.83,
+          "output": "ready"
+        },
+        {
+          "iteration": 34,
+          "startupMs": 31.55,
+          "startsPerSec": 31.7,
+          "output": "ready"
+        },
+        {
+          "iteration": 35,
+          "startupMs": 30.52,
+          "startsPerSec": 32.77,
+          "output": "ready"
+        },
+        {
+          "iteration": 36,
+          "startupMs": 30.61,
+          "startsPerSec": 32.67,
+          "output": "ready"
+        },
+        {
+          "iteration": 37,
+          "startupMs": 30.781,
+          "startsPerSec": 32.49,
+          "output": "ready"
+        },
+        {
+          "iteration": 38,
+          "startupMs": 30.647,
+          "startsPerSec": 32.63,
+          "output": "ready"
+        },
+        {
+          "iteration": 39,
+          "startupMs": 54.836,
+          "startsPerSec": 18.24,
+          "output": "ready"
+        },
+        {
+          "iteration": 40,
+          "startupMs": 31.007,
+          "startsPerSec": 32.25,
+          "output": "ready"
+        },
+        {
+          "iteration": 41,
+          "startupMs": 31.791,
+          "startsPerSec": 31.46,
+          "output": "ready"
+        },
+        {
+          "iteration": 42,
+          "startupMs": 30.417,
+          "startsPerSec": 32.88,
+          "output": "ready"
+        },
+        {
+          "iteration": 43,
+          "startupMs": 32.289,
+          "startsPerSec": 30.97,
+          "output": "ready"
+        },
+        {
+          "iteration": 44,
+          "startupMs": 31.577,
+          "startsPerSec": 31.67,
+          "output": "ready"
+        },
+        {
+          "iteration": 45,
+          "startupMs": 31.019,
+          "startsPerSec": 32.24,
+          "output": "ready"
+        },
+        {
+          "iteration": 46,
+          "startupMs": 55.338,
+          "startsPerSec": 18.07,
+          "output": "ready"
+        },
+        {
+          "iteration": 47,
+          "startupMs": 44.972,
+          "startsPerSec": 22.24,
+          "output": "ready"
+        },
+        {
+          "iteration": 48,
+          "startupMs": 30.694,
+          "startsPerSec": 32.58,
+          "output": "ready"
+        },
+        {
+          "iteration": 49,
+          "startupMs": 31.237,
+          "startsPerSec": 32.01,
+          "output": "ready"
+        },
+        {
+          "iteration": 50,
+          "startupMs": 32.764,
+          "startsPerSec": 30.52,
+          "output": "ready"
+        },
+        {
+          "iteration": 51,
+          "startupMs": 30.73,
+          "startsPerSec": 32.54,
+          "output": "ready"
+        },
+        {
+          "iteration": 52,
+          "startupMs": 62.394,
+          "startsPerSec": 16.03,
+          "output": "ready"
+        },
+        {
+          "iteration": 53,
+          "startupMs": 34.378,
+          "startsPerSec": 29.09,
+          "output": "ready"
+        },
+        {
+          "iteration": 54,
+          "startupMs": 30.516,
+          "startsPerSec": 32.77,
+          "output": "ready"
+        },
+        {
+          "iteration": 55,
+          "startupMs": 30.976,
+          "startsPerSec": 32.28,
+          "output": "ready"
+        },
+        {
+          "iteration": 56,
+          "startupMs": 33.116,
+          "startsPerSec": 30.2,
+          "output": "ready"
+        },
+        {
+          "iteration": 57,
+          "startupMs": 32.698,
+          "startsPerSec": 30.58,
+          "output": "ready"
+        },
+        {
+          "iteration": 58,
+          "startupMs": 32.4,
+          "startsPerSec": 30.86,
+          "output": "ready"
+        },
+        {
+          "iteration": 59,
+          "startupMs": 32.047,
+          "startsPerSec": 31.2,
+          "output": "ready"
+        },
+        {
+          "iteration": 60,
+          "startupMs": 33.657,
+          "startsPerSec": 29.71,
+          "output": "ready"
+        },
+        {
+          "iteration": 61,
+          "startupMs": 31.963,
+          "startsPerSec": 31.29,
+          "output": "ready"
+        },
+        {
+          "iteration": 62,
+          "startupMs": 33.465,
+          "startsPerSec": 29.88,
+          "output": "ready"
+        },
+        {
+          "iteration": 63,
+          "startupMs": 32.275,
+          "startsPerSec": 30.98,
+          "output": "ready"
+        },
+        {
+          "iteration": 64,
+          "startupMs": 33.173,
+          "startsPerSec": 30.15,
+          "output": "ready"
+        },
+        {
+          "iteration": 65,
+          "startupMs": 31.877,
+          "startsPerSec": 31.37,
+          "output": "ready"
+        },
+        {
+          "iteration": 66,
+          "startupMs": 32.276,
+          "startsPerSec": 30.98,
+          "output": "ready"
+        },
+        {
+          "iteration": 67,
+          "startupMs": 32.193,
+          "startsPerSec": 31.06,
+          "output": "ready"
+        },
+        {
+          "iteration": 68,
+          "startupMs": 32.298,
+          "startsPerSec": 30.96,
+          "output": "ready"
+        },
+        {
+          "iteration": 69,
+          "startupMs": 32.442,
+          "startsPerSec": 30.82,
+          "output": "ready"
+        },
+        {
+          "iteration": 70,
+          "startupMs": 32.217,
+          "startsPerSec": 31.04,
+          "output": "ready"
+        },
+        {
+          "iteration": 71,
+          "startupMs": 33.732,
+          "startsPerSec": 29.65,
+          "output": "ready"
+        },
+        {
+          "iteration": 72,
+          "startupMs": 33.375,
+          "startsPerSec": 29.96,
+          "output": "ready"
+        },
+        {
+          "iteration": 73,
+          "startupMs": 33.193,
+          "startsPerSec": 30.13,
+          "output": "ready"
+        },
+        {
+          "iteration": 74,
+          "startupMs": 32.657,
+          "startsPerSec": 30.62,
+          "output": "ready"
+        },
+        {
+          "iteration": 75,
+          "startupMs": 34.181,
+          "startsPerSec": 29.26,
+          "output": "ready"
+        },
+        {
+          "iteration": 76,
+          "startupMs": 33.495,
+          "startsPerSec": 29.85,
+          "output": "ready"
+        },
+        {
+          "iteration": 77,
+          "startupMs": 32.949,
+          "startsPerSec": 30.35,
+          "output": "ready"
+        },
+        {
+          "iteration": 78,
+          "startupMs": 33.654,
+          "startsPerSec": 29.71,
+          "output": "ready"
+        },
+        {
+          "iteration": 79,
+          "startupMs": 32.733,
+          "startsPerSec": 30.55,
+          "output": "ready"
+        },
+        {
+          "iteration": 80,
+          "startupMs": 34.501,
+          "startsPerSec": 28.98,
+          "output": "ready"
+        },
+        {
+          "iteration": 81,
+          "startupMs": 33.646,
+          "startsPerSec": 29.72,
+          "output": "ready"
+        },
+        {
+          "iteration": 82,
+          "startupMs": 35.613,
+          "startsPerSec": 28.08,
+          "output": "ready"
+        },
+        {
+          "iteration": 83,
+          "startupMs": 33.526,
+          "startsPerSec": 29.83,
+          "output": "ready"
+        },
+        {
+          "iteration": 84,
+          "startupMs": 34.198,
+          "startsPerSec": 29.24,
+          "output": "ready"
+        },
+        {
+          "iteration": 85,
+          "startupMs": 31.416,
+          "startsPerSec": 31.83,
+          "output": "ready"
+        },
+        {
+          "iteration": 86,
+          "startupMs": 31.215,
+          "startsPerSec": 32.04,
+          "output": "ready"
+        },
+        {
+          "iteration": 87,
+          "startupMs": 31.381,
+          "startsPerSec": 31.87,
+          "output": "ready"
+        },
+        {
+          "iteration": 88,
+          "startupMs": 31.346,
+          "startsPerSec": 31.9,
+          "output": "ready"
+        },
+        {
+          "iteration": 89,
+          "startupMs": 31.058,
+          "startsPerSec": 32.2,
+          "output": "ready"
+        },
+        {
+          "iteration": 90,
+          "startupMs": 30.954,
+          "startsPerSec": 32.31,
+          "output": "ready"
+        },
+        {
+          "iteration": 91,
+          "startupMs": 30.668,
+          "startsPerSec": 32.61,
+          "output": "ready"
+        },
+        {
+          "iteration": 92,
+          "startupMs": 31.547,
+          "startsPerSec": 31.7,
+          "output": "ready"
+        },
+        {
+          "iteration": 93,
+          "startupMs": 55.416,
+          "startsPerSec": 18.05,
+          "output": "ready"
+        },
+        {
+          "iteration": 94,
+          "startupMs": 32.861,
+          "startsPerSec": 30.43,
+          "output": "ready"
+        },
+        {
+          "iteration": 95,
+          "startupMs": 34.099,
+          "startsPerSec": 29.33,
+          "output": "ready"
+        },
+        {
+          "iteration": 96,
+          "startupMs": 33.565,
+          "startsPerSec": 29.79,
+          "output": "ready"
+        },
+        {
+          "iteration": 97,
+          "startupMs": 33.857,
+          "startsPerSec": 29.54,
+          "output": "ready"
+        },
+        {
+          "iteration": 98,
+          "startupMs": 34.106,
+          "startsPerSec": 29.32,
+          "output": "ready"
+        },
+        {
+          "iteration": 99,
+          "startupMs": 34.23,
+          "startsPerSec": 29.21,
+          "output": "ready"
+        },
+        {
+          "iteration": 100,
+          "startupMs": 33.12,
+          "startsPerSec": 30.19,
+          "output": "ready"
+        }
+      ]
+    },
+    "startup-realistic": {
+      "scenarioId": "startup-realistic",
+      "name": "Varianta B: Reálný modulární start s TypeScriptem (realistic)",
+      "config": {
+        "variant": "realistic",
+        "command": "bun run scenarios/05-startup/bun-realistic.ts"
+      },
+      "warmupIterations": 3,
+      "measuredIterations": 100,
+      "expectedOutput": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15",
+      "iterations": [
+        {
+          "iteration": 1,
+          "startupMs": 34.315,
+          "startsPerSec": 29.14,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 2,
+          "startupMs": 34.958,
+          "startsPerSec": 28.61,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 3,
+          "startupMs": 33.462,
+          "startsPerSec": 29.88,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 4,
+          "startupMs": 34.345,
+          "startsPerSec": 29.12,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 5,
+          "startupMs": 34.629,
+          "startsPerSec": 28.88,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 6,
+          "startupMs": 35.288,
+          "startsPerSec": 28.34,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 7,
+          "startupMs": 35.711,
+          "startsPerSec": 28,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 8,
+          "startupMs": 37.15,
+          "startsPerSec": 26.92,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 9,
+          "startupMs": 35.196,
+          "startsPerSec": 28.41,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 10,
+          "startupMs": 34.821,
+          "startsPerSec": 28.72,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 11,
+          "startupMs": 36.607,
+          "startsPerSec": 27.32,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 12,
+          "startupMs": 34.809,
+          "startsPerSec": 28.73,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 13,
+          "startupMs": 34.506,
+          "startsPerSec": 28.98,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 14,
+          "startupMs": 35.394,
+          "startsPerSec": 28.25,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 15,
+          "startupMs": 35.901,
+          "startsPerSec": 27.85,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 16,
+          "startupMs": 41.3,
+          "startsPerSec": 24.21,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 17,
+          "startupMs": 35.962,
+          "startsPerSec": 27.81,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 18,
+          "startupMs": 37.904,
+          "startsPerSec": 26.38,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 19,
+          "startupMs": 39.649,
+          "startsPerSec": 25.22,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 20,
+          "startupMs": 37.656,
+          "startsPerSec": 26.56,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 21,
+          "startupMs": 37.344,
+          "startsPerSec": 26.78,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 22,
+          "startupMs": 34.731,
+          "startsPerSec": 28.79,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 23,
+          "startupMs": 34.458,
+          "startsPerSec": 29.02,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 24,
+          "startupMs": 34.631,
+          "startsPerSec": 28.88,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 25,
+          "startupMs": 34.993,
+          "startsPerSec": 28.58,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 26,
+          "startupMs": 35.564,
+          "startsPerSec": 28.12,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 27,
+          "startupMs": 56.88,
+          "startsPerSec": 17.58,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 28,
+          "startupMs": 35.884,
+          "startsPerSec": 27.87,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 29,
+          "startupMs": 34.455,
+          "startsPerSec": 29.02,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 30,
+          "startupMs": 34.17,
+          "startsPerSec": 29.27,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 31,
+          "startupMs": 34.027,
+          "startsPerSec": 29.39,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 32,
+          "startupMs": 35.972,
+          "startsPerSec": 27.8,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 33,
+          "startupMs": 36.16,
+          "startsPerSec": 27.66,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 34,
+          "startupMs": 35.087,
+          "startsPerSec": 28.5,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 35,
+          "startupMs": 34.731,
+          "startsPerSec": 28.79,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 36,
+          "startupMs": 33.866,
+          "startsPerSec": 29.53,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 37,
+          "startupMs": 34.848,
+          "startsPerSec": 28.7,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 38,
+          "startupMs": 33.664,
+          "startsPerSec": 29.71,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 39,
+          "startupMs": 33.866,
+          "startsPerSec": 29.53,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 40,
+          "startupMs": 35.196,
+          "startsPerSec": 28.41,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 41,
+          "startupMs": 35.324,
+          "startsPerSec": 28.31,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 42,
+          "startupMs": 33.641,
+          "startsPerSec": 29.73,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 43,
+          "startupMs": 35.388,
+          "startsPerSec": 28.26,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 44,
+          "startupMs": 35.064,
+          "startsPerSec": 28.52,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 45,
+          "startupMs": 35.014,
+          "startsPerSec": 28.56,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 46,
+          "startupMs": 35.717,
+          "startsPerSec": 28,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 47,
+          "startupMs": 33.447,
+          "startsPerSec": 29.9,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 48,
+          "startupMs": 48.296,
+          "startsPerSec": 20.71,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 49,
+          "startupMs": 35.441,
+          "startsPerSec": 28.22,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 50,
+          "startupMs": 33.631,
+          "startsPerSec": 29.73,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 51,
+          "startupMs": 33.247,
+          "startsPerSec": 30.08,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 52,
+          "startupMs": 33.654,
+          "startsPerSec": 29.71,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 53,
+          "startupMs": 33.53,
+          "startsPerSec": 29.82,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 54,
+          "startupMs": 58.693,
+          "startsPerSec": 17.04,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 55,
+          "startupMs": 35.115,
+          "startsPerSec": 28.48,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 56,
+          "startupMs": 34.881,
+          "startsPerSec": 28.67,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 57,
+          "startupMs": 34.487,
+          "startsPerSec": 29,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 58,
+          "startupMs": 35.476,
+          "startsPerSec": 28.19,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 59,
+          "startupMs": 35.466,
+          "startsPerSec": 28.2,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 60,
+          "startupMs": 35.37,
+          "startsPerSec": 28.27,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 61,
+          "startupMs": 34.966,
+          "startsPerSec": 28.6,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 62,
+          "startupMs": 37.216,
+          "startsPerSec": 26.87,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 63,
+          "startupMs": 38.538,
+          "startsPerSec": 25.95,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 64,
+          "startupMs": 39.859,
+          "startsPerSec": 25.09,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 65,
+          "startupMs": 38.521,
+          "startsPerSec": 25.96,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 66,
+          "startupMs": 39.015,
+          "startsPerSec": 25.63,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 67,
+          "startupMs": 36.196,
+          "startsPerSec": 27.63,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 68,
+          "startupMs": 36.223,
+          "startsPerSec": 27.61,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 69,
+          "startupMs": 35.35,
+          "startsPerSec": 28.29,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 70,
+          "startupMs": 36.36,
+          "startsPerSec": 27.5,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 71,
+          "startupMs": 36.94,
+          "startsPerSec": 27.07,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 72,
+          "startupMs": 35.918,
+          "startsPerSec": 27.84,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 73,
+          "startupMs": 36.944,
+          "startsPerSec": 27.07,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 74,
+          "startupMs": 35.694,
+          "startsPerSec": 28.02,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 75,
+          "startupMs": 37.077,
+          "startsPerSec": 26.97,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 76,
+          "startupMs": 36.245,
+          "startsPerSec": 27.59,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 77,
+          "startupMs": 36.504,
+          "startsPerSec": 27.39,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 78,
+          "startupMs": 35.71,
+          "startsPerSec": 28,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 79,
+          "startupMs": 34.688,
+          "startsPerSec": 28.83,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 80,
+          "startupMs": 35.594,
+          "startsPerSec": 28.09,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 81,
+          "startupMs": 34.451,
+          "startsPerSec": 29.03,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 82,
+          "startupMs": 33.995,
+          "startsPerSec": 29.42,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 83,
+          "startupMs": 37.378,
+          "startsPerSec": 26.75,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 84,
+          "startupMs": 61.578,
+          "startsPerSec": 16.24,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 85,
+          "startupMs": 33.819,
+          "startsPerSec": 29.57,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 86,
+          "startupMs": 33.92,
+          "startsPerSec": 29.48,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 87,
+          "startupMs": 34.583,
+          "startsPerSec": 28.92,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 88,
+          "startupMs": 34.315,
+          "startsPerSec": 29.14,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 89,
+          "startupMs": 34.61,
+          "startsPerSec": 28.89,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 90,
+          "startupMs": 34.921,
+          "startsPerSec": 28.64,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 91,
+          "startupMs": 34.204,
+          "startsPerSec": 29.24,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 92,
+          "startupMs": 33.703,
+          "startsPerSec": 29.67,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 93,
+          "startupMs": 36.161,
+          "startsPerSec": 27.65,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 94,
+          "startupMs": 34.754,
+          "startsPerSec": 28.77,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 95,
+          "startupMs": 34.464,
+          "startsPerSec": 29.02,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 96,
+          "startupMs": 35.045,
+          "startsPerSec": 28.53,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 97,
+          "startupMs": 33.923,
+          "startsPerSec": 29.48,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 98,
+          "startupMs": 34.531,
+          "startsPerSec": 28.96,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 99,
+          "startupMs": 34.69,
+          "startsPerSec": 28.83,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 100,
+          "startupMs": 34.234,
+          "startsPerSec": 29.21,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,1249 @@
+{
+  "category": "05-startup",
+  "environment": {
+    "runtime": "deno",
+    "version": "v2.9.8 (V8 15.0.245.2-rusty, TS 6.0.3)",
+    "platform": "win32",
+    "release": "10.0.26200",
+    "arch": "x64",
+    "cpuModel": "Intel(R) Core(TM) i7-10700KF CPU @ 3.80GHz",
+    "cpuCores": 16,
+    "totalMemoryMB": 32657,
+    "freeMemoryMB": 16742,
+    "timestamp": "2026-11-17T16:10:34.667Z"
+  },
+  "benchmarkConfig": {
+    "warmupIterations": 3,
+    "measuredIterations": 100,
+    "startupIterations": 100,
+    "cooldownMs": 12
+  },
+  "scenarios": {
+    "startup-minimal": {
+      "scenarioId": "startup-minimal",
+      "name": "Varianta A: Minimální studený start (minimal)",
+      "config": {
+        "variant": "minimal",
+        "command": "deno run scenarios/05-startup/deno-minimal.ts"
+      },
+      "warmupIterations": 3,
+      "measuredIterations": 100,
+      "expectedOutput": "ready",
+      "iterations": [
+        {
+          "iteration": 1,
+          "startupMs": 249.276,
+          "startsPerSec": 4.01,
+          "output": "ready"
+        },
+        {
+          "iteration": 2,
+          "startupMs": 242.588,
+          "startsPerSec": 4.12,
+          "output": "ready"
+        },
+        {
+          "iteration": 3,
+          "startupMs": 248.374,
+          "startsPerSec": 4.03,
+          "output": "ready"
+        },
+        {
+          "iteration": 4,
+          "startupMs": 233.599,
+          "startsPerSec": 4.28,
+          "output": "ready"
+        },
+        {
+          "iteration": 5,
+          "startupMs": 266.848,
+          "startsPerSec": 3.75,
+          "output": "ready"
+        },
+        {
+          "iteration": 6,
+          "startupMs": 234.161,
+          "startsPerSec": 4.27,
+          "output": "ready"
+        },
+        {
+          "iteration": 7,
+          "startupMs": 232.802,
+          "startsPerSec": 4.3,
+          "output": "ready"
+        },
+        {
+          "iteration": 8,
+          "startupMs": 242.466,
+          "startsPerSec": 4.12,
+          "output": "ready"
+        },
+        {
+          "iteration": 9,
+          "startupMs": 240.272,
+          "startsPerSec": 4.16,
+          "output": "ready"
+        },
+        {
+          "iteration": 10,
+          "startupMs": 238.645,
+          "startsPerSec": 4.19,
+          "output": "ready"
+        },
+        {
+          "iteration": 11,
+          "startupMs": 232.538,
+          "startsPerSec": 4.3,
+          "output": "ready"
+        },
+        {
+          "iteration": 12,
+          "startupMs": 232.381,
+          "startsPerSec": 4.3,
+          "output": "ready"
+        },
+        {
+          "iteration": 13,
+          "startupMs": 231.831,
+          "startsPerSec": 4.31,
+          "output": "ready"
+        },
+        {
+          "iteration": 14,
+          "startupMs": 239.706,
+          "startsPerSec": 4.17,
+          "output": "ready"
+        },
+        {
+          "iteration": 15,
+          "startupMs": 240.068,
+          "startsPerSec": 4.17,
+          "output": "ready"
+        },
+        {
+          "iteration": 16,
+          "startupMs": 238.053,
+          "startsPerSec": 4.2,
+          "output": "ready"
+        },
+        {
+          "iteration": 17,
+          "startupMs": 250.595,
+          "startsPerSec": 3.99,
+          "output": "ready"
+        },
+        {
+          "iteration": 18,
+          "startupMs": 239.925,
+          "startsPerSec": 4.17,
+          "output": "ready"
+        },
+        {
+          "iteration": 19,
+          "startupMs": 237.582,
+          "startsPerSec": 4.21,
+          "output": "ready"
+        },
+        {
+          "iteration": 20,
+          "startupMs": 234.682,
+          "startsPerSec": 4.26,
+          "output": "ready"
+        },
+        {
+          "iteration": 21,
+          "startupMs": 239.943,
+          "startsPerSec": 4.17,
+          "output": "ready"
+        },
+        {
+          "iteration": 22,
+          "startupMs": 239.725,
+          "startsPerSec": 4.17,
+          "output": "ready"
+        },
+        {
+          "iteration": 23,
+          "startupMs": 238.225,
+          "startsPerSec": 4.2,
+          "output": "ready"
+        },
+        {
+          "iteration": 24,
+          "startupMs": 238.456,
+          "startsPerSec": 4.19,
+          "output": "ready"
+        },
+        {
+          "iteration": 25,
+          "startupMs": 244.562,
+          "startsPerSec": 4.09,
+          "output": "ready"
+        },
+        {
+          "iteration": 26,
+          "startupMs": 236.513,
+          "startsPerSec": 4.23,
+          "output": "ready"
+        },
+        {
+          "iteration": 27,
+          "startupMs": 236.93,
+          "startsPerSec": 4.22,
+          "output": "ready"
+        },
+        {
+          "iteration": 28,
+          "startupMs": 243.875,
+          "startsPerSec": 4.1,
+          "output": "ready"
+        },
+        {
+          "iteration": 29,
+          "startupMs": 253.164,
+          "startsPerSec": 3.95,
+          "output": "ready"
+        },
+        {
+          "iteration": 30,
+          "startupMs": 244.917,
+          "startsPerSec": 4.08,
+          "output": "ready"
+        },
+        {
+          "iteration": 31,
+          "startupMs": 234.051,
+          "startsPerSec": 4.27,
+          "output": "ready"
+        },
+        {
+          "iteration": 32,
+          "startupMs": 249.069,
+          "startsPerSec": 4.01,
+          "output": "ready"
+        },
+        {
+          "iteration": 33,
+          "startupMs": 243.658,
+          "startsPerSec": 4.1,
+          "output": "ready"
+        },
+        {
+          "iteration": 34,
+          "startupMs": 244.12,
+          "startsPerSec": 4.1,
+          "output": "ready"
+        },
+        {
+          "iteration": 35,
+          "startupMs": 244.652,
+          "startsPerSec": 4.09,
+          "output": "ready"
+        },
+        {
+          "iteration": 36,
+          "startupMs": 267.185,
+          "startsPerSec": 3.74,
+          "output": "ready"
+        },
+        {
+          "iteration": 37,
+          "startupMs": 255.977,
+          "startsPerSec": 3.91,
+          "output": "ready"
+        },
+        {
+          "iteration": 38,
+          "startupMs": 248.801,
+          "startsPerSec": 4.02,
+          "output": "ready"
+        },
+        {
+          "iteration": 39,
+          "startupMs": 251.388,
+          "startsPerSec": 3.98,
+          "output": "ready"
+        },
+        {
+          "iteration": 40,
+          "startupMs": 243.757,
+          "startsPerSec": 4.1,
+          "output": "ready"
+        },
+        {
+          "iteration": 41,
+          "startupMs": 236.169,
+          "startsPerSec": 4.23,
+          "output": "ready"
+        },
+        {
+          "iteration": 42,
+          "startupMs": 244.655,
+          "startsPerSec": 4.09,
+          "output": "ready"
+        },
+        {
+          "iteration": 43,
+          "startupMs": 253.047,
+          "startsPerSec": 3.95,
+          "output": "ready"
+        },
+        {
+          "iteration": 44,
+          "startupMs": 236.042,
+          "startsPerSec": 4.24,
+          "output": "ready"
+        },
+        {
+          "iteration": 45,
+          "startupMs": 242.884,
+          "startsPerSec": 4.12,
+          "output": "ready"
+        },
+        {
+          "iteration": 46,
+          "startupMs": 241.454,
+          "startsPerSec": 4.14,
+          "output": "ready"
+        },
+        {
+          "iteration": 47,
+          "startupMs": 237.723,
+          "startsPerSec": 4.21,
+          "output": "ready"
+        },
+        {
+          "iteration": 48,
+          "startupMs": 236.177,
+          "startsPerSec": 4.23,
+          "output": "ready"
+        },
+        {
+          "iteration": 49,
+          "startupMs": 234.252,
+          "startsPerSec": 4.27,
+          "output": "ready"
+        },
+        {
+          "iteration": 50,
+          "startupMs": 247.307,
+          "startsPerSec": 4.04,
+          "output": "ready"
+        },
+        {
+          "iteration": 51,
+          "startupMs": 243.792,
+          "startsPerSec": 4.1,
+          "output": "ready"
+        },
+        {
+          "iteration": 52,
+          "startupMs": 240.585,
+          "startsPerSec": 4.16,
+          "output": "ready"
+        },
+        {
+          "iteration": 53,
+          "startupMs": 245.628,
+          "startsPerSec": 4.07,
+          "output": "ready"
+        },
+        {
+          "iteration": 54,
+          "startupMs": 242.057,
+          "startsPerSec": 4.13,
+          "output": "ready"
+        },
+        {
+          "iteration": 55,
+          "startupMs": 248.475,
+          "startsPerSec": 4.02,
+          "output": "ready"
+        },
+        {
+          "iteration": 56,
+          "startupMs": 242.62,
+          "startsPerSec": 4.12,
+          "output": "ready"
+        },
+        {
+          "iteration": 57,
+          "startupMs": 255.166,
+          "startsPerSec": 3.92,
+          "output": "ready"
+        },
+        {
+          "iteration": 58,
+          "startupMs": 242.661,
+          "startsPerSec": 4.12,
+          "output": "ready"
+        },
+        {
+          "iteration": 59,
+          "startupMs": 244.207,
+          "startsPerSec": 4.09,
+          "output": "ready"
+        },
+        {
+          "iteration": 60,
+          "startupMs": 239.938,
+          "startsPerSec": 4.17,
+          "output": "ready"
+        },
+        {
+          "iteration": 61,
+          "startupMs": 244.314,
+          "startsPerSec": 4.09,
+          "output": "ready"
+        },
+        {
+          "iteration": 62,
+          "startupMs": 242.245,
+          "startsPerSec": 4.13,
+          "output": "ready"
+        },
+        {
+          "iteration": 63,
+          "startupMs": 235.475,
+          "startsPerSec": 4.25,
+          "output": "ready"
+        },
+        {
+          "iteration": 64,
+          "startupMs": 241.721,
+          "startsPerSec": 4.14,
+          "output": "ready"
+        },
+        {
+          "iteration": 65,
+          "startupMs": 254.263,
+          "startsPerSec": 3.93,
+          "output": "ready"
+        },
+        {
+          "iteration": 66,
+          "startupMs": 251.604,
+          "startsPerSec": 3.97,
+          "output": "ready"
+        },
+        {
+          "iteration": 67,
+          "startupMs": 247.147,
+          "startsPerSec": 4.05,
+          "output": "ready"
+        },
+        {
+          "iteration": 68,
+          "startupMs": 252.533,
+          "startsPerSec": 3.96,
+          "output": "ready"
+        },
+        {
+          "iteration": 69,
+          "startupMs": 244.166,
+          "startsPerSec": 4.1,
+          "output": "ready"
+        },
+        {
+          "iteration": 70,
+          "startupMs": 243.782,
+          "startsPerSec": 4.1,
+          "output": "ready"
+        },
+        {
+          "iteration": 71,
+          "startupMs": 237.946,
+          "startsPerSec": 4.2,
+          "output": "ready"
+        },
+        {
+          "iteration": 72,
+          "startupMs": 245.527,
+          "startsPerSec": 4.07,
+          "output": "ready"
+        },
+        {
+          "iteration": 73,
+          "startupMs": 247.705,
+          "startsPerSec": 4.04,
+          "output": "ready"
+        },
+        {
+          "iteration": 74,
+          "startupMs": 249.154,
+          "startsPerSec": 4.01,
+          "output": "ready"
+        },
+        {
+          "iteration": 75,
+          "startupMs": 241.219,
+          "startsPerSec": 4.15,
+          "output": "ready"
+        },
+        {
+          "iteration": 76,
+          "startupMs": 241.061,
+          "startsPerSec": 4.15,
+          "output": "ready"
+        },
+        {
+          "iteration": 77,
+          "startupMs": 241.285,
+          "startsPerSec": 4.14,
+          "output": "ready"
+        },
+        {
+          "iteration": 78,
+          "startupMs": 249.551,
+          "startsPerSec": 4.01,
+          "output": "ready"
+        },
+        {
+          "iteration": 79,
+          "startupMs": 244.138,
+          "startsPerSec": 4.1,
+          "output": "ready"
+        },
+        {
+          "iteration": 80,
+          "startupMs": 244.396,
+          "startsPerSec": 4.09,
+          "output": "ready"
+        },
+        {
+          "iteration": 81,
+          "startupMs": 239.084,
+          "startsPerSec": 4.18,
+          "output": "ready"
+        },
+        {
+          "iteration": 82,
+          "startupMs": 237.939,
+          "startsPerSec": 4.2,
+          "output": "ready"
+        },
+        {
+          "iteration": 83,
+          "startupMs": 238.701,
+          "startsPerSec": 4.19,
+          "output": "ready"
+        },
+        {
+          "iteration": 84,
+          "startupMs": 242.297,
+          "startsPerSec": 4.13,
+          "output": "ready"
+        },
+        {
+          "iteration": 85,
+          "startupMs": 236.342,
+          "startsPerSec": 4.23,
+          "output": "ready"
+        },
+        {
+          "iteration": 86,
+          "startupMs": 238.996,
+          "startsPerSec": 4.18,
+          "output": "ready"
+        },
+        {
+          "iteration": 87,
+          "startupMs": 247.368,
+          "startsPerSec": 4.04,
+          "output": "ready"
+        },
+        {
+          "iteration": 88,
+          "startupMs": 244.649,
+          "startsPerSec": 4.09,
+          "output": "ready"
+        },
+        {
+          "iteration": 89,
+          "startupMs": 236.709,
+          "startsPerSec": 4.22,
+          "output": "ready"
+        },
+        {
+          "iteration": 90,
+          "startupMs": 236.173,
+          "startsPerSec": 4.23,
+          "output": "ready"
+        },
+        {
+          "iteration": 91,
+          "startupMs": 265.193,
+          "startsPerSec": 3.77,
+          "output": "ready"
+        },
+        {
+          "iteration": 92,
+          "startupMs": 237.432,
+          "startsPerSec": 4.21,
+          "output": "ready"
+        },
+        {
+          "iteration": 93,
+          "startupMs": 245.06,
+          "startsPerSec": 4.08,
+          "output": "ready"
+        },
+        {
+          "iteration": 94,
+          "startupMs": 242.592,
+          "startsPerSec": 4.12,
+          "output": "ready"
+        },
+        {
+          "iteration": 95,
+          "startupMs": 235.445,
+          "startsPerSec": 4.25,
+          "output": "ready"
+        },
+        {
+          "iteration": 96,
+          "startupMs": 237.064,
+          "startsPerSec": 4.22,
+          "output": "ready"
+        },
+        {
+          "iteration": 97,
+          "startupMs": 235.155,
+          "startsPerSec": 4.25,
+          "output": "ready"
+        },
+        {
+          "iteration": 98,
+          "startupMs": 276,
+          "startsPerSec": 3.62,
+          "output": "ready"
+        },
+        {
+          "iteration": 99,
+          "startupMs": 250.032,
+          "startsPerSec": 4,
+          "output": "ready"
+        },
+        {
+          "iteration": 100,
+          "startupMs": 240.257,
+          "startsPerSec": 4.16,
+          "output": "ready"
+        }
+      ]
+    },
+    "startup-realistic": {
+      "scenarioId": "startup-realistic",
+      "name": "Varianta B: Reálný modulární start s TypeScriptem (realistic)",
+      "config": {
+        "variant": "realistic",
+        "command": "deno run scenarios/05-startup/deno-realistic.ts"
+      },
+      "warmupIterations": 3,
+      "measuredIterations": 100,
+      "expectedOutput": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15",
+      "iterations": [
+        {
+          "iteration": 1,
+          "startupMs": 255.433,
+          "startsPerSec": 3.91,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 2,
+          "startupMs": 260.92,
+          "startsPerSec": 3.83,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 3,
+          "startupMs": 253.448,
+          "startsPerSec": 3.95,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 4,
+          "startupMs": 245.665,
+          "startsPerSec": 4.07,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 5,
+          "startupMs": 248.382,
+          "startsPerSec": 4.03,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 6,
+          "startupMs": 246.415,
+          "startsPerSec": 4.06,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 7,
+          "startupMs": 252.709,
+          "startsPerSec": 3.96,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 8,
+          "startupMs": 251.127,
+          "startsPerSec": 3.98,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 9,
+          "startupMs": 252.931,
+          "startsPerSec": 3.95,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 10,
+          "startupMs": 246.551,
+          "startsPerSec": 4.06,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 11,
+          "startupMs": 244.008,
+          "startsPerSec": 4.1,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 12,
+          "startupMs": 247.633,
+          "startsPerSec": 4.04,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 13,
+          "startupMs": 257.553,
+          "startsPerSec": 3.88,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 14,
+          "startupMs": 249.963,
+          "startsPerSec": 4,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 15,
+          "startupMs": 242.788,
+          "startsPerSec": 4.12,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 16,
+          "startupMs": 258.872,
+          "startsPerSec": 3.86,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 17,
+          "startupMs": 241.81,
+          "startsPerSec": 4.14,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 18,
+          "startupMs": 249.379,
+          "startsPerSec": 4.01,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 19,
+          "startupMs": 253.311,
+          "startsPerSec": 3.95,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 20,
+          "startupMs": 256.665,
+          "startsPerSec": 3.9,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 21,
+          "startupMs": 240.195,
+          "startsPerSec": 4.16,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 22,
+          "startupMs": 246.88,
+          "startsPerSec": 4.05,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 23,
+          "startupMs": 252.065,
+          "startsPerSec": 3.97,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 24,
+          "startupMs": 241.552,
+          "startsPerSec": 4.14,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 25,
+          "startupMs": 251.054,
+          "startsPerSec": 3.98,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 26,
+          "startupMs": 239.115,
+          "startsPerSec": 4.18,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 27,
+          "startupMs": 242.769,
+          "startsPerSec": 4.12,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 28,
+          "startupMs": 244.234,
+          "startsPerSec": 4.09,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 29,
+          "startupMs": 262.893,
+          "startsPerSec": 3.8,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 30,
+          "startupMs": 244.796,
+          "startsPerSec": 4.09,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 31,
+          "startupMs": 247.213,
+          "startsPerSec": 4.05,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 32,
+          "startupMs": 246.079,
+          "startsPerSec": 4.06,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 33,
+          "startupMs": 244.163,
+          "startsPerSec": 4.1,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 34,
+          "startupMs": 241.892,
+          "startsPerSec": 4.13,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 35,
+          "startupMs": 245.443,
+          "startsPerSec": 4.07,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 36,
+          "startupMs": 239.982,
+          "startsPerSec": 4.17,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 37,
+          "startupMs": 246.024,
+          "startsPerSec": 4.06,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 38,
+          "startupMs": 271.566,
+          "startsPerSec": 3.68,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 39,
+          "startupMs": 261.785,
+          "startsPerSec": 3.82,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 40,
+          "startupMs": 238.497,
+          "startsPerSec": 4.19,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 41,
+          "startupMs": 243.146,
+          "startsPerSec": 4.11,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 42,
+          "startupMs": 240.709,
+          "startsPerSec": 4.15,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 43,
+          "startupMs": 243.719,
+          "startsPerSec": 4.1,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 44,
+          "startupMs": 237.862,
+          "startsPerSec": 4.2,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 45,
+          "startupMs": 242.133,
+          "startsPerSec": 4.13,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 46,
+          "startupMs": 275.342,
+          "startsPerSec": 3.63,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 47,
+          "startupMs": 240.759,
+          "startsPerSec": 4.15,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 48,
+          "startupMs": 241.146,
+          "startsPerSec": 4.15,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 49,
+          "startupMs": 281.461,
+          "startsPerSec": 3.55,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 50,
+          "startupMs": 255.113,
+          "startsPerSec": 3.92,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 51,
+          "startupMs": 239.743,
+          "startsPerSec": 4.17,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 52,
+          "startupMs": 246.328,
+          "startsPerSec": 4.06,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 53,
+          "startupMs": 241.65,
+          "startsPerSec": 4.14,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 54,
+          "startupMs": 246.171,
+          "startsPerSec": 4.06,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 55,
+          "startupMs": 246.68,
+          "startsPerSec": 4.05,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 56,
+          "startupMs": 244.6,
+          "startsPerSec": 4.09,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 57,
+          "startupMs": 241.941,
+          "startsPerSec": 4.13,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 58,
+          "startupMs": 243.477,
+          "startsPerSec": 4.11,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 59,
+          "startupMs": 273.232,
+          "startsPerSec": 3.66,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 60,
+          "startupMs": 239.222,
+          "startsPerSec": 4.18,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 61,
+          "startupMs": 245.28,
+          "startsPerSec": 4.08,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 62,
+          "startupMs": 246.59,
+          "startsPerSec": 4.06,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 63,
+          "startupMs": 246.494,
+          "startsPerSec": 4.06,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 64,
+          "startupMs": 248.679,
+          "startsPerSec": 4.02,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 65,
+          "startupMs": 241.908,
+          "startsPerSec": 4.13,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 66,
+          "startupMs": 262.613,
+          "startsPerSec": 3.81,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 67,
+          "startupMs": 250.341,
+          "startsPerSec": 3.99,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 68,
+          "startupMs": 248.903,
+          "startsPerSec": 4.02,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 69,
+          "startupMs": 248.337,
+          "startsPerSec": 4.03,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 70,
+          "startupMs": 247.337,
+          "startsPerSec": 4.04,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 71,
+          "startupMs": 239.448,
+          "startsPerSec": 4.18,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 72,
+          "startupMs": 238.727,
+          "startsPerSec": 4.19,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 73,
+          "startupMs": 244.553,
+          "startsPerSec": 4.09,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 74,
+          "startupMs": 247.203,
+          "startsPerSec": 4.05,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 75,
+          "startupMs": 243.653,
+          "startsPerSec": 4.1,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 76,
+          "startupMs": 243.699,
+          "startsPerSec": 4.1,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 77,
+          "startupMs": 244.183,
+          "startsPerSec": 4.1,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 78,
+          "startupMs": 238.315,
+          "startsPerSec": 4.2,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 79,
+          "startupMs": 239.296,
+          "startsPerSec": 4.18,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 80,
+          "startupMs": 261.551,
+          "startsPerSec": 3.82,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 81,
+          "startupMs": 241.693,
+          "startsPerSec": 4.14,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 82,
+          "startupMs": 240.608,
+          "startsPerSec": 4.16,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 83,
+          "startupMs": 240.019,
+          "startsPerSec": 4.17,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 84,
+          "startupMs": 245.785,
+          "startsPerSec": 4.07,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 85,
+          "startupMs": 241.696,
+          "startsPerSec": 4.14,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 86,
+          "startupMs": 243.489,
+          "startsPerSec": 4.11,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 87,
+          "startupMs": 245.398,
+          "startsPerSec": 4.08,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 88,
+          "startupMs": 257.974,
+          "startsPerSec": 3.88,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 89,
+          "startupMs": 247.696,
+          "startsPerSec": 4.04,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 90,
+          "startupMs": 244.387,
+          "startsPerSec": 4.09,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 91,
+          "startupMs": 250.065,
+          "startsPerSec": 4,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 92,
+          "startupMs": 239.295,
+          "startsPerSec": 4.18,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 93,
+          "startupMs": 241.158,
+          "startsPerSec": 4.15,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 94,
+          "startupMs": 244.42,
+          "startsPerSec": 4.09,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 95,
+          "startupMs": 246.18,
+          "startsPerSec": 4.06,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 96,
+          "startupMs": 244.336,
+          "startsPerSec": 4.09,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 97,
+          "startupMs": 245.177,
+          "startsPerSec": 4.08,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 98,
+          "startupMs": 245.396,
+          "startsPerSec": 4.08,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 99,
+          "startupMs": 245.965,
+          "startsPerSec": 4.07,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        },
+        {
+          "iteration": 100,
+          "startupMs": 253.826,
+          "startsPerSec": 3.94,
+          "output": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15"
+        }
+      ]
+    }
+  }
+}

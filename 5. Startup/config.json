@@ -1,0 +1,22 @@
+{
+  "category": "05-startup",
+  "resultsDir": "./results",
+  "benchmark": {
+    "warmupIterations": 3,
+    "startupIterations": 100,
+    "cooldownMs": 12
+  },
+  "docker": {
+    "cpus": "2",
+    "memory": "2g",
+    "memorySwap": "2g"
+  },
+  "scenarios": {
+    "minimal": {
+      "enabled": true
+    },
+    "realistic": {
+      "enabled": true
+    }
+  }
+}

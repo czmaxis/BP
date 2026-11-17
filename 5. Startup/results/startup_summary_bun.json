@@ -1,0 +1,115 @@
+{
+  "category": "05-startup",
+  "environment": {
+    "runtime": "bun",
+    "version": "v1.4.4 (38afee6c)",
+    "platform": "win32",
+    "release": "10.0.26200",
+    "arch": "x64",
+    "cpuModel": "Intel(R) Core(TM) i7-10700KF CPU @ 3.80GHz",
+    "cpuCores": 16,
+    "totalMemoryMB": 32657,
+    "freeMemoryMB": 16690,
+    "timestamp": "2026-11-17T16:11:30.393Z"
+  },
+  "benchmarkConfig": {
+    "warmupIterations": 3,
+    "measuredIterations": 100,
+    "startupIterations": 100,
+    "cooldownMs": 12
+  },
+  "scenarios": {
+    "startup-minimal": {
+      "scenarioId": "startup-minimal",
+      "name": "Varianta A: Minimální studený start (minimal)",
+      "description": "Čistý studený start procesu (bun run scenarios/05-startup/bun-minimal.ts) s výpisem 'ready' a okamžitým ukončením.",
+      "config": {
+        "variant": "minimal",
+        "command": "bun run scenarios/05-startup/bun-minimal.ts"
+      },
+      "warmupIterations": 3,
+      "iterations": 100,
+      "expectedOutput": "ready",
+      "metrics": {
+        "startupMs": {
+          "count": 100,
+          "mean": 35.873,
+          "arithmeticMean": 35.873,
+          "harmonicMean": 33.449,
+          "trimmedMean": 32.52,
+          "stdDev": 22.069,
+          "cvPercent": 61.52,
+          "iqr": 1.954,
+          "outliersCount": 7,
+          "min": 30.417,
+          "p50": 32.341,
+          "p95": 54.149,
+          "p99": 64.243,
+          "max": 247.342
+        },
+        "startsPerSec": {
+          "count": 100,
+          "mean": 27.875,
+          "arithmeticMean": 29.896,
+          "harmonicMean": 27.875,
+          "trimmedMean": 30.75,
+          "stdDev": 17.161,
+          "cvPercent": 61.56,
+          "iqr": 1.843,
+          "outliersCount": 7,
+          "min": 4.04,
+          "p50": 30.92,
+          "p95": 18.468,
+          "p99": 15.91,
+          "max": 32.88
+        }
+      }
+    },
+    "startup-realistic": {
+      "scenarioId": "startup-realistic",
+      "name": "Varianta B: Reálný modulární start s TypeScriptem (realistic)",
+      "description": "Start s nativním TypeScriptem (bun run scenarios/05-startup/bun-realistic.ts), importem modulů z core/ a validací manifestu.",
+      "config": {
+        "variant": "realistic",
+        "command": "bun run scenarios/05-startup/bun-realistic.ts"
+      },
+      "warmupIterations": 3,
+      "iterations": 100,
+      "expectedOutput": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15",
+      "metrics": {
+        "startupMs": {
+          "count": 100,
+          "mean": 36.238,
+          "arithmeticMean": 36.238,
+          "harmonicMean": 35.867,
+          "trimmedMean": 35.321,
+          "stdDev": 4.495,
+          "cvPercent": 12.4,
+          "iqr": 1.707,
+          "outliersCount": 8,
+          "min": 33.247,
+          "p50": 35.101,
+          "p95": 39.931,
+          "p99": 58.722,
+          "max": 61.578
+        },
+        "startsPerSec": {
+          "count": 100,
+          "mean": 27.596,
+          "arithmeticMean": 27.881,
+          "harmonicMean": 27.596,
+          "trimmedMean": 28.312,
+          "stdDev": 3.422,
+          "cvPercent": 12.4,
+          "iqr": 1.375,
+          "outliersCount": 8,
+          "min": 16.24,
+          "p50": 28.49,
+          "p95": 25.046,
+          "p99": 17.032,
+          "max": 30.08
+        }
+      }
+    }
+  }
+}

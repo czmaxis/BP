@@ -1,0 +1,115 @@
+{
+  "category": "05-startup",
+  "environment": {
+    "runtime": "node",
+    "version": "v22.9.0",
+    "platform": "win32",
+    "release": "10.0.26200",
+    "arch": "x64",
+    "cpuModel": "Intel(R) Core(TM) i7-10700KF CPU @ 3.80GHz",
+    "cpuCores": 16,
+    "totalMemoryMB": 32657,
+    "freeMemoryMB": 16772,
+    "timestamp": "2026-11-17T16:10:12.958Z"
+  },
+  "benchmarkConfig": {
+    "warmupIterations": 3,
+    "measuredIterations": 100,
+    "startupIterations": 100,
+    "cooldownMs": 12
+  },
+  "scenarios": {
+    "startup-minimal": {
+      "scenarioId": "startup-minimal",
+      "name": "Varianta A: Minimální studený start (minimal)",
+      "description": "Čistý studený start procesu (node scenarios/05-startup/node-minimal.mjs) s výpisem 'ready' a okamžitým ukončením.",
+      "config": {
+        "variant": "minimal",
+        "command": "node scenarios/05-startup/node-minimal.mjs"
+      },
+      "warmupIterations": 3,
+      "iterations": 100,
+      "expectedOutput": "ready",
+      "metrics": {
+        "startupMs": {
+          "count": 100,
+          "mean": 59.133,
+          "arithmeticMean": 59.133,
+          "harmonicMean": 59.057,
+          "trimmedMean": 58.832,
+          "stdDev": 2.24,
+          "cvPercent": 3.79,
+          "iqr": 1.468,
+          "outliersCount": 9,
+          "min": 56.292,
+          "p50": 58.63,
+          "p95": 62.404,
+          "p99": 64.232,
+          "max": 74.114
+        },
+        "startsPerSec": {
+          "count": 100,
+          "mean": 16.911,
+          "arithmeticMean": 16.933,
+          "harmonicMean": 16.911,
+          "trimmedMean": 16.998,
+          "stdDev": 0.641,
+          "cvPercent": 3.79,
+          "iqr": 0.427,
+          "outliersCount": 9,
+          "min": 13.49,
+          "p50": 17.055,
+          "p95": 16.024,
+          "p99": 15.569,
+          "max": 17.76
+        }
+      }
+    },
+    "startup-realistic": {
+      "scenarioId": "startup-realistic",
+      "name": "Varianta B: Reálný modulární start s TypeScriptem (realistic)",
+      "description": "Start s nativním TypeScriptem (node --experimental-strip-types --no-warnings scenarios/05-startup/node-realistic.ts), importem modulů z core/ a validací manifestu.",
+      "config": {
+        "variant": "realistic",
+        "command": "node --experimental-strip-types --no-warnings scenarios/05-startup/node-realistic.ts"
+      },
+      "warmupIterations": 3,
+      "iterations": 100,
+      "expectedOutput": "ready:edge-gateway-benchmark:routes=5:limit=1400:checksum=0x081c2c15",
+      "metrics": {
+        "startupMs": {
+          "count": 100,
+          "mean": 107.453,
+          "arithmeticMean": 107.453,
+          "harmonicMean": 107.166,
+          "trimmedMean": 106.999,
+          "stdDev": 5.717,
+          "cvPercent": 5.32,
+          "iqr": 6.721,
+          "outliersCount": 3,
+          "min": 96.511,
+          "p50": 107.15,
+          "p95": 117.622,
+          "p99": 121.902,
+          "max": 133.415
+        },
+        "startsPerSec": {
+          "count": 100,
+          "mean": 9.306,
+          "arithmeticMean": 9.331,
+          "harmonicMean": 9.306,
+          "trimmedMean": 9.345,
+          "stdDev": 0.495,
+          "cvPercent": 5.32,
+          "iqr": 0.582,
+          "outliersCount": 3,
+          "min": 7.5,
+          "p50": 9.33,
+          "p95": 8.5,
+          "p99": 8.203,
+          "max": 10.36
+        }
+      }
+    }
+  }
+}

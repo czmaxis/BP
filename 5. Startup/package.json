@@ -1,0 +1,33 @@
+{
+  "name": "js-runtime-benchmarks-startup",
+  "version": "1.0.0",
+  "description": "Benchmarková sada pro analýzu běhových prostředí JavaScriptových aplikací (Node.js, Deno, Bun) - Kategorie 5: Doba spuštění (Startup time)",
+  "type": "module",
+  "main": "runner.js",
+  "scripts": {
+    "start": "node runner-all.js",
+    "bench": "node runner-all.js",
+    "bench:all": "node runner-all.js",
+    "bench:all:quick": "node runner-all.js --quick",
+    "bench:node": "node runner.js --runtime=node",
+    "bench:node:quick": "node runner.js --runtime=node --quick",
+    "bench:deno": "node runner.js --runtime=deno",
+    "bench:deno:quick": "node runner.js --runtime=deno --quick",
+    "bench:bun": "node runner.js --runtime=bun",
+    "bench:bun:quick": "node runner.js --runtime=bun --quick",
+    "bench:startup:minimal": "node runner-all.js --scenario=minimal",
+    "bench:startup:realistic": "node runner-all.js --scenario=realistic",
+    "benchmark:docker": "node runner-docker.js",
+    "benchmark:docker:quick": "node runner-docker.js --quick",
+    "benchmark:docker:node": "node runner-docker.js --runtime=node",
+    "benchmark:docker:deno": "node runner-docker.js --runtime=deno",
+    "benchmark:docker:bun": "node runner-docker.js --runtime=bun",
+    "compare": "node compare.js",
+    "clean:results": "node -e \"import('node:fs/promises').then(fs => fs.rm('./results', { recursive: true, force: true }))\""
+  },
+  "engines": {
+    "node": ">=22.6.0"
+  },
+  "author": "",
+  "license": "MIT"
+}
