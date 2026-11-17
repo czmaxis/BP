@@ -1,0 +1,12 @@
+# Oficiální obraz Bun se zafixovanou verzí (stejný základ Debian libc jako u Node.js a Deno)
+FROM oven/bun:1.4.4-debian
+
+WORKDIR /app
+
+COPY package.json config.json runner.js compare.js ./
+COPY core ./core
+COPY scenarios ./scenarios
+
+RUN mkdir -p /app/temp /app/results && chmod -R 777 /app/temp /app/results
+
+CMD ["bun", "run", "scenarios/04-database/bun.ts"]

@@ -1,0 +1,26 @@
+{
+  "category": "04-database",
+  "tempDir": "./temp",
+  "resultsDir": "./results",
+  "benchmark": {
+    "warmupIterations": 10,
+    "measuredIterations": 30
+  },
+  "docker": {
+    "cpus": "2",
+    "memory": "2g",
+    "memorySwap": "2g"
+  },
+  "scenarios": {
+    "batchInsert": {
+      "enabled": true,
+      "batchSize": 1000
+    },
+    "complexSelect": {
+      "enabled": true,
+      "seedRowCount": 10000,
+      "queriesPerIteration": 25,
+      "queryLimit": 500
+    }
+  }
+}

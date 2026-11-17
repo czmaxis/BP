@@ -1,0 +1,34 @@
+{
+  "name": "js-runtime-benchmarks-database",
+  "version": "1.0.0",
+  "description": "Benchmarková sada pro analýzu běhových prostředí JavaScriptových aplikací (Node.js, Deno, Bun) - Kategorie 4: Databázové operace (SQLite)",
+  "type": "module",
+  "main": "runner.js",
+  "scripts": {
+    "start": "node runner-all.js",
+    "bench": "node runner-all.js",
+    "bench:all": "node runner-all.js",
+    "bench:all:quick": "node runner-all.js --quick",
+    "bench:node": "node --experimental-sqlite --no-warnings runner.js",
+    "bench:node:quick": "node --experimental-sqlite --no-warnings runner.js --quick",
+    "bench:deno": "deno run --allow-read --allow-write --allow-sys scenarios/04-database/deno.ts",
+    "bench:deno:quick": "deno run --allow-read --allow-write --allow-sys scenarios/04-database/deno.ts --quick",
+    "bench:bun": "bun run scenarios/04-database/bun.ts",
+    "bench:bun:quick": "bun run scenarios/04-database/bun.ts --quick",
+    "bench:db:insert": "node runner-all.js --scenario=insert",
+    "bench:db:select": "node runner-all.js --scenario=select",
+    "benchmark:docker": "node runner-docker.js",
+    "benchmark:docker:quick": "node runner-docker.js --quick",
+    "benchmark:docker:node": "node runner-docker.js --runtime=node",
+    "benchmark:docker:deno": "node runner-docker.js --runtime=deno",
+    "benchmark:docker:bun": "node runner-docker.js --runtime=bun",
+    "compare": "node compare.js",
+    "clean:results": "node -e \"import('node:fs/promises').then(fs => fs.rm('./results', { recursive: true, force: true }))\"",
+    "clean:temp": "node -e \"import('node:fs/promises').then(fs => fs.rm('./temp', { recursive: true, force: true }))\""
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "author": "",
+  "license": "MIT"
+}
