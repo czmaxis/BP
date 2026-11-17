@@ -1,0 +1,47 @@
+{
+  "category": "01-http",
+  "resultsDir": "./results",
+  "docker": {
+    "cpus": "2",
+    "memory": "2g",
+    "memorySwap": "2g"
+  },
+  "http": {
+    "host": "127.0.0.1",
+    "port": 3000,
+    "loadTool": "auto",
+    "warmupDurationSec": 10,
+    "warmupConnections": 50,
+    "measuredIterations": 10,
+    "durationSec": 30,
+    "connections": 50,
+    "pipelining": 1,
+    "cooldownMs": 500,
+    "endpoints": {
+      "plaintext": {
+        "enabled": true,
+        "id": "http-get-plaintext",
+        "name": "Varianta A: GET /plaintext (Hrubá propustnost HTTP a Event Loopu)",
+        "description": "Statická odpověď 'Hello, World!' (text/plain; charset=utf-8) se stavovým kódem 200.",
+        "method": "GET",
+        "path": "/plaintext"
+      },
+      "json": {
+        "enabled": true,
+        "id": "http-get-json",
+        "name": "Varianta B: GET /json (Serializace polymorfního JSON – 50 záznamů)",
+        "description": "Dynamická serializace pole 50 polymorfních uživatelských záznamů pomocí JSON.stringify().",
+        "method": "GET",
+        "path": "/json"
+      },
+      "echo": {
+        "enabled": true,
+        "id": "http-post-echo",
+        "name": "Varianta C: POST /echo (Čtení streamu těla, JSON.parse a JSON.stringify)",
+        "description": "Přečtení těla požadavku ze socketu/streamu, validace přes JSON.parse(), doplnění 'processed': true a odeslání přes JSON.stringify().",
+        "method": "POST",
+        "path": "/echo"
+      }
+    }
+  }
+}
