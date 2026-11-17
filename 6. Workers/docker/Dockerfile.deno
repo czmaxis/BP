@@ -1,0 +1,13 @@
+# Oficiální obraz Deno se zafixovanou verzí (stejný základ Debian libc jako u Node.js a Bun)
+FROM denoland/deno:debian-2.9.8
+
+WORKDIR /app
+
+COPY package.json config.json runner.js compare.js ./
+COPY core ./core
+COPY scenarios ./scenarios
+
+RUN mkdir -p /app/results && chmod -R 777 /app/results
+RUN deno cache scenarios/06-workers/deno.ts scenarios/06-workers/deno-worker.ts
+
+CMD ["deno", "run", "--allow-read", "--allow-write", "--allow-sys", "scenarios/06-workers/deno.ts"]

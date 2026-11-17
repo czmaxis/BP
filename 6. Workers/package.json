@@ -1,0 +1,34 @@
+{
+  "name": "js-runtime-benchmarks-workers",
+  "version": "1.0.0",
+  "description": "Benchmarková sada pro analýzu běhových prostředí JavaScriptových aplikací (Node.js, Deno, Bun) - Kategorie 6: Paralelní zpracování (Worker Threads)",
+  "type": "module",
+  "main": "runner.js",
+  "scripts": {
+    "start": "node runner-all.js",
+    "bench": "node runner-all.js",
+    "bench:all": "node runner-all.js",
+    "bench:all:quick": "node runner-all.js --quick",
+    "bench:node": "node scenarios/06-workers/node.mjs",
+    "bench:node:quick": "node scenarios/06-workers/node.mjs --quick",
+    "bench:deno": "deno run --allow-read --allow-write --allow-sys scenarios/06-workers/deno.ts",
+    "bench:deno:quick": "deno run --allow-read --allow-write --allow-sys scenarios/06-workers/deno.ts --quick",
+    "bench:bun": "bun run scenarios/06-workers/bun.ts",
+    "bench:bun:quick": "bun run scenarios/06-workers/bun.ts --quick",
+    "bench:workers:spawn": "node runner-all.js --scenario=spawn",
+    "bench:workers:message": "node runner-all.js --scenario=message",
+    "bench:workers:shared": "node runner-all.js --scenario=shared",
+    "benchmark:docker": "node runner-docker.js",
+    "benchmark:docker:quick": "node runner-docker.js --quick",
+    "benchmark:docker:node": "node runner-docker.js --runtime=node",
+    "benchmark:docker:deno": "node runner-docker.js --runtime=deno",
+    "benchmark:docker:bun": "node runner-docker.js --runtime=bun",
+    "compare": "node compare.js",
+    "clean:results": "node -e \"import('node:fs/promises').then(fs => fs.rm('./results', { recursive: true, force: true }))\""
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "author": "",
+  "license": "MIT"
+}

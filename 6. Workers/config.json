@@ -1,0 +1,29 @@
+{
+  "category": "06-workers",
+  "resultsDir": "./results",
+  "benchmark": {
+    "warmupIterations": 10,
+    "measuredIterations": 30,
+    "workerCount": 4
+  },
+  "docker": {
+    "cpus": "4",
+    "memory": "2g",
+    "memorySwap": "2g"
+  },
+  "scenarios": {
+    "spawnOverhead": {
+      "enabled": true
+    },
+    "messagePassing": {
+      "enabled": true,
+      "totalBytes": 16777216,
+      "computeRounds": 6
+    },
+    "sharedMemory": {
+      "enabled": true,
+      "totalBytes": 16777216,
+      "computeRounds": 6
+    }
+  }
+}

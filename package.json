@@ -1,0 +1,27 @@
+{
+  "name": "js-runtime-benchmarks-suite",
+  "version": "1.0.0",
+  "description": "Kompletní benchmarková sada pro analýzu běhových prostředí JavaScriptových aplikací (Node.js, Deno, Bun) – Kategorie 01 až 06 (Bakalářská práce)",
+  "type": "module",
+  "main": "runner.js",
+  "scripts": {
+    "start": "node runner.js",
+    "bench": "node runner.js",
+    "bench:all": "node runner.js",
+    "bench:all:quick": "node runner.js --quick",
+    "bench:01-http": "node runner.js --category=01-http",
+    "bench:02-file-io": "node runner.js --category=02-file-io",
+    "bench:03-cpu": "node runner.js --category=03-cpu",
+    "bench:04-database": "node runner.js --category=04-database",
+    "bench:05-startup": "node runner.js --category=05-startup",
+    "bench:06-workers": "node runner.js --category=06-workers",
+    "benchmark:docker": "node runner-docker.js",
+    "benchmark:docker:quick": "node runner-docker.js --quick",
+    "compare": "node compare.js"
+  },
+  "engines": {
+    "node": ">=22.6.0"
+  },
+  "author": "",
+  "license": "MIT"
+}
