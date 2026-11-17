@@ -1,0 +1,31 @@
+{
+  "category": "03-cpu",
+  "resultsDir": "./results",
+  "benchmark": {
+    "warmupIterations": 50,
+    "measuredIterations": 30
+  },
+  "docker": {
+    "cpus": "2",
+    "memory": "2g",
+    "memorySwap": "2g"
+  },
+  "scenarios": {
+    "cryptoHash": {
+      "enabled": true,
+      "payloadBytes": 65536,
+      "pbkdf2Iterations": 120000,
+      "digestRounds": 80
+    },
+    "jsonTransform": {
+      "enabled": true,
+      "recordCount": 10000,
+      "transformPasses": 8
+    },
+    "matrixMultiply": {
+      "enabled": true,
+      "matrixSize": 250,
+      "passes": 4
+    }
+  }
+}
